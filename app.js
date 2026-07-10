@@ -13,7 +13,7 @@ import {
 const PWA_VERSION = window.SIM_PWA_VERSION || "20260710-v20";
 const PWA_ICON = "./icon-192-v11.png?v=" + encodeURIComponent(PWA_VERSION);
 
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxv29VDLzUWt-J6rEL-KcqylOGqilnPiijfibo-xj6mX7Pu3kAz6l1av9OkMddtX_Kw-Q/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzqZHS1GJhqyWL8ITVWaPsGsW5m6Ol_QQHwVU5ToA9s0WwODjqfx6Kj0c5ohQ8DxE20hg/exec";
 
 const PUBLIC_VAPID_KEY = "BKmxbHoI8YyOj-sImQzpEQMBTBGbxEn8aP_gDvVo9YCtaGQi5moPe08MM422VwWRZumhJhIhsL7aXGQv0GsidDs";
 
