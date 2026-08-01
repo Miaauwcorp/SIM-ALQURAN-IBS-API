@@ -8,12 +8,12 @@
   <!-- GitHub Pages / PWA shell -->
   <meta name="theme-color" content="#15803d">
   <meta name="apple-mobile-web-app-title" content="SIM AL-QUR'AN IBS">
-  <link rel="manifest" href="./manifest.webmanifest?v=20260801-v292-github">
-  <link rel="icon" href="./icon-192-v11.png?v=20260801-v292-github">
-  <link rel="apple-touch-icon" href="./icon-192-v11.png?v=20260801-v292-github">
+  <link rel="manifest" href="./manifest.webmanifest?v=20260801-v293-api">
+  <link rel="icon" href="./icon-192-v11.png?v=20260801-v293-api">
+  <link rel="apple-touch-icon" href="./icon-192-v11.png?v=20260801-v293-api">
 
   <script>
-    window.SIM_PWA_VERSION = "20260801-v292-github";
+    window.SIM_PWA_VERSION = "20260801-v293-api";
     window.SIM_GAS_API_URL = "https://script.google.com/macros/s/AKfycbzqZHS1GJhqyWL8ITVWaPsGsW5m6Ol_QQHwVU5ToA9s0WwODjqfx6Kj0c5ohQ8DxE20hg/exec";
     window.SIM_GITHUB_ORIGIN = "https://miaauwcorp.github.io";
 
@@ -43,8 +43,8 @@
     })();
   </script>
 
-  <!-- Polyfill google.script.run melalui hidden Apps Script iframe bridge -->
-  <script src="./rpc-client.js?v=20260801-v292-github"></script>
+  <!-- API HTTP murni: tanpa iframe RPC dan tanpa google.script.run -->
+  <script src="./api-client.js?v=20260801-v293-api"></script>
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15980,7 +15980,7 @@ function sendHeartbeat(forceSend) {
   heartbeatInFlight =
     true;
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (res) {
         heartbeatInFlight =
@@ -16807,7 +16807,7 @@ function requestGoogleSsoUrl(
     return;
   }
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       /*
        * Abaikan callback apabila popup sudah ditutup,
@@ -17238,7 +17238,7 @@ function showForcedPasswordChangeModal(loginResult) {
       }
 
       return new Promise((resolve) => {
-        google.script.run
+        simApi.run
           .withSuccessHandler(resolve)
           .withFailureHandler(err => {
             resolve({
@@ -17360,11 +17360,11 @@ function simResolveAuthBridgeToken() {
       if (
         typeof google !== "undefined" &&
         google.script &&
-        google.script.url &&
-        typeof google.script.url.getLocation ===
+        simApi.url &&
+        typeof simApi.url.getLocation ===
           "function"
       ) {
-        google.script.url.getLocation(
+        simApi.url.getLocation(
           function (locationData) {
             let token = "";
 
@@ -17399,7 +17399,7 @@ function simResolveAuthBridgeToken() {
       }
     } catch (err) {
       console.warn(
-        "google.script.url.getLocation gagal:",
+        "simApi.url.getLocation gagal:",
         err
       );
     }
@@ -18365,7 +18365,7 @@ function completePostLoginFromClient(
     );
 }
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (setupRes) {
         if (
@@ -18506,7 +18506,7 @@ function completePostLoginFromClient(
           return;
         }
 
-        google.script.run
+        simApi.run
           .withSuccessHandler(
             function (telegramRes) {
               if (
@@ -19114,7 +19114,7 @@ async function startBiometricLogin() {
     const deviceInfo = navigator.userAgent + ' [CLIENT_ID:' + getLoginBrowserFingerprint() + '] [BIOMETRIC_PWA]';
     setLoginLoading(true, 'Masuk ke aplikasi...');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           setLoginLoading(false);
@@ -19235,7 +19235,7 @@ async function registerBiometricFromProfile() {
       'Mohon tunggu sebentar.'
     );
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         hideSwalLoading?.();
 
@@ -19311,7 +19311,7 @@ function disableBiometricFromProfile() {
 
     showSwalLoading?.('Menonaktifkan biometrik...', 'Mohon tunggu sebentar');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         hideSwalLoading?.();
         if (!res || !res.success) {
@@ -19351,7 +19351,7 @@ function refreshBiometricSettings() {
     return;
   }
 
-  google.script.run
+  simApi.run
   .withSuccessHandler(function (res) {
     if (!res || !res.success) {
       statusEl.innerHTML =
@@ -19549,7 +19549,7 @@ async function handleLogin() {
       "Memproses Login..."
     );
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           setLoginLoading(false);
@@ -20469,7 +20469,7 @@ function loadMasterData(
 
   /*
    * Jika ada permintaan yang sedang berlangsung,
-   * jangan membuat google.script.run kedua.
+   * jangan membuat simApi.run kedua.
    */
   if (masterDataLoadPromise) {
     return masterDataLoadPromise;
@@ -21207,7 +21207,7 @@ function simIsDeviceSessionReadyForInput_() {
 
       showSwalProgressLoading('Menyimpan Setoran', 'Sedang menyimpan setoran Alquran');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(res => {
           window.__savingQuranSetoran = false;
           btn.disabled = false;
@@ -21465,7 +21465,7 @@ if (halamanInput) {
             closeSurahSuggestions();
             applySetoranFormPrefs(savedPrefs);
 
-            google.script.run.withSuccessHandler(serverDate => {
+            simApi.run.withSuccessHandler(serverDate => {
               const tanggalEl = document.getElementById('tanggal');
               if (tanggalEl) tanggalEl.value = serverDate;
             }).getTodayString();
@@ -22189,7 +22189,7 @@ grade: document.getElementById('grade-hadits').value
 
       showSwalProgressLoading('Menyimpan Setoran Hadits', 'Sedang menyimpan setoran hadits');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(res => {
           window.__savingHaditsSetoran = false;
           btn.disabled = false;
@@ -22219,7 +22219,7 @@ grade: document.getElementById('grade-hadits').value
             document.getElementById('form-setoran-hadits').reset();
             applySetoranHaditsFormPrefs(savedPrefs);
 
-            google.script.run.withSuccessHandler(serverDate => {
+            simApi.run.withSuccessHandler(serverDate => {
               const tanggalEl = document.getElementById('tanggal-hadits');
               if (tanggalEl) tanggalEl.value = serverDate;
             }).getTodayString();
@@ -22349,7 +22349,7 @@ let serverClockTimer = null;
       const filter = dashboardFilter;
       const requestId = ++dashboardRequestSeq;
 
-     google.script.run
+     simApi.run
   .withSuccessHandler(function (data) {
     if (requestId !== dashboardRequestSeq) return;
 
@@ -23523,7 +23523,7 @@ function loadOnlineUsersPanel() {
   listEl.innerHTML = `<div class="online-users-loading">Memuat pengguna online...</div>`;
   if (countEl) countEl.innerText = 'Memuat...';
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       if (requestId !== onlineUsersPanelRequestId) return;
 
@@ -23658,7 +23658,7 @@ function loadOnlineUsersPanel() {
  * dan untuk refresh manual.
  */
 function loadDashboardMeta() {
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (data) {
         applyDashboardMeta(
@@ -23823,7 +23823,7 @@ function loadDashboardMeta() {
       if (detailTitle) detailTitle.textContent = 'Memuat detail';
       if (detailSubtitle) detailSubtitle.textContent = 'Mohon tunggu sebentar.';
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(function (res) {
           if (!res || res.success === false) {
             const message = res && res.message ? res.message : 'Gagal memuat kalender setoran.';
@@ -24008,7 +24008,7 @@ function loadDashboardMeta() {
     }
 
     function syncServerClock() {
-      google.script.run.withSuccessHandler(function (serverIso) {
+      simApi.run.withSuccessHandler(function (serverIso) {
         startServerClock(serverIso);
       }).getServerTimeISO();
     }
@@ -24277,7 +24277,7 @@ const sessionText =
       showRiwayatInputSkeleton();
       showSwalLoading('Memuat riwayat input...', 'Mohon tunggu sebentar');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(data => {
           hideSwalLoading();
 
@@ -24316,7 +24316,7 @@ const sessionText =
       showRiwayatLoginSkeleton();
       showSwalLoading('Memuat riwayat login...', 'Mohon tunggu sebentar');
 
-      google.script.run.withSuccessHandler(data => {
+      simApi.run.withSuccessHandler(data => {
         hideSwalLoading();
 
         let html = "";
@@ -24350,7 +24350,7 @@ const sessionText =
       }).getRiwayatLogin();
     }
 
-    // Masukkan di dalam google.script.run.withSuccessHandler
+    // Masukkan di dalam simApi.run.withSuccessHandler
     let rekapKelasFilterOptions = [];
 let rekapKelasFilterSelected = [];
 
@@ -24560,7 +24560,7 @@ if (!validateRequiredRekapTipe()) return;
       showRekapSkeleton();
       showSwalLoading('Memuat rekap...', 'Sedang mengambil data rekapitulasi');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(data => {
           hideSwalLoading();
           rekapDataCache = Array.isArray(data) ? data : [];
@@ -24795,7 +24795,7 @@ if (!validateRequiredRekapTipe()) return;
    function loadSantriFilter() {
  const kelas = getSelectedRekapKelasFilterForBackend();
 
-  google.script.run.withSuccessHandler(function (list) {
+  simApi.run.withSuccessHandler(function (list) {
     const select = document.getElementById("filter-santri");
     if (!select) return;
 
@@ -25063,7 +25063,7 @@ const sessionDurationLabel =
       showManageUsersSkeleton();
       showSwalLoading('Memuat data pengguna...', 'Mohon tunggu sebentar');
 
-      google.script.run.withSuccessHandler(data => {
+      simApi.run.withSuccessHandler(data => {
   hideSwalLoading();
 
   manageUsersCache = Array.isArray(data) ? data : [];
@@ -25122,13 +25122,13 @@ setTimeout(function () {
       });
       if (emailGoogle === undefined) return;
       showSwalLoading('Menyimpan SSO Google...', 'Mohon tunggu sebentar');
-      google.script.run.withSuccessHandler(res => {
+      simApi.run.withSuccessHandler(res => {
         hideSwalLoading(); Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error'); if (res.success) loadUsers();
       }).withFailureHandler(err => { hideSwalLoading(); Swal.fire('Error', err?.message || String(err), 'error'); }).updateUserGoogleEmail(username, emailGoogle, userData?.username || 'Sistem');
     }
 
    function loadClassList() {
-  google.script.run.withSuccessHandler(data => {
+  simApi.run.withSuccessHandler(data => {
     const list = document.getElementById('list-kelas-admin');
     if (!list) return;
 
@@ -25214,7 +25214,7 @@ setTimeout(function () {
     function callGoogleScript(functionName, ...args) {
       return new Promise((resolve, reject) => {
         try {
-          google.script.run
+          simApi.run
             .withSuccessHandler(resolve)
             .withFailureHandler(err => reject(err))
           [functionName](...args);
@@ -27835,7 +27835,7 @@ if (accountInnerTab === 'classes') {
         if (!result.isConfirmed) return;
 
         showSwalLoading('Menghapus kelas...', 'Mohon tunggu sebentar');
-        google.script.run.withSuccessHandler(res => {
+        simApi.run.withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
           if (res.success) {
@@ -27892,7 +27892,7 @@ function loadClassList() {
 
   tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Memuat daftar kelas...</td></tr>`;
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(res => {
       if (!res?.success) {
         tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">${escapeHtml(res?.message || 'Gagal memuat kelas')}</td></tr>`;
@@ -28032,7 +28032,7 @@ async function tambahKelasBaru() {
 
   showSwalLoading('Menyimpan kelas...', 'Mohon tunggu sebentar');
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(res => {
       hideSwalLoading();
       Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28067,7 +28067,7 @@ async function tambahRombelBaru() {
 
   showSwalLoading('Menyimpan rombel...', 'Mohon tunggu sebentar');
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(res => {
       hideSwalLoading();
       Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28133,7 +28133,7 @@ async function editKelas(namaKelas, rombelAktif) {
 
   showSwalLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar');
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(res => {
       hideSwalLoading();
       Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28164,7 +28164,7 @@ function arsipkanKelasAdmin(namaKelas) {
 
     showSwalLoading('Mengarsipkan kelas...', 'Mohon tunggu sebentar');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(res => {
         hideSwalLoading();
         Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28196,7 +28196,7 @@ function hapusKelas(namaKelas) {
 
     showSwalLoading('Menghapus kelas...', 'Mohon tunggu sebentar');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(res => {
         hideSwalLoading();
         Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28276,11 +28276,11 @@ if (
   }
 }
 
-      google.script.run.withSuccessHandler(users => {
+      simApi.run.withSuccessHandler(users => {
         document.getElementById('account-total-users').innerText = Array.isArray(users) ? users.length : 0;
       }).getUsersData();
 
-      google.script.run.withSuccessHandler(data => {
+      simApi.run.withSuccessHandler(data => {
         document.getElementById('account-total-classes').innerText = (data?.kelas || []).length;
       }).getMasterData();
     }
@@ -28370,7 +28370,7 @@ if (
 
       showSwalLoading('Menyimpan password...', 'Mohon tunggu sebentar');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(
@@ -28550,7 +28550,7 @@ function loadMyLoginDevices() {
 
   if (summaryEl) summaryEl.textContent = 'Memuat data perangkat...';
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         if (res && res.forceLogout) {
@@ -28689,7 +28689,7 @@ function forceLogoutLoginDevice(targetSessionId) {
 
     showSwalLoading?.('Mengeluarkan perangkat...', 'Mohon tunggu sebentar.');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         hideSwalLoading?.();
 
@@ -28763,7 +28763,7 @@ function loadMyProfileSettings() {
     return;
   }
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         Swal.fire("Gagal", (res && res.message) || "Gagal memuat profil.", "error");
@@ -28795,7 +28795,7 @@ function handleAccountProfileSubmit(event) {
   emailGoogle: document.getElementById("account-profile-email").value
 };
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       alert((res && res.message) || "Profil berhasil disimpan.");
 
@@ -28976,7 +28976,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       if (!formValues) return;
       Swal.fire({ title: 'Menyimpan...', text: 'Sedang menambahkan akun baru', allowOutsideClick: false, allowEscapeKey: false, showConfirmButton: false, didOpen: () => { Swal.showLoading(); } });
-      google.script.run.withSuccessHandler(res => {
+      simApi.run.withSuccessHandler(res => {
         Swal.fire({ icon: res.success ? 'success' : 'error', title: res.success ? 'Berhasil' : 'Gagal', text: res.message, confirmButtonText: 'OK' });
         if (res.success) loadUsers();
       }).withFailureHandler(err => { Swal.fire({ icon: 'error', title: 'Error', text: err?.message || String(err), confirmButtonText: 'OK' }); }).addUser(formValues);
@@ -29549,7 +29549,7 @@ async function editUserAccount(
       }
   });
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (response) {
         if (
@@ -29703,7 +29703,7 @@ async function editUserAccount(
           }
         });
 
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
             Swal.fire({
               icon: res.success ? 'success' : 'error',
@@ -29760,7 +29760,7 @@ async function editUserAccount(
           }
         });
 
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
             Swal.fire({
               icon: res.success ? 'success' : 'error',
@@ -29853,7 +29853,7 @@ async function editUserAccount(
           didOpen: () => Swal.showLoading()
         });
 
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
 
             Swal.fire(
@@ -30057,7 +30057,7 @@ const filterTipeLabel = getSelectedRekapTipeLabel();
         didOpen: () => Swal.showLoading()
       });
 
-      google.script.run.withSuccessHandler(function (data) {
+      simApi.run.withSuccessHandler(function (data) {
         Swal.close();
 
         if (!data || data.length <= 1) {
@@ -30704,7 +30704,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
 
   showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(res => {
       hideSwalLoading();
 
@@ -30765,7 +30765,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
       if (!formValues) return;
 
       showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-      google.script.run
+      simApi.run
         .withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30808,7 +30808,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
       if (!kelasBaru) return;
 
       showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-      google.script.run
+      simApi.run
         .withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30838,7 +30838,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30872,7 +30872,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30908,7 +30908,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30956,7 +30956,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses.', 'Mohon tunggu sebentar');
-        google.script.run
+        simApi.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -31449,7 +31449,7 @@ if (loginPage) {
       };
 
       if (session?.sessionId && session?.username) {
-        google.script.run
+        simApi.run
           .withSuccessHandler(finish)
           .withFailureHandler(finish)
           .logLogout(
@@ -31504,7 +31504,7 @@ if (loginPage) {
         };
 
         if (session?.sessionId && session?.username) {
-          google.script.run
+          simApi.run
             .withSuccessHandler(() => {
               finish();
             })
@@ -31784,7 +31784,7 @@ function validateRestoredSessionSilently(
   }
 
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (res) {
         const latestSession =
@@ -32934,7 +32934,7 @@ if (
       showRiwayatInputSkeleton();
       if (!silent) showSwalLoading('Memuat riwayat input...', 'Mohon tunggu sebentar');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(res => {
           if (!silent) hideSwalLoading();
 
@@ -33155,7 +33155,7 @@ actor: userData?.name || userData?.username || 'Sistem',
     }
   }
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(res => {
       if (!res?.success) {
         document.getElementById('list-manage-santri').innerHTML =
@@ -35221,7 +35221,7 @@ if (!nama) {
 
       showSwalLoading('Memuat detail santri...', 'Mohon tunggu sebentar');
 
-      const detailRunner = google.script.run
+      const detailRunner = simApi.run
         .withSuccessHandler(function (res) {
           hideSwalLoading();
 
@@ -37611,7 +37611,7 @@ const isMoreActive = useAdminLikeMobileNav && !adminPrimaryPages.includes(curren
     forcePasswordSubmitting = true;
     setForcePasswordLoading(true);
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         forcePasswordSubmitting = false;
         setForcePasswordLoading(false);
@@ -39936,7 +39936,7 @@ function getActorForMuhafizhClass() {
 
 function gsRunMuhafizhClass(functionName, ...args) {
   return new Promise(function (resolve, reject) {
-    google.script.run
+    simApi.run
       .withSuccessHandler(resolve)
       .withFailureHandler(reject)[functionName](...args);
   });
@@ -40518,9 +40518,9 @@ function refreshKelasSantriActivePane_() {
   function gsCall(functionName) {
     const args = Array.prototype.slice.call(arguments, 1);
     return new Promise((resolve, reject) => {
-      google.script.run
+      simApi.run
         .withSuccessHandler(resolve)
-        .withFailureHandler(reject)[functionName].apply(google.script.run, args);
+        .withFailureHandler(reject)[functionName].apply(simApi.run, args);
     });
   }
 
@@ -40966,7 +40966,7 @@ function refreshKelasSantriActivePane_() {
     }
 
     return new Promise((resolve, reject) => {
-      google.script.run
+      simApi.run
         .withSuccessHandler(resolve)
         .withFailureHandler(reject)[fnName](...args);
     });
@@ -41425,7 +41425,7 @@ function refreshKelasSantriActivePane_() {
 
     showSwalLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(res => {
         hideSwalLoading();
 
@@ -41625,7 +41625,7 @@ function prosesArsipDataSetoranTerpilih() {
 
     showSwalLoading('Mengarsipkan data setoran.', 'Mohon tunggu, data sedang dipindahkan ke sheet arsip.');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         hideSwalLoading();
 
@@ -41984,7 +41984,7 @@ function prosesArsipDataSetoranTerpilih() {
 
     adminDevSetLoadingRow('Memuat data perangkat login.');
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           if (res && res.forceLogout && typeof handleForcedLogoutFromServer === 'function') {
@@ -42032,7 +42032,7 @@ function prosesArsipDataSetoranTerpilih() {
 
       showSwalLoading?.('Mengeluarkan perangkat...', 'Mohon tunggu sebentar.');
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(function (res) {
           hideSwalLoading?.();
 
@@ -42082,7 +42082,7 @@ function prosesArsipDataSetoranTerpilih() {
         'Mohon tunggu sebentar.'
       );
 
-      google.script.run
+      simApi.run
         .withSuccessHandler(function (res) {
           hideSwalLoading?.();
 
@@ -42322,7 +42322,7 @@ function loadFcmTokenListPage() {
     </tr>
   `;
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         tbody.innerHTML = `
@@ -42403,7 +42403,7 @@ function sendFcmBroadcastFromPage() {
 
     if (status) status.textContent = "Mengirim notifikasi...";
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           if (status) status.textContent = res?.message || "Gagal mengirim notifikasi.";
@@ -42540,7 +42540,7 @@ function loadFcmScheduleListPage() {
     </tr>
   `;
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         tbody.innerHTML = `
@@ -42654,7 +42654,7 @@ function createFcmScheduleFromPage() {
 
     if (status) status.textContent = "Menyimpan schedule...";
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           if (status) status.textContent = res?.message || "Gagal menyimpan schedule.";
@@ -42692,7 +42692,7 @@ function cancelFcmScheduleFromPage(scheduleId) {
   }).then(function (result) {
     if (!result.isConfirmed) return;
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           Swal.fire("Gagal", res?.message || "Schedule gagal dibatalkan.", "error");
@@ -42713,7 +42713,7 @@ function runFcmDueScheduleFromPage() {
   const status = document.getElementById("fcm-schedule-status");
   if (status) status.textContent = "Mengecek schedule jatuh tempo...";
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         if (status) status.textContent = res?.message || "Gagal mengecek schedule.";
@@ -43635,7 +43635,7 @@ function runFcmDueScheduleFromPage() {
     }
 
     return new Promise(function (resolve, reject) {
-      var runner = google.script.run
+      var runner = simApi.run
         .withSuccessHandler(resolve)
         .withFailureHandler(reject);
 
@@ -46960,7 +46960,7 @@ function exportGeminiAnswerPdf(
       }
   });
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (res) {
         Swal.close();
@@ -47465,7 +47465,7 @@ function createMessageNode(
     setBusy(true);
     showTyping();
 
-    google.script.run
+    simApi.run
       .withSuccessHandler(function (res) {
         hideTyping();
         setBusy(false);
@@ -48504,7 +48504,7 @@ function simTvSchedulePoll_(delayMs) {
     "checking"
   );
 
-  google.script.run
+  simApi.run
     .withSuccessHandler(
       function (result) {
         simTvPollInFlight_ =
@@ -49754,7 +49754,7 @@ window.simRequestZiyadahLinePreviewClient_ =
               'Menghitung jumlah baris dan ekuivalen halaman...';
           }
 
-          google.script.run
+          simApi.run
             .withSuccessHandler(
               function (result) {
                 const equivalentInput =
@@ -51807,9 +51807,9 @@ if (
 }
   </script>
 
-  <!-- PWA lama tetap dipertahankan -->
-<script src="./pwa-bootstrap.js?v=20260801-v292-github"></script>
-<script type="module" src="./app.js?v=20260801-v292-github"></script>
+  <!-- Pertahankan fitur instal otomatis dan Firebase/PWA lama -->
+  <script src="./pwa-bootstrap.js?v=20260801-v293-api"></script>
+  <script type="module" src="./app.js?v=20260801-v293-api"></script>
 
 </body>
 
