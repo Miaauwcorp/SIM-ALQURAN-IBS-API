@@ -2,22 +2,21 @@
   "id": "./",
   "name": "SIM AL-QUR'AN IBS RIAU",
   "short_name": "SIM AL-QUR'AN IBS",
-  "description": "Aplikasi SIM Murojaah IBS Riau - versi 20260710-v20",
-  "start_url": "./?source=pwa&v=20260710-v20",
+  "description": "Aplikasi SIM Murojaah IBS Riau - versi 20261105-v32",
+  "start_url": "./?source=pwa&v=20261105-v32",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#0b3d2c",
   "theme_color": "#15803d",
   "icons": [
     {
-      "src": "./icon-192-v11.png?v=20260710-v20",
+      "src": "./icon-192-v11.png?v=20261105-v32",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./icon-512-v11.png?v=20260710-v20",
+      "src": "./icon-512-v11.png?v=20261105-v32",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -27,10 +26,11 @@
     {
       "name": "Input Murojaah",
       "short_name": "Input",
-      "url": "./?page=input&v=20260710-v20",
+      "description": "Buka halaman input murojaah",
+      "url": "./?page=input&v=20261105-v32",
       "icons": [
         {
-          "src": "./icon-192-v11.png?v=20260710-v20",
+          "src": "./icon-192-v11.png?v=20261105-v32",
           "sizes": "192x192",
           "type": "image/png"
         }
@@ -39,10 +39,11 @@
     {
       "name": "Rekap Murojaah",
       "short_name": "Rekap",
-      "url": "./?page=laporan&v=20260710-v20",
+      "description": "Buka halaman rekap murojaah",
+      "url": "./?page=rekap&v=20261105-v32",
       "icons": [
         {
-          "src": "./icon-192-v11.png?v=20260710-v20",
+          "src": "./icon-192-v11.png?v=20261105-v32",
           "sizes": "192x192",
           "type": "image/png"
         }
@@ -51,10 +52,11 @@
     {
       "name": "Data Santri",
       "short_name": "Santri",
-      "url": "./?page=progress-santri&v=20260710-v20",
+      "description": "Buka halaman data santri",
+      "url": "./?page=santri&v=20261105-v32",
       "icons": [
         {
-          "src": "./icon-192-v11.png?v=20260710-v20",
+          "src": "./icon-192-v11.png?v=20261105-v32",
           "sizes": "192x192",
           "type": "image/png"
         }
