@@ -9,17 +9,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-
-  <meta name="description" content="SIM Murojaah IBS Riau - Sistem Informasi Manajemen Hafalan Al-Qur'an untuk Santri Kelas 6 IBS Riau.">
-  <meta name="theme-color" content="#15803d">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="SIM MUROJAAH IBS">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="./manifest.webmanifest?v=20261105-v32">
-  <link rel="icon" href="./icon-192-v11.png?v=20261105-v32">
-  <link rel="apple-touch-icon" href="./icon-192-v11.png?v=20261105-v32">
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Font utama agar konsisten di Android, iPhone, Windows, dan macOS -->
@@ -11231,145 +11220,6 @@ html[data-bs-theme="dark"] #login-page .sso-hint a:hover {
     }
   </style>
 
-
-  <style>
-    .sim-pwa-install-overlay,
-    .sim-connection-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 999998;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      box-sizing: border-box;
-      background: rgba(0, 0, 0, .48);
-      font-family: inherit;
-    }
-
-    .sim-pwa-install-overlay[hidden],
-    .sim-connection-overlay[hidden] {
-      display: none !important;
-    }
-
-    .sim-pwa-install-card,
-    .sim-connection-card {
-      width: 100%;
-      max-width: 430px;
-      padding: 24px;
-      border-radius: 24px;
-      background: #fff;
-      color: #111827;
-      text-align: center;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
-    }
-
-    .sim-pwa-install-icon,
-    .sim-connection-icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 14px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #dcfce7;
-      color: #15803d;
-      font-size: 30px;
-    }
-
-    .sim-pwa-install-card h2,
-    .sim-connection-card h2 {
-      margin: 0 0 10px;
-      color: #14532d;
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .sim-pwa-install-card p,
-    .sim-connection-card p {
-      margin: 0 0 18px;
-      color: #4b5563;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .sim-pwa-install-primary,
-    .sim-pwa-install-secondary,
-    .sim-pwa-install-close,
-    .sim-connection-action,
-    .sim-connection-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 46px;
-      border: 0;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-size: 15px;
-      font-weight: 750;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .sim-pwa-install-primary,
-    .sim-connection-action {
-      background: #15803d;
-      color: #fff;
-    }
-
-    .sim-pwa-install-secondary {
-      margin-top: 10px;
-      background: #ecfdf5;
-      color: #166534;
-    }
-
-    .sim-pwa-install-close {
-      margin-top: 10px;
-      background: #f3f4f6;
-      color: #374151;
-    }
-
-    .sim-connection-link {
-      margin-top: 10px;
-      background: #f59e0b;
-      color: #111827;
-    }
-
-    .sim-connection-wa {
-      display: inline-block;
-      margin-top: 14px;
-      color: #15803d;
-      font-weight: 750;
-      text-decoration: none;
-    }
-
-    .sim-pwa-install-guide {
-      display: none;
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 16px;
-      background: #f9fafb;
-      color: #374151;
-      text-align: left;
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    #push-status {
-      display: none;
-    }
-
-    @media (max-width: 480px) {
-      .sim-pwa-install-card,
-      .sim-connection-card {
-        padding: 21px;
-        border-radius: 20px;
-      }
-    }
-  </style>
-
 </head>
 
 <body>
@@ -14909,161 +14759,18 @@ html[data-bs-theme="dark"] #login-page .sso-hint a:hover {
  * Tempel URL deployment Google Apps Script yang berakhiran /exec.
  * Contoh: https://script.google.com/macros/s/AKfycb.../exec
  */
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxv29VDLzUWt-J6rEL-KcqylOGqilnPiijfibo-xj6mX7Pu3kAz6l1av9OkMddtX_Kw-Q/exec";
-window.SIM_PWA_VERSION = "20261105-v32";
+const WEB_APP_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_EXEC_URL_HERE";
 
 /*
- * Route GitHub Pages:
- * - Mendukung ?page=..., ?menu=..., ?view=..., dan route singkat lama.
- * - Token rapor/laporan tetap diproses oleh doGet Apps Script,
- *   tetapi dibuka sebagai navigasi top-level, bukan iframe.
+ * Parameter deep-link dibaca dari URL GitHub Pages, bukan dari HtmlService.
+ * Contoh: ?page=detail-santri&nama=Nama%20Santri
  */
-const SIM_PAGE_PARAMS = new URLSearchParams(window.location.search || "");
-const SIM_ROUTE_ALIASES = {
-  input: "input",
-  rekap: "laporan",
-  laporan: "laporan",
-  santri: "progress-santri",
-  dashboard: "dashboard",
-  detailSantri: "detail-santri",
-  "detail-santri": "detail-santri",
-  detailMuhafizh: "detail-muhafizh",
-  "detail-muhafizh": "detail-muhafizh"
-};
-
-function simResolveInitialPage(params) {
-  params = params || new URLSearchParams();
-  let page =
-    params.get("page") ||
-    params.get("menu") ||
-    params.get("view") ||
-    params.get("route") ||
-    "";
-
-  page = String(page || "").trim();
-  if (SIM_ROUTE_ALIASES[page]) return SIM_ROUTE_ALIASES[page];
-
-  if (!page) {
-    for (const key of Object.keys(SIM_ROUTE_ALIASES)) {
-      if (params.has(key) && !String(params.get(key) || "").trim()) {
-        return SIM_ROUTE_ALIASES[key];
-      }
-    }
-  }
-
-  return page;
-}
-
-const INITIAL_PAGE = simResolveInitialPage(SIM_PAGE_PARAMS);
+const SIM_PAGE_PARAMS = new URLSearchParams(window.location.search);
+const INITIAL_PAGE = SIM_PAGE_PARAMS.get("page") || "";
 const INITIAL_NAMA = SIM_PAGE_PARAMS.get("nama") || "";
 const INITIAL_TGL_AWAL = SIM_PAGE_PARAMS.get("tglAwal") || "";
 const INITIAL_TGL_AKHIR = SIM_PAGE_PARAMS.get("tglAkhir") || "";
 const INITIAL_GOOGLE_SSO_RESULT = null;
-
-(function simRedirectPublicRoutesTopLevel() {
-  const publicKey = SIM_PAGE_PARAMS.has("raporToken")
-    ? "raporToken"
-    : (String(SIM_PAGE_PARAMS.get("laporanToken") || "").trim() ? "laporanToken" : "");
-
-  if (!publicKey) return;
-  if (!WEB_APP_URL || WEB_APP_URL.indexOf("/exec") === -1) return;
-
-  try {
-    const target = new URL(WEB_APP_URL);
-    target.searchParams.set(publicKey, SIM_PAGE_PARAMS.get(publicKey) || "");
-    window.location.replace(target.toString());
-  } catch (error) {
-    console.error("Gagal membuka halaman publik Apps Script:", error);
-  }
-})();
-
-const SIM_PWA_LAST_ROUTE_KEY = "sim_murojaah_last_route_params_v1";
-const SIM_PWA_LAST_ROUTE_TIME_KEY = "sim_murojaah_last_route_saved_at";
-const SIM_PWA_LAST_ROUTE_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
-const SIM_VALID_PAGE_IDS = [
-  "dashboard",
-  "input",
-  "riwayat-input",
-  "progress-santri",
-  "laporan",
-  "rapor-pdf",
-  "rapor-link-manager",
-  "manage-users",
-  "app-settings",
-  "account-settings",
-  "notification-manager",
-  "detail-santri",
-  "detail-muhafizh"
-];
-
-function simIsStandalonePwa() {
-  try {
-    return !!(
-      (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
-      window.navigator.standalone === true
-    );
-  } catch (error) {
-    return false;
-  }
-}
-
-function simGetSavedPwaRoute() {
-  if (!simIsStandalonePwa()) return null;
-
-  try {
-    const saved = localStorage.getItem(SIM_PWA_LAST_ROUTE_KEY) || "";
-    const savedAt = Number(localStorage.getItem(SIM_PWA_LAST_ROUTE_TIME_KEY) || "0");
-
-    if (!saved) return null;
-
-    if (savedAt && Date.now() - savedAt > SIM_PWA_LAST_ROUTE_MAX_AGE_MS) {
-      localStorage.removeItem(SIM_PWA_LAST_ROUTE_KEY);
-      localStorage.removeItem(SIM_PWA_LAST_ROUTE_TIME_KEY);
-      return null;
-    }
-
-    const params = new URLSearchParams(saved);
-    if (params.has("raporToken") || params.has("laporanToken")) return null;
-
-    const pageId = String(params.get("page") || "").trim();
-    const nama = String(params.get("nama") || "").trim();
-
-    if (!SIM_VALID_PAGE_IDS.includes(pageId)) return null;
-    if ((pageId === "detail-santri" || pageId === "detail-muhafizh") && !nama) return null;
-
-    return { pageId, nama };
-  } catch (error) {
-    console.warn("Gagal membaca route PWA:", error);
-    return null;
-  }
-}
-
-function simSavePwaRoute(pageId, nama) {
-  try {
-    if (!simIsStandalonePwa()) {
-      localStorage.removeItem(SIM_PWA_LAST_ROUTE_KEY);
-      localStorage.removeItem(SIM_PWA_LAST_ROUTE_TIME_KEY);
-      return;
-    }
-
-    pageId = String(pageId || "").trim();
-    if (!SIM_VALID_PAGE_IDS.includes(pageId)) return;
-
-    const params = new URLSearchParams();
-    params.set("page", pageId);
-
-    if (pageId === "detail-santri" || pageId === "detail-muhafizh") {
-      const safeNama = String(nama || "").trim();
-      if (!safeNama) return;
-      params.set("nama", safeNama);
-    }
-
-    localStorage.setItem(SIM_PWA_LAST_ROUTE_KEY, params.toString());
-    localStorage.setItem(SIM_PWA_LAST_ROUTE_TIME_KEY, String(Date.now()));
-  } catch (error) {
-    console.warn("Gagal menyimpan route PWA:", error);
-  }
-}
 
 /*
  * Kompatibilitas google.script.run untuk halaman GitHub Pages.
@@ -15194,12 +14901,6 @@ function simSavePwaRoute(pageId, nama) {
     document.body.appendChild(form);
 
     timeoutId = window.setTimeout(function () {
-      if (typeof simShowConnectionOverlay === "function") {
-        simShowConnectionOverlay(
-          navigator.onLine ? "server" : "offline",
-          "Koneksi ke Google Apps Script timeout. Periksa deployment Web App dan koneksi internet."
-        );
-      }
       fail(new Error(
         "Koneksi ke Google Apps Script timeout. Periksa URL /exec, deployment Web App, dan izin akses Anyone."
       ));
@@ -15359,7 +15060,6 @@ function simMarkHeartbeatSentNow() {
 
     let pendingOpenDetailFromUrl = null;
     let pendingOpenMuhafizhDetailFromUrl = null;
-    let pendingOpenPageFromUrl = null;
     let currentDetailMuhafizhLabel = '';
     let detailMuhafizhFilterState = {
       tglAwal: '',
@@ -16648,15 +16348,21 @@ if (
         return { pageId: getFirstAccessiblePage(userData.role) };
       }
 
-      if (pendingOpenPageFromUrl && SIM_VALID_PAGE_IDS.includes(pendingOpenPageFromUrl)) {
-        if (isPageAllowedForRole(pendingOpenPageFromUrl, userData.role)) {
-          return { pageId: pendingOpenPageFromUrl };
-        }
-        return { pageId: getFirstAccessiblePage(userData.role) };
-      }
-
-      const saved = simGetSavedPwaRoute() || getLastActivePage();
-      const validPages = SIM_VALID_PAGE_IDS;
+      const saved = getLastActivePage();
+      const validPages = [
+        'dashboard',
+        'input',
+        'riwayat-input',
+        'progress-santri',
+        'laporan',
+        'rapor-pdf',
+        'rapor-link-manager',
+        'manage-users',
+        'app-settings',
+        'account-settings',
+        'detail-santri',
+        'detail-muhafizh'
+      ];
 
       if (!saved || !validPages.includes(saved.pageId)) {
         return { pageId: getFirstAccessiblePage(userData.role) };
@@ -16845,9 +16551,6 @@ refreshSessionIndicator();
 
     startSessionChecker();
 registerPageLifecycleHandlers();
-    if (typeof simSchedulePwaInstallPromptAfterLogin === "function") {
-      simSchedulePwaInstallPromptAfterLogin();
-    }
 
 /*
  * Login lama atau sesi yang dipulihkan dapat langsung heartbeat.
@@ -16864,7 +16567,6 @@ if (!res?.postLoginPending) {
         refreshCurrentUserRolePresentation();
         applyRoleMenuVisibility(userData.role);
         const startupTarget = resolveStartupPageTarget();
-        pendingOpenPageFromUrl = null;
         if (startupTarget.pageId === 'detail-santri' && startupTarget.nama) {
           pendingOpenDetailFromUrl = null;
           bukaDetailSantri(startupTarget.nama);
@@ -17190,8 +16892,7 @@ function beginGoogleSsoFlow(options) {
             <h3>${popupTitle}</h3>
             <p>${popupMessage}</p>
           </div>
-        
-</body>
+        </body>
       </html>
     `);
 
@@ -17705,7 +17406,11 @@ function showForcedPasswordChangeModal(loginResult) {
 
 const BIOMETRIC_LOGIN_KEY = "SIM_MUROJAAH_BIOMETRIC_LOGIN_V1";
 
-
+/* =========================================================
+   BRIDGE STORAGE AUTH PERSISTEN UNTUK SAFARI / iOS PWA
+   Wrapper menjadi penyimpanan utama.
+   localStorage Apps Script menjadi cache sementara.
+========================================================= */
 
 const SIM_PWA_AUTH_STORAGE_KEYS_CLIENT = [
   "loginSession",
@@ -17713,374 +17418,777 @@ const SIM_PWA_AUTH_STORAGE_KEYS_CLIENT = [
   BIOMETRIC_LOGIN_KEY
 ];
 
-/* =========================================================
-   STORAGE AUTH LANGSUNG PADA ORIGIN GITHUB PAGES
-   Tidak memerlukan penyimpanan parent/wrapper.
-========================================================= */
+let SIM_PWA_AUTH_BRIDGE_TOKEN = "";
 
-function simPwaAuthStorageReady() {
-  return Promise.resolve();
+function simResolveAuthBridgeToken() {
+  return new Promise(function (resolve) {
+    let finished = false;
+    let timeoutId = null;
+
+    function finish(value) {
+      if (finished) return;
+
+      finished = true;
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+
+      SIM_PWA_AUTH_BRIDGE_TOKEN =
+        String(value || "").trim();
+
+      resolve(SIM_PWA_AUTH_BRIDGE_TOKEN);
+    }
+
+    /*
+     * Fallback untuk browser yang masih meneruskan
+     * parameter ke window.location.search.
+     */
+    try {
+      const directToken =
+        new URLSearchParams(
+          window.location.search || ""
+        ).get("authBridgeToken");
+
+      if (directToken) {
+        finish(directToken);
+        return;
+      }
+    } catch (err) {
+      console.warn(
+        "Token bridge tidak tersedia dari location.search:",
+        err
+      );
+    }
+
+    /*
+     * Cara resmi membaca parameter URL
+     * pada Google Apps Script HTML Service.
+     */
+    timeoutId = setTimeout(function () {
+      console.warn(
+        "Pengambilan token bridge Apps Script timeout."
+      );
+
+      finish("");
+    }, 2500);
+
+    try {
+      if (
+        typeof google !== "undefined" &&
+        google.script &&
+        google.script.url &&
+        typeof google.script.url.getLocation ===
+          "function"
+      ) {
+        google.script.url.getLocation(
+          function (locationData) {
+            let token = "";
+
+            if (
+              locationData &&
+              locationData.parameter
+            ) {
+              token =
+                locationData.parameter
+                  .authBridgeToken || "";
+            }
+
+            if (
+              !token &&
+              locationData &&
+              locationData.parameters &&
+              Array.isArray(
+                locationData.parameters
+                  .authBridgeToken
+              )
+            ) {
+              token =
+                locationData.parameters
+                  .authBridgeToken[0] || "";
+            }
+
+            finish(token);
+          }
+        );
+
+        return;
+      }
+    } catch (err) {
+      console.warn(
+        "google.script.url.getLocation gagal:",
+        err
+      );
+    }
+
+    finish("");
+  });
 }
 
-function simPwaPersistAuthValue(key, value) {
+const SIM_PWA_AUTH_STORAGE_REQUEST_ID =
+  "sim_auth_storage_" +
+  Date.now() +
+  "_" +
+  Math.random()
+    .toString(36)
+    .slice(2);
+
+let simPwaAuthStorageReadyDone =
+  false;
+
+let simPwaAuthStorageReadyResolve =
+  null;
+
+let simPwaAuthStorageTimeout =
+  null;
+
+let simPwaAuthHydrationRetryTimer =
+  null;
+
+let simPwaAuthHydrationAttempt = 0;
+
+const SIM_PWA_AUTH_HYDRATION_MAX_ATTEMPTS =
+  8;
+
+const SIM_PWA_AUTH_HYDRATION_RETRY_MS =
+  350;
+
+const simPwaPendingAuthWrites =
+  new Map();
+
+const simPwaAuthStorageReadyPromise =
+  new Promise(function (resolve) {
+    simPwaAuthStorageReadyResolve =
+      resolve;
+  });
+
+function simPwaMarkAuthStorageReady() {
+  if (
+    simPwaAuthStorageReadyDone
+  ) {
+    return;
+  }
+
+  simPwaAuthStorageReadyDone = true;
+
+  if (simPwaAuthStorageTimeout) {
+    clearTimeout(
+      simPwaAuthStorageTimeout
+    );
+
+    simPwaAuthStorageTimeout =
+      null;
+  }
+
+  if (
+    simPwaAuthHydrationRetryTimer
+  ) {
+    clearTimeout(
+      simPwaAuthHydrationRetryTimer
+    );
+
+    simPwaAuthHydrationRetryTimer =
+      null;
+  }
+
+  if (
+    typeof simPwaAuthStorageReadyResolve ===
+    "function"
+  ) {
+    simPwaAuthStorageReadyResolve();
+  }
+}
+
+function simPwaAuthStorageReady() {
+  return simPwaAuthStorageReadyPromise;
+}
+
+/*
+ * Google Apps Script di Safari dapat mempunyai:
+ *
+ * window.parent = iframe internal Google
+ * window.top    = wrapper PWA
+ *
+ * Pesan dikirim ke keduanya agar selalu sampai.
+ */
+function simPwaGetAuthStorageTargets() {
+  const targets = [];
+
   try {
     if (
-      typeof SIM_PWA_AUTH_STORAGE_KEYS_CLIENT !== "undefined" &&
-      !SIM_PWA_AUTH_STORAGE_KEYS_CLIENT.includes(key)
+      window.parent &&
+      window.parent !== window &&
+      typeof window.parent.postMessage ===
+        "function"
     ) {
-      return false;
+      targets.push(window.parent);
     }
+  } catch (err) {}
 
-    if (value === null || value === undefined || value === "") {
-      localStorage.removeItem(key);
-    } else {
-      localStorage.setItem(key, String(value));
+  try {
+    if (
+      window.top &&
+      window.top !== window &&
+      typeof window.top.postMessage ===
+        "function" &&
+      !targets.includes(window.top)
+    ) {
+      targets.push(window.top);
     }
+  } catch (err) {}
 
-    return true;
-  } catch (error) {
-    console.warn("Gagal menyimpan data autentikasi lokal:", error);
+  return targets;
+}
+
+function simPwaCanUseAuthStorageBridge() {
+  return !!(
+    SIM_PWA_AUTH_BRIDGE_TOKEN &&
+    simPwaGetAuthStorageTargets()
+      .length
+  );
+}
+
+function simPwaIsAuthStorageResponse(
+  event,
+  data
+) {
+  if (
+    !event ||
+    !data ||
+    !event.source
+  ) {
     return false;
   }
+
+  if (
+    data.bridgeToken !==
+    SIM_PWA_AUTH_BRIDGE_TOKEN
+  ) {
+    return false;
+  }
+
+  return simPwaGetAuthStorageTargets()
+    .some(function (target) {
+      return event.source === target;
+    });
+}
+
+function simPwaPostAuthStorageMessage(
+  message
+) {
+  const targets =
+    simPwaGetAuthStorageTargets();
+
+  if (
+    !SIM_PWA_AUTH_BRIDGE_TOKEN ||
+    !targets.length
+  ) {
+    return false;
+  }
+
+  const payload = Object.assign(
+    {},
+    message || {},
+    {
+      bridgeToken:
+        SIM_PWA_AUTH_BRIDGE_TOKEN
+    }
+  );
+
+  let sent = false;
+
+  targets.forEach(function (target) {
+    try {
+      target.postMessage(
+        payload,
+        "*"
+      );
+
+      sent = true;
+    } catch (err) {
+      console.warn(
+        "Bridge storage auth gagal mengirim pesan:",
+        err
+      );
+    }
+  });
+
+  return sent;
+}
+
+function simPwaClearPendingAuthWrite(
+  requestId
+) {
+  const pending =
+    simPwaPendingAuthWrites.get(
+      requestId
+    );
+
+  if (!pending) return;
+
+  if (pending.timer) {
+    clearTimeout(pending.timer);
+  }
+
+  simPwaPendingAuthWrites.delete(
+    requestId
+  );
+}
+
+function simPwaSendPendingAuthWrite(
+  requestId
+) {
+  const pending =
+    simPwaPendingAuthWrites.get(
+      requestId
+    );
+
+  if (!pending) return;
+
+  pending.attempt += 1;
+
+  const sent =
+    simPwaPostAuthStorageMessage(
+      pending.message
+    );
+
+  /*
+   * Maksimal empat kali percobaan.
+   * Tidak mengganggu proses login apabila wrapper
+   * sedang tidak tersedia.
+   */
+  if (
+    sent &&
+    pending.attempt < 4
+  ) {
+    pending.timer =
+      setTimeout(function () {
+        simPwaSendPendingAuthWrite(
+          requestId
+        );
+      }, 450);
+
+    return;
+  }
+
+  if (!sent || pending.attempt >= 4) {
+    pending.timer =
+      setTimeout(function () {
+        simPwaClearPendingAuthWrite(
+          requestId
+        );
+      }, 700);
+  }
+}
+
+function simPwaQueueAuthStorageWrite(
+  values,
+  prefix
+) {
+  if (
+    !values ||
+    typeof values !== "object"
+  ) {
+    return false;
+  }
+
+  if (
+    !simPwaCanUseAuthStorageBridge()
+  ) {
+    return false;
+  }
+
+  const requestId =
+    (prefix || "sim_auth_set") +
+    "_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .slice(2);
+
+  simPwaPendingAuthWrites.set(
+    requestId,
+    {
+      attempt: 0,
+      timer: null,
+
+      message: {
+        type:
+          "SIM_PWA_AUTH_STORAGE_SET_REQUEST",
+
+        requestId: requestId,
+
+        values: values
+      }
+    }
+  );
+
+  simPwaSendPendingAuthWrite(
+    requestId
+  );
+
+  return true;
+}
+
+function simPwaPersistAuthValue(
+  key,
+  value
+) {
+  if (
+    !SIM_PWA_AUTH_STORAGE_KEYS_CLIENT.includes(
+      key
+    )
+  ) {
+    return false;
+  }
+
+  return simPwaQueueAuthStorageWrite(
+    {
+      [key]:
+        value === undefined
+          ? null
+          : value
+    },
+    "sim_auth_set"
+  );
+}
+
+function simPwaApplyPersistentAuthValues(
+  values
+) {
+  const source =
+    values &&
+    typeof values === "object"
+      ? values
+      : {};
+
+  const migrateToWrapper = {};
+
+  SIM_PWA_AUTH_STORAGE_KEYS_CLIENT.forEach(
+    function (key) {
+      let localValue = null;
+
+      try {
+        localValue =
+          localStorage.getItem(key);
+      } catch (err) {}
+
+      const wrapperValue =
+        source[key];
+
+      /*
+       * Wrapper merupakan sumber utama.
+       */
+      if (
+        typeof wrapperValue ===
+          "string" &&
+        wrapperValue !== ""
+      ) {
+        try {
+          localStorage.setItem(
+            key,
+            wrapperValue
+          );
+        } catch (err) {
+          console.warn(
+            "Gagal memulihkan cache auth:",
+            key,
+            err
+          );
+        }
+
+        return;
+      }
+
+      /*
+       * Migrasi data lama pada pemasangan patch pertama.
+       * Data yang masih berada di iframe dipindahkan ke wrapper.
+       */
+      if (localValue) {
+        migrateToWrapper[key] =
+          localValue;
+      }
+    }
+  );
+
+  if (
+    Object.keys(
+      migrateToWrapper
+    ).length
+  ) {
+    simPwaQueueAuthStorageWrite(
+      migrateToWrapper,
+      "sim_auth_migrate"
+    );
+  }
+
+  simPwaMarkAuthStorageReady();
+
+  try {
+    updateBiometricLoginUI();
+  } catch (err) {}
+}
+
+window.addEventListener(
+  "message",
+  function (event) {
+    const data = event.data || {};
+
+    if (
+      data.type !==
+        "SIM_PWA_AUTH_STORAGE_GET_RESULT" &&
+      data.type !==
+        "SIM_PWA_AUTH_STORAGE_SET_RESULT"
+    ) {
+      return;
+    }
+
+    if (
+      !simPwaIsAuthStorageResponse(
+        event,
+        data
+      )
+    ) {
+      return;
+    }
+
+    if (
+      data.type ===
+      "SIM_PWA_AUTH_STORAGE_SET_RESULT"
+    ) {
+      const pending =
+        simPwaPendingAuthWrites.get(
+          data.requestId || ""
+        );
+
+      if (!pending) return;
+
+      if (data.success) {
+        simPwaClearPendingAuthWrite(
+          data.requestId
+        );
+      } else {
+        /*
+         * Jika wrapper melaporkan gagal,
+         * biarkan retry berikutnya berjalan.
+         */
+        console.warn(
+          "Wrapper gagal menyimpan auth:",
+          data.failedKeys || []
+        );
+      }
+
+      return;
+    }
+
+    if (
+      data.requestId !==
+      SIM_PWA_AUTH_STORAGE_REQUEST_ID
+    ) {
+      return;
+    }
+
+    if (!data.success) {
+      return;
+    }
+
+    simPwaApplyPersistentAuthValues(
+      data.values
+    );
+  }
+);
+
+function simPwaSendAuthHydrationRequest() {
+  if (
+    simPwaAuthStorageReadyDone
+  ) {
+    return;
+  }
+
+  simPwaAuthHydrationAttempt += 1;
+
+  const sent =
+    simPwaPostAuthStorageMessage({
+      type:
+        "SIM_PWA_AUTH_STORAGE_GET_REQUEST",
+
+      requestId:
+        SIM_PWA_AUTH_STORAGE_REQUEST_ID,
+
+      keys:
+        SIM_PWA_AUTH_STORAGE_KEYS_CLIENT
+    });
+
+  if (!sent) {
+    simPwaMarkAuthStorageReady();
+    return;
+  }
+
+  if (
+    simPwaAuthHydrationAttempt <
+    SIM_PWA_AUTH_HYDRATION_MAX_ATTEMPTS
+  ) {
+    simPwaAuthHydrationRetryTimer =
+      setTimeout(
+        simPwaSendAuthHydrationRequest,
+        SIM_PWA_AUTH_HYDRATION_RETRY_MS
+      );
+  }
+}
+
+function simPwaStartAuthStorageHydration() {
+  /*
+   * Saat GAS dibuka langsung tanpa wrapper,
+   * gunakan localStorage GAS seperti sebelumnya.
+   */
+  if (
+    !simPwaCanUseAuthStorageBridge()
+  ) {
+    simPwaMarkAuthStorageReady();
+    return;
+  }
+
+  /*
+   * Login tidak akan macet permanen apabila
+   * wrapper gagal memberi jawaban.
+   */
+  simPwaAuthStorageTimeout =
+    setTimeout(function () {
+      console.warn(
+        "Pemulihan storage PWA timeout. Menggunakan cache lokal."
+      );
+
+      simPwaMarkAuthStorageReady();
+    }, 3500);
+
+  simPwaSendAuthHydrationRequest();
+}
+
+function simPwaReadCurrentLocalAuthValues() {
+  const values = {};
+
+  SIM_PWA_AUTH_STORAGE_KEYS_CLIENT.forEach(
+    function (key) {
+      try {
+        values[key] =
+          localStorage.getItem(key);
+      } catch (err) {
+        values[key] = null;
+      }
+    }
+  );
+
+  return values;
 }
 
 function simPwaFlushAuthStorage() {
-  // localStorage berada pada origin GitHub Pages yang sama dengan aplikasi.
-  return true;
-}
-
-/* =========================================================
-   WEBAUTHN/PASSKEY LANGSUNG PADA HALAMAN GITHUB PAGES
-========================================================= */
-
-function simPrepareCreateOptions(options) {
-  const publicKey = Object.assign({}, options || {});
-  publicKey.challenge = base64UrlToBytes(publicKey.challenge);
-
-  if (publicKey.user && publicKey.user.id) {
-    publicKey.user = Object.assign({}, publicKey.user, {
-      id: base64UrlToBytes(publicKey.user.id)
-    });
-  }
-
-  if (Array.isArray(publicKey.excludeCredentials)) {
-    publicKey.excludeCredentials = publicKey.excludeCredentials.map(function (item) {
-      return Object.assign({}, item, { id: base64UrlToBytes(item.id) });
-    });
-  }
-
-  return { publicKey: publicKey };
-}
-
-function simPrepareGetOptions(options) {
-  const publicKey = Object.assign({}, options || {});
-  publicKey.challenge = base64UrlToBytes(publicKey.challenge);
-
-  if (Array.isArray(publicKey.allowCredentials)) {
-    publicKey.allowCredentials = publicKey.allowCredentials.map(function (item) {
-      return Object.assign({}, item, { id: base64UrlToBytes(item.id) });
-    });
-  }
-
-  return { publicKey: publicKey };
-}
-
-function simSerializeCredential(credential) {
-  const response = credential && credential.response ? credential.response : {};
-
-  return {
-    id: credential && credential.id ? credential.id : "",
-    rawId: credential && credential.rawId ? bytesToBase64Url(credential.rawId) : "",
-    type: credential && credential.type ? credential.type : "public-key",
-    authenticatorAttachment: credential && credential.authenticatorAttachment
-      ? credential.authenticatorAttachment
-      : "",
-    response: {
-      clientDataJSON: response.clientDataJSON ? bytesToBase64Url(response.clientDataJSON) : "",
-      attestationObject: response.attestationObject ? bytesToBase64Url(response.attestationObject) : "",
-      authenticatorData: response.authenticatorData ? bytesToBase64Url(response.authenticatorData) : "",
-      signature: response.signature ? bytesToBase64Url(response.signature) : "",
-      userHandle: response.userHandle ? bytesToBase64Url(response.userHandle) : ""
-    }
-  };
-}
-
-/* =========================================================
-   STATUS KONEKSI
-========================================================= */
-
-function simShowConnectionOverlay(mode, detail) {
-  const overlay = document.getElementById("sim-connection-overlay");
-  if (!overlay) return;
-
-  const offline = mode === "offline";
-  const title = document.getElementById("sim-connection-title");
-  const message = document.getElementById("sim-connection-message");
-  const directButton = document.getElementById("sim-connection-direct-btn");
-
-  if (title) title.textContent = offline ? "Koneksi Internet Terputus" : "Server Sedang Lambat";
-  if (message) {
-    message.textContent = offline
-      ? "Aplikasi sedang offline atau koneksi internet tidak tersedia. Periksa koneksi, lalu coba buka kembali aplikasi."
-      : (detail || "Aplikasi belum berhasil terhubung ke server SIM AL-QUR'AN IBS RIAU. Silakan coba lagi atau gunakan link alternatif.");
-  }
-  if (directButton) directButton.style.display = offline ? "none" : "inline-flex";
-
-  overlay.hidden = false;
-}
-
-function simHideConnectionOverlay() {
-  const overlay = document.getElementById("sim-connection-overlay");
-  if (overlay) overlay.hidden = true;
-}
-
-function retryApp() {
-  if (!navigator.onLine) {
-    simShowConnectionOverlay("offline");
-    return;
-  }
-  simHideConnectionOverlay();
-  window.location.reload();
-}
-
-function openAppDirect() {
-  if (!navigator.onLine) {
-    simShowConnectionOverlay("offline");
+  if (
+    !simPwaCanUseAuthStorageBridge()
+  ) {
     return;
   }
 
-  const directUrl = String(WEB_APP_URL || "").trim();
-  if (!directUrl) return;
+  const currentValues =
+    simPwaReadCurrentLocalAuthValues();
 
-  const opened = window.open(directUrl, "_blank", "noopener,noreferrer");
-  if (!opened) window.location.assign(directUrl);
-}
+  /*
+   * pagehide/visibilitychange tidak boleh
+   * menghapus data wrapper.
+   *
+   * Penghapusan hanya dilakukan melalui
+   * clearLoginSession() ketika benar-benar logout.
+   */
+  const safeValues = {};
 
-window.retryApp = retryApp;
-window.openAppDirect = openAppDirect;
+  SIM_PWA_AUTH_STORAGE_KEYS_CLIENT
+    .forEach(function (key) {
+      const value = currentValues[key];
 
-window.addEventListener("offline", function () {
-  simShowConnectionOverlay("offline");
-});
-
-window.addEventListener("online", function () {
-  simHideConnectionOverlay();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  if (!navigator.onLine) simShowConnectionOverlay("offline");
-});
-
-/* =========================================================
-   SARAN INSTALL PWA PADA BROWSER MOBILE
-========================================================= */
-
-let simDeferredPwaInstallPrompt = null;
-
-const SIM_PWA_INSTALL_SESSION_KEY = "sim_pwa_install_prompt_closed_this_open";
-const SIM_PWA_INSTALLED_KEY = "sim_pwa_installed";
-const SIM_PWA_INSTALL_DELAY_MS = 1800;
-
-function simIsMobileBrowser() {
-  const ua = navigator.userAgent || "";
-  return (
-    /Android|iPhone|iPad|iPod|Mobile/i.test(ua) ||
-    window.innerWidth <= 768
-  ) && !simIsStandalonePwa();
-}
-
-function simIsIosDevice() {
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
-}
-
-function simCanShowPwaInstallModal() {
-  if (!simIsMobileBrowser()) return false;
-  if (simIsStandalonePwa()) return false;
-  if (localStorage.getItem(SIM_PWA_INSTALLED_KEY) === "1") return false;
-  if (sessionStorage.getItem(SIM_PWA_INSTALL_SESSION_KEY) === "1") return false;
-  return true;
-}
-
-function simGetPwaManualGuideText() {
-  if (simIsIosDevice()) {
-    return [
-      "<b>Cara install di iPhone / iPad:</b>",
-      "1. Buka situs ini melalui Safari.",
-      "2. Tekan tombol <b>Share/Bagikan</b>.",
-      "3. Pilih <b>Add to Home Screen</b> / <b>Tambahkan ke Layar Utama</b>.",
-      "4. Tekan <b>Add</b> / <b>Tambah</b>."
-    ].join("<br>");
-  }
-
-  return [
-    "<b>Cara install di Android:</b>",
-    "1. Buka situs ini melalui Chrome.",
-    "2. Tekan menu titik tiga di kanan atas.",
-    "3. Pilih <b>Install app</b> atau <b>Tambahkan ke layar utama</b>.",
-    "4. Tekan <b>Install</b> / <b>Tambahkan</b>."
-  ].join("<br>");
-}
-
-function simShowPwaManualGuide() {
-  const guide = document.getElementById("sim-pwa-install-guide");
-  if (!guide) return;
-  guide.innerHTML = simGetPwaManualGuideText();
-  guide.style.display = "block";
-}
-
-function simHidePwaInstallModal() {
-  const overlay = document.getElementById("sim-pwa-install-overlay");
-  if (overlay) overlay.hidden = true;
-}
-
-function simShowPwaInstallModal() {
-  if (!simCanShowPwaInstallModal()) return;
-
-  // Hindari tabrakan dengan overlay permintaan notifikasi Firebase.
-  if (document.getElementById("sim-fcm-permission-overlay")) {
-    window.setTimeout(simShowPwaInstallModal, 2500);
-    return;
-  }
-
-  const overlay = document.getElementById("sim-pwa-install-overlay");
-  if (overlay) overlay.hidden = false;
-}
-
-function simSchedulePwaInstallPromptAfterLogin() {
-  window.setTimeout(simShowPwaInstallModal, SIM_PWA_INSTALL_DELAY_MS);
-}
-
-window.addEventListener("beforeinstallprompt", function (event) {
-  event.preventDefault();
-  simDeferredPwaInstallPrompt = event;
-  window.setTimeout(simShowPwaInstallModal, 900);
-});
-
-window.addEventListener("appinstalled", function () {
-  localStorage.setItem(SIM_PWA_INSTALLED_KEY, "1");
-  sessionStorage.setItem(SIM_PWA_INSTALL_SESSION_KEY, "1");
-  simDeferredPwaInstallPrompt = null;
-  simHidePwaInstallModal();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  const installButton = document.getElementById("sim-pwa-install-btn");
-  const guideButton = document.getElementById("sim-pwa-guide-btn");
-  const laterButton = document.getElementById("sim-pwa-install-later-btn");
-
-  if (installButton) {
-    installButton.addEventListener("click", async function () {
-      try {
-        if (simDeferredPwaInstallPrompt) {
-          installButton.disabled = true;
-          installButton.textContent = "Membuka Install...";
-          simDeferredPwaInstallPrompt.prompt();
-
-          const choice = await simDeferredPwaInstallPrompt.userChoice;
-          simDeferredPwaInstallPrompt = null;
-          installButton.disabled = false;
-          installButton.textContent = "Download Aplikasi";
-
-          if (choice && choice.outcome === "accepted") {
-            localStorage.setItem(SIM_PWA_INSTALLED_KEY, "1");
-            sessionStorage.setItem(SIM_PWA_INSTALL_SESSION_KEY, "1");
-          }
-
-          simHidePwaInstallModal();
-          return;
-        }
-
-        simShowPwaManualGuide();
-      } catch (error) {
-        console.warn("Gagal membuka prompt install PWA:", error);
-        installButton.disabled = false;
-        installButton.textContent = "Download Aplikasi";
-        simShowPwaManualGuide();
+      if (
+        typeof value === "string" &&
+        value !== ""
+      ) {
+        safeValues[key] = value;
       }
     });
+
+  if (
+    Object.keys(safeValues).length === 0
+  ) {
+    return;
   }
 
-  if (guideButton) {
-    guideButton.addEventListener("click", simShowPwaManualGuide);
-  }
+  simPwaPostAuthStorageMessage({
+    type:
+      "SIM_PWA_AUTH_STORAGE_SET_REQUEST",
 
-  if (laterButton) {
-    laterButton.addEventListener("click", function () {
-      sessionStorage.setItem(SIM_PWA_INSTALL_SESSION_KEY, "1");
-      simHidePwaInstallModal();
-    });
-  }
-});
+    requestId:
+      "sim_auth_flush_" +
+      Date.now(),
 
-/* =========================================================
-   SERVICE WORKER, PEMBARUAN PWA, DAN NOTIFIKASI
-========================================================= */
-
-if ("serviceWorker" in navigator) {
-  let simSwRefreshing = false;
-
-  navigator.serviceWorker.addEventListener("controllerchange", function () {
-    if (simSwRefreshing) return;
-    simSwRefreshing = true;
-    console.log("Service Worker baru aktif. Tidak reload otomatis agar posisi halaman tetap aman.");
-  });
-
-  navigator.serviceWorker.addEventListener("message", function (event) {
-    const data = event.data || {};
-
-    if (data.type === "SIM_SW_ACTIVATED") {
-      console.log("PWA versi aktif:", data.version || window.SIM_PWA_VERSION);
-    }
-
-    if (data.type === "SIM_NOTIFICATION_CLICK" && data.url) {
-      try {
-        const target = new URL(String(data.url), window.location.href);
-        if (target.origin === window.location.origin) {
-          window.location.assign(target.toString());
-        }
-      } catch (error) {
-        console.warn("URL notifikasi tidak valid:", error);
-      }
-    }
-  });
-
-  window.addEventListener("load", function () {
-    const swUrl = "./sw.js?v=" + encodeURIComponent(window.SIM_PWA_VERSION || "20261105-v32");
-
-    navigator.serviceWorker.register(swUrl, {
-      updateViaCache: "none"
-    }).then(function (registration) {
-      console.log("Service Worker aktif:", registration.scope);
-
-      registration.update().catch(function (error) {
-        console.warn("Cek update Service Worker gagal:", error);
-      });
-
-      registration.addEventListener("updatefound", function () {
-        const newWorker = registration.installing;
-        if (!newWorker) return;
-
-        newWorker.addEventListener("statechange", function () {
-          if (
-            newWorker.state === "installed" &&
-            navigator.serviceWorker.controller &&
-            registration.waiting
-          ) {
-            registration.waiting.postMessage({ type: "SIM_SKIP_WAITING" });
-          }
-        });
-      });
-
-      window.setInterval(function () {
-        registration.update().catch(function (error) {
-          console.warn("Auto cek update Service Worker gagal:", error);
-        });
-      }, 60 * 60 * 1000);
-    }).catch(function (error) {
-      console.error("Service Worker gagal didaftarkan:", error);
-    });
+    values:
+      safeValues
   });
 }
+
+simResolveAuthBridgeToken()
+  .then(function (token) {
+    console.log(
+      "[AUTH] Bridge token tersedia:",
+      !!token
+    );
+
+    if (!token) {
+      console.warn(
+        "[AUTH] Token bridge kosong. " +
+        "Penyimpanan Safari dapat menjadi tidak persisten."
+      );
+    }
+
+    simPwaStartAuthStorageHydration();
+  })
+  .catch(function (err) {
+    console.warn(
+      "[AUTH] Gagal menyiapkan bridge:",
+      err
+    );
+
+    simPwaMarkAuthStorageReady();
+  });
+
+/*
+ * Safari sering membekukan aplikasi tanpa menjalankan
+ * beforeunload. Karena itu gunakan visibilitychange
+ * dan pagehide.
+ */
+document.addEventListener(
+  "visibilitychange",
+  function () {
+    if (
+      document.visibilityState ===
+      "hidden"
+    ) {
+      simPwaFlushAuthStorage();
+    }
+  },
+  {
+    passive: true
+  }
+);
+
+window.addEventListener(
+  "pagehide",
+  simPwaFlushAuthStorage,
+  {
+    capture: true
+  }
+);
+
+/* =========================================================
+   BRIDGE STORAGE AUTH SELESAI
+========================================================= */
 
 function isPwaStandaloneMode() {
   try {
@@ -18835,31 +18943,68 @@ function simWaitPostLoginDeviceInfo(timeoutMs) {
     });
 }
 
-async function simRequestPasskeyFromWrapper(type, payload) {
-  if (!isWebAuthnSupported()) {
-    throw new Error("Browser ini belum mendukung WebAuthn/passkey pada koneksi HTTPS.");
+const SIM_PASSKEY_BRIDGE_TIMEOUT_MS = 70000;
+const simPasskeyBridgeRequests = {};
+
+function simCreateRequestId() {
+  return 'sim_passkey_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+}
+
+function simPostToWrapper(message) {
+  const targets = [];
+
+  if (window.parent && window.parent !== window) {
+    targets.push(window.parent);
   }
 
-  const requestType = String(type || "");
-  let credential = null;
-
-  if (requestType === "SIM_PASSKEY_CREATE_REQUEST") {
-    credential = await navigator.credentials.create(
-      simPrepareCreateOptions(payload || {})
-    );
-  } else if (requestType === "SIM_PASSKEY_GET_REQUEST") {
-    credential = await navigator.credentials.get(
-      simPrepareGetOptions(payload || {})
-    );
-  } else {
-    throw new Error("Jenis permintaan passkey tidak dikenal.");
+  if (
+    window.top &&
+    window.top !== window &&
+    window.top !== window.parent
+  ) {
+    targets.push(window.top);
   }
 
-  if (!credential) {
-    throw new Error("Verifikasi passkey dibatalkan atau tidak menghasilkan kredensial.");
+  if (!targets.length) {
+    throw new Error('Wrapper PWA tidak ditemukan.');
   }
 
-  return simSerializeCredential(credential);
+  targets.forEach(function (target) {
+    try {
+      target.postMessage(message, '*');
+    } catch (err) {
+      console.warn('Gagal postMessage ke wrapper:', err);
+    }
+  });
+}
+
+function simRequestPasskeyFromWrapper(type, payload) {
+  return new Promise(function (resolve, reject) {
+    const requestId = simCreateRequestId();
+
+    const timer = setTimeout(function () {
+      delete simPasskeyBridgeRequests[requestId];
+      reject(new Error('Permintaan biometrik timeout. Pastikan wrapper PWA sudah dipatch dan cache PWA sudah dibersihkan.'));
+    }, SIM_PASSKEY_BRIDGE_TIMEOUT_MS);
+
+    simPasskeyBridgeRequests[requestId] = {
+      resolve: resolve,
+      reject: reject,
+      timer: timer
+    };
+
+    try {
+      simPostToWrapper({
+        type: type,
+        requestId: requestId,
+        payload: payload || {}
+      });
+    } catch (err) {
+      clearTimeout(timer);
+      delete simPasskeyBridgeRequests[requestId];
+      reject(err);
+    }
+  });
 }
 
 window.addEventListener('message', function (event) {
@@ -18984,10 +19129,10 @@ async function registerBiometricFromProfile() {
     return;
   }
 
-  if (!isWebAuthnSupported()) {
+  if (!window.parent || window.parent === window) {
     Swal.fire(
-      'Perangkat tidak mendukung biometrik',
-      'Gunakan browser HTTPS yang mendukung WebAuthn/passkey.',
+      'Mode PWA diperlukan',
+      'Biometrik harus dijalankan melalui wrapper PWA, bukan langsung dari halaman Apps Script.',
       'warning'
     );
     return;
@@ -19868,13 +20013,6 @@ if (pageId === "laporan") {
       } else {
         saveLastActivePage(pageId);
       }
-
-      simSavePwaRoute(
-        pageId,
-        pageId === 'detail-santri'
-          ? currentDetailSantri
-          : (pageId === 'detail-muhafizh' ? currentDetailMuhafizh : '')
-      );
 
       if (window.innerWidth <= 768) {
         closeMobileSidebar();
@@ -30856,21 +30994,18 @@ function kembaliKeLaporanMuhafizh() {
     function handleOpenDetailFromUrlIfNeeded() {
       pendingOpenDetailFromUrl = null;
       pendingOpenMuhafizhDetailFromUrl = null;
-      pendingOpenPageFromUrl = null;
 
       if (INITIAL_PAGE === 'detail-santri' && INITIAL_NAMA) {
         pendingOpenDetailFromUrl = INITIAL_NAMA;
       } else if (INITIAL_PAGE === 'detail-muhafizh' && INITIAL_NAMA) {
-        pendingOpenMuhafizhDetailFromUrl = INITIAL_NAMA;
+  pendingOpenMuhafizhDetailFromUrl = INITIAL_NAMA;
 
-        // Detail muhafizh tidak memakai filter tanggal dari URL.
-        detailMuhafizhFilterState = {
-          tglAwal: '',
-          tglAkhir: ''
-        };
-      } else if (SIM_VALID_PAGE_IDS.includes(INITIAL_PAGE)) {
-        pendingOpenPageFromUrl = INITIAL_PAGE;
-      }
+  // Detail muhafizh tidak memakai filter tanggal dari URL.
+  detailMuhafizhFilterState = {
+    tglAwal: '',
+    tglAkhir: ''
+  };
+}
 
       console.log("INITIAL_PAGE:", INITIAL_PAGE);
       console.log("INITIAL_NAMA:", INITIAL_NAMA);
@@ -41419,95 +41554,44 @@ function prosesArsipDataSetoranTerpilih() {
 
   <script>
     function requestFcmPermissionFromIframe() {
-  if (!("Notification" in window) || !("serviceWorker" in navigator)) {
+  const requestId = "fcm_" + Date.now();
+
+  if (!window.parent || window.parent === window) {
     Swal.fire(
       "Mode tidak didukung",
-      "Browser ini belum mendukung notifikasi web. Gunakan Chrome/Edge terbaru atau Safari versi terbaru.",
+      "Aktivasi notifikasi harus dipanggil dari halaman PWA/GitHub Pages yang memiliki sw.js.",
       "warning"
     );
     return;
   }
 
-  const payload = {
-    userId: userData?.username || userData?.name || "",
-    name: userData?.name || userData?.nama || userData?.username || "",
-    role: userData?.role || ""
-  };
-
-  if (typeof window.enablePushFromButton !== "function") {
-    Swal.fire(
-      "Modul notifikasi belum tersedia",
-      "Pastikan file app.js dan konfigurasi Firebase tetap berada di root repository GitHub Pages.",
-      "warning"
-    );
-    return;
-  }
-
-  /*
-   * Index.html sekarang adalah halaman top-level GitHub Pages.
-   * app.js menerima event ini pada window yang sama, bukan dari iframe.
-   */
-  window.postMessage({
+  window.parent.postMessage({
     type: "SIM_FCM_ENABLE_REQUEST",
-    payload: payload
-  }, window.location.origin);
+    requestId: requestId,
+    payload: {
+      userId: userData?.username || userData?.name || "",
+      name: userData?.name || userData?.nama || userData?.username || "",
+      role: userData?.role || ""
+    }
+  }, "*");
 
   Swal.fire({
-    title: "Menyiapkan notifikasi",
-    text: "Ikuti dialog izin notifikasi pada perangkat.",
+    title: "Meminta izin notifikasi",
+    text: "Jika browser menampilkan popup izin notifikasi, pilih Allow/Izinkan.",
     icon: "info",
-    timer: 2200,
+    timer: 2500,
     showConfirmButton: false
   });
-
-  let attempts = 0;
-  const maxAttempts = 60;
-  const poll = window.setInterval(function () {
-    attempts += 1;
-
-    const token = localStorage.getItem("sim_fcm_token") || "";
-    const status = document.getElementById("push-status");
-    const statusText = status ? String(status.textContent || "") : "";
-
-    if (token && Notification.permission === "granted") {
-      window.clearInterval(poll);
-      if (typeof loadFcmTokenListPage === "function") {
-        loadFcmTokenListPage();
-      }
-      Swal.fire(
-        "Berhasil",
-        "Notifikasi berhasil diaktifkan dan token perangkat tersimpan.",
-        "success"
-      );
-      return;
-    }
-
-    if (/Gagal mengaktifkan notifikasi/i.test(statusText)) {
-      window.clearInterval(poll);
-      Swal.fire("Gagal", statusText, "error");
-      return;
-    }
-
-    if (attempts >= maxAttempts) {
-      window.clearInterval(poll);
-      if (Notification.permission === "denied") {
-        Swal.fire(
-          "Izin notifikasi ditolak",
-          "Aktifkan izin notifikasi melalui pengaturan browser/perangkat, lalu coba kembali.",
-          "warning"
-        );
-      }
-    }
-  }, 500);
 }
 
 window.addEventListener("message", function (event) {
   const data = event.data || {};
+
   if (data.type !== "SIM_FCM_ENABLE_RESULT") return;
 
   if (data.success) {
     Swal.fire("Berhasil", "Notifikasi berhasil diaktifkan untuk perangkat ini.", "success");
-    if (typeof loadFcmTokenListPage === "function") loadFcmTokenListPage();
+    loadFcmTokenListPage();
   } else {
     Swal.fire("Gagal", data.message || "Notifikasi gagal diaktifkan.", "error");
   }
@@ -44947,8 +45031,81 @@ function previewRaporMushafLink(
 }
   </script>
 
-  <!-- Handshake Apps Script iframe dihapus: halaman ini berjalan langsung di GitHub Pages. -->
-<style>
+  <script>
+    (function announceAppsScriptReady() {
+  /*
+   * Origin GitHub Pages.
+   * Gunakan origin saja, tanpa /SIM-ALQURAN-IBS/.
+   */
+  const WRAPPER_ORIGIN =
+    "https://miaauwcorp.github.io";
+
+  let readyMessageSent = false;
+
+  function sendReadyMessage() {
+    /*
+     * Pastikan pesan hanya dikirim satu kali.
+     */
+    if (readyMessageSent) {
+      return;
+    }
+
+    /*
+     * Saat Apps Script dibuka langsung,
+     * tidak ada wrapper yang perlu diberi pesan.
+     */
+    if (
+      !window.top ||
+      window.top === window
+    ) {
+      return;
+    }
+
+    readyMessageSent = true;
+
+    try {
+      /*
+       * Kirim langsung ke halaman GitHub paling atas.
+       * Jangan kirim ke window.parent karena parent
+       * merupakan iframe internal Google.
+       */
+      window.top.postMessage(
+        {
+          type: "SIM_GAS_IFRAME_READY",
+          app: "SIM_ALQURAN_IBS",
+          timestamp: Date.now()
+        },
+        WRAPPER_ORIGIN
+      );
+
+      console.log(
+        "Handshake Apps Script dikirim ke wrapper PWA."
+      );
+    } catch (error) {
+      readyMessageSent = false;
+
+      console.warn(
+        "Handshake Apps Script gagal dikirim:",
+        error
+      );
+    }
+  }
+
+  if (
+    document.readyState === "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      sendReadyMessage,
+      { once: true }
+    );
+  } else {
+    sendReadyMessage();
+  }
+})();
+  </script>
+
+  <style>
     #gemini-chat-widget[hidden],
     #gemini-chat-panel[hidden] {
       display: none !important;
@@ -48319,49 +48476,6 @@ async function editSetoranEntry(entry) {
   </script>
 
 
-
-  <!-- Status koneksi; UI utama tetap merupakan halaman GitHub Pages -->
-  <div id="sim-connection-overlay" class="sim-connection-overlay" hidden>
-    <div class="sim-connection-card">
-      <div class="sim-connection-icon"><i class="fas fa-wifi"></i></div>
-      <h2 id="sim-connection-title">Server Sedang Lambat</h2>
-      <p id="sim-connection-message">
-        Aplikasi belum berhasil terhubung ke server SIM AL-QUR'AN IBS RIAU.
-        Silakan coba lagi atau gunakan link alternatif.
-      </p>
-      <button type="button" class="sim-connection-action" onclick="retryApp()">Coba Lagi</button>
-      <button type="button" id="sim-connection-direct-btn" class="sim-connection-link" onclick="openAppDirect()">Link Alternatif</button>
-      <a class="sim-connection-wa"
-         href="https://wa.me/62895602258987?text=Assalamualaikum%2C%20Mohon%20bantuannya%20atas%20gangguan%20server%20SIM%20AL-QUR%27AN%20IBS%20RIAU"
-         target="_blank" rel="noopener noreferrer">Bantuan WhatsApp</a>
-    </div>
-  </div>
-
-  <!-- Modal saran install PWA -->
-  <div id="sim-pwa-install-overlay" class="sim-pwa-install-overlay" hidden>
-    <div class="sim-pwa-install-card">
-      <div class="sim-pwa-install-icon">📲</div>
-      <h2>Download Aplikasi</h2>
-      <p>
-        Agar SIM AL-QUR'AN IBS RIAU lebih cepat dibuka dan tampil seperti aplikasi HP,
-        silakan tambahkan aplikasi ini ke layar utama.
-      </p>
-      <button id="sim-pwa-install-btn" type="button" class="sim-pwa-install-primary">
-        Download Aplikasi
-      </button>
-      <button id="sim-pwa-guide-btn" type="button" class="sim-pwa-install-secondary">
-        Lihat Cara Manual
-      </button>
-      <button id="sim-pwa-install-later-btn" type="button" class="sim-pwa-install-close">
-        Nanti Saja
-      </button>
-      <div id="sim-pwa-install-guide" class="sim-pwa-install-guide"></div>
-    </div>
-  </div>
-
-  <div id="push-status" aria-live="polite"></div>
-
-  <script type="module" src="./app.js"></script>
 </body>
 
 </html>
