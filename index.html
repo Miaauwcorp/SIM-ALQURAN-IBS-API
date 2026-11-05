@@ -5,47 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Murojaah IBS</title>
-  <!-- GitHub Pages / PWA shell -->
-  <meta name="theme-color" content="#15803d">
-  <meta name="apple-mobile-web-app-title" content="SIM AL-QUR'AN IBS">
-  <link rel="manifest" href="./manifest.webmanifest?v=20260801-v293-api">
-  <link rel="icon" href="./icon-192-v11.png?v=20260801-v293-api">
-  <link rel="apple-touch-icon" href="./icon-192-v11.png?v=20260801-v293-api">
-
-  <script>
-    window.SIM_PWA_VERSION = "20260801-v293-api";
-    window.SIM_GAS_API_URL = "https://script.google.com/macros/s/AKfycbzqZHS1GJhqyWL8ITVWaPsGsW5m6Ol_QQHwVU5ToA9s0WwODjqfx6Kj0c5ohQ8DxE20hg/exec";
-    window.SIM_GITHUB_ORIGIN = "https://miaauwcorp.github.io";
-
-    /*
-     * Link publik QR tetap dirender langsung oleh Apps Script
-     * karena halaman tersebut adalah output HTML/PDF backend.
-     */
-    (function redirectPublicQrRoute() {
-      const params = new URLSearchParams(window.location.search);
-      const routeKey = params.has("raporToken")
-        ? "raporToken"
-        : (params.has("laporanToken") ? "laporanToken" : "");
-
-      if (!routeKey) return;
-
-      const token = String(params.get(routeKey) || "").trim();
-      if (!token || token.length > 512) return;
-
-      try {
-        const publicUrl = new URL(window.SIM_GAS_API_URL);
-        publicUrl.searchParams.set(routeKey, token);
-        publicUrl.searchParams.set("source", "public-qr");
-        window.location.replace(publicUrl.toString());
-      } catch (error) {
-        console.error("Gagal membuka halaman QR publik:", error);
-      }
-    })();
-  </script>
-
-  <!-- API HTTP murni: tanpa iframe RPC dan tanpa google.script.run -->
-  <script src="./api-client.js?v=20260801-v293-api"></script>
-
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -4924,35 +4883,6 @@
         padding: 2px 6px;
       }
     }
-
-    /* =========================================================
-   INFORMASI BATAS BARIS MUSHAF
-   ========================================================= */
-
-.quran-line-limit-info-wrap {
-  margin-top: 0.25rem !important;
-}
-
-.quran-line-limit-info {
-  margin: 0;
-  line-height: 1.25;
-  white-space: nowrap;
-}
-
-/*
- * Tampilan mobile:
- * kecilkan teks agar tetap satu baris.
- */
-@media (max-width: 767.98px) {
-  .quran-line-limit-info {
-    font-size: clamp(
-      0.68rem,
-      2.9vw,
-      0.82rem
-    );
-    letter-spacing: -0.01em;
-  }
-}
   </style>
 
 
@@ -5563,6 +5493,93 @@
       .google-logo-icon {
         width: 20px;
         height: 20px;
+      }
+    }
+
+    /* ===== BARIS TOMBOL GOOGLE + ID SANTRI ===== */
+    .sso-button-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-top: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sso-button-row .google-sso-button-wrap {
+      min-width: 0;
+      margin-top: 0;
+    }
+
+    .santri-id-btn {
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      min-height: 54px;
+      padding: 0 18px;
+      border-radius: 18px;
+      border: 1px solid #dadce0;
+      background: #ffffff;
+      color: #1f2937 !important;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .santri-id-btn i {
+      font-size: 19px;
+      color: #15803d;
+      flex-shrink: 0;
+    }
+
+    .santri-id-label {
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .santri-id-btn:hover {
+      background: #f8fafc;
+      border-color: #cfd4dc;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .santri-id-btn:active {
+      transform: translateY(0);
+      background: #f3f4f6;
+    }
+
+    .santri-id-btn:focus-visible {
+      outline: none;
+      border-color: #15803d;
+      box-shadow:
+        0 0 0 4px rgba(21, 128, 61, 0.16),
+        0 10px 22px rgba(15, 23, 42, 0.10);
+    }
+
+    @media (max-width: 576px) {
+      .sso-button-row {
+        gap: 8px;
+      }
+
+      .santri-id-btn {
+        min-height: 50px;
+        border-radius: 16px;
+        font-size: 14px;
+        gap: 8px;
+        padding: 0 12px;
+      }
+
+      .santri-id-btn i {
+        font-size: 17px;
       }
     }
 
@@ -8563,10 +8580,50 @@
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
     }
 
-    body.app-dark #login-page .sso-hint a,
-    body.app-dark .login-card .sso-hint a {
-      color: #64748b !important;
-    }
+/* ===== FIX LINK PORTAL SANTRI TETAP BIRU ===== */
+
+.sso-hint a,
+.sso-hint a:link,
+.sso-hint a:visited {
+  color: #0d6efd !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+}
+
+.sso-hint a:hover,
+.sso-hint a:focus {
+  color: #0a58ca !important;
+}
+
+/* Dark Mode */
+body.app-dark #login-page .sso-hint a,
+body.app-dark #login-page .sso-hint a:link,
+body.app-dark #login-page .sso-hint a:visited,
+
+body.app-dark .login-card .sso-hint a,
+body.app-dark .login-card .sso-hint a:link,
+body.app-dark .login-card .sso-hint a:visited,
+
+body.theme-dark #login-page .sso-hint a,
+body.theme-dark #login-page .sso-hint a:link,
+body.theme-dark #login-page .sso-hint a:visited,
+
+body.theme-dark .login-card .sso-hint a,
+body.theme-dark .login-card .sso-hint a:link,
+body.theme-dark .login-card .sso-hint a:visited,
+
+html[data-bs-theme="dark"] #login-page .sso-hint a,
+html[data-bs-theme="dark"] .login-card .sso-hint a {
+  color: #0d6efd !important;
+}
+
+body.app-dark #login-page .sso-hint a:hover,
+body.app-dark .login-card .sso-hint a:hover,
+body.theme-dark #login-page .sso-hint a:hover,
+body.theme-dark .login-card .sso-hint a:hover,
+html[data-bs-theme="dark"] #login-page .sso-hint a:hover {
+  color: #0a58ca !important;
+}
 
     /* =========================================================
    FIX NIGHT MODE - HALAMAN INPUT SETORAN
@@ -10961,6 +11018,208 @@
   }, 3000);
   </script>
 
+   <!-- PATCH KHUSUS: modal setoran tumpang tindih -->
+  <style id="patch-modal-setoran-overlap-only">
+    /* Seluruh aturan berikut hanya berlaku pada modal tumpang tindih ini. */
+    .swal-setoran-overlap-container {
+      z-index: 12000 !important;
+      padding:
+        max(8px, env(safe-area-inset-top, 0px))
+        8px
+        max(8px, env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    .swal-setoran-overlap-popup {
+      width: min(94vw, 640px) !important;
+      max-height: calc(100dvh - 16px) !important;
+      padding: 18px !important;
+      border-radius: 22px !important;
+      overflow: hidden !important;
+    }
+
+    .swal-setoran-overlap-popup .swal2-icon {
+      width: 4em !important;
+      height: 4em !important;
+      margin: 0.25em auto 0.7em !important;
+    }
+
+    .swal-setoran-overlap-title {
+      margin: 0 0 10px !important;
+      padding: 0 8px !important;
+      font-size: 1.55rem !important;
+      line-height: 1.2 !important;
+    }
+
+    .swal-setoran-overlap-html {
+      width: 100% !important;
+      max-height: calc(100dvh - 285px) !important;
+      margin: 0 !important;
+      padding: 0 3px !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .setoran-overlap-content {
+      width: 100%;
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    .setoran-overlap-warning {
+      margin: 10px 0;
+      padding: 12px 14px;
+      border: 1px solid rgba(217, 119, 6, 0.38);
+      border-radius: 14px;
+      background: rgba(245, 158, 11, 0.16);
+      overflow-wrap: anywhere;
+    }
+
+    .setoran-overlap-warning strong {
+      display: block;
+      margin-top: 3px;
+      color: #b45309;
+      font-size: 1rem;
+    }
+
+    .setoran-overlap-history {
+      display: grid;
+      gap: 10px;
+    }
+
+    .setoran-overlap-history-item {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.30);
+      border-radius: 14px;
+      background: rgba(148, 163, 184, 0.08);
+    }
+
+    .setoran-overlap-history-field {
+      min-width: 0;
+    }
+
+    .setoran-overlap-history-field span {
+      display: block;
+      margin-bottom: 4px;
+      color: #64748b;
+      font-size: 0.76rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .setoran-overlap-history-field strong {
+      display: block;
+      min-width: 0;
+      font-size: 0.9rem;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .setoran-overlap-page-badge {
+      display: inline-flex !important;
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fbbf24;
+      color: #422006;
+    }
+
+    .swal2-actions.swal-setoran-overlap-actions {
+      width: 100% !important;
+      margin: 14px 0 0 !important;
+      gap: 10px !important;
+    }
+
+    .swal-setoran-overlap-confirm,
+    .swal-setoran-overlap-cancel {
+      min-height: 46px !important;
+      margin: 0 !important;
+      padding: 11px 16px !important;
+      border: 0 !important;
+      border-radius: 12px !important;
+      font-size: 0.95rem !important;
+      font-weight: 800 !important;
+    }
+
+    .swal-setoran-overlap-confirm {
+      background: #d97706 !important;
+      color: #ffffff !important;
+    }
+
+    .swal-setoran-overlap-cancel {
+      background: #6b7280 !important;
+      color: #ffffff !important;
+    }
+
+    body.app-dark .setoran-overlap-history-item {
+      border-color: rgba(148, 163, 184, 0.24);
+      background: rgba(15, 23, 42, 0.58);
+    }
+
+    body.app-dark .setoran-overlap-history-field span {
+      color: #a7b7ad;
+    }
+
+    body.app-dark .setoran-overlap-warning strong {
+      color: #fbbf24;
+    }
+
+    @media (max-width: 576px) {
+      .swal-setoran-overlap-popup {
+        width: calc(100vw - 16px) !important;
+        max-height: calc(100dvh - 12px) !important;
+        padding: 12px !important;
+        border-radius: 18px !important;
+      }
+
+      .swal-setoran-overlap-popup .swal2-icon {
+        width: 3.35em !important;
+        height: 3.35em !important;
+        margin: 0.1em auto 0.55em !important;
+      }
+
+      .swal-setoran-overlap-title {
+        margin-bottom: 8px !important;
+        font-size: 1.3rem !important;
+      }
+
+      .swal-setoran-overlap-html {
+        max-height: calc(100dvh - 260px) !important;
+        padding: 0 2px !important;
+      }
+
+      .setoran-overlap-content {
+        font-size: 0.91rem;
+        line-height: 1.48;
+      }
+
+      .setoran-overlap-warning {
+        padding: 10px 12px;
+      }
+
+      .setoran-overlap-history-item {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px 12px;
+        padding: 11px;
+      }
+
+      .swal2-actions.swal-setoran-overlap-actions {
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
+        margin-top: 12px !important;
+      }
+
+      .swal2-actions.swal-setoran-overlap-actions button {
+        width: 100% !important;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
@@ -11029,23 +11288,38 @@
         <small id="biometric-login-hint" class="biometric-login-hint d-none"></small>
       </div>
 
-      <div class="login-divider">atau</div>
+      <div class="login-divider">atau masuk dengan</div>
 
-      <div id="google-sso-button" class="google-sso-button-wrap"></div>
-      <small class="sso-hint">Hubungi admin sistem untuk login dengan SSO Google</small>
+      <div class="sso-button-row">
+        <div id="google-sso-button" class="google-sso-button-wrap"></div>
+        <a href="https://miaauwcorp.github.io/SIM-ALQURAN-IBS/santri" class="santri-id-btn" target="_top" rel="noopener noreferrer">
+          <i class="fa-solid fa-user-graduate" aria-hidden="true"></i>
+          <span class="santri-id-label">ID Santri</span>
+        </a>
+      </div>
+     <small class="sso-hint">
+  Login Sebagai Santri?
+  <a
+    href="https://miaauwcorp.github.io/SIM-ALQURAN-IBS/?raporToken"
+    target="_top"
+    rel="noopener noreferrer"
+    style="font-weight:700; text-decoration:underline;"
+  >
+    Buka Portal Santri Disini
+  </a>
+</small>
 
       <div class="login-footer">
-        <div class="version">Version 1.24-stable, (Build 2026.06.10)</div>
+        <div class="version">Version 2.0.9-stable (Build 2026.08.07)</div>
         <div>
           ©
           <script>
             document.write(new Date().getFullYear())
           </script>
-          Developed By
+         Developed as a Non-Profit Project by
           <a href="https://www.instagram.com/fathir.alhasbii" target="_blank" rel="noopener noreferrer">
-            Miaauuw Corp.
+            miaauwcorp
           </a>
-          All rights reserved.
         </div>
       </div>
     </div>
@@ -11709,326 +11983,10 @@
                     style="z-index: 1055; display:none; max-height: 220px; overflow-y: auto;"></div>
                 </div>
 
-<!-- PILIHAN SATUAN KHUSUS ZIYADAH -->
-<div
-  class="col-md-6 mb-3 d-none"
-  id="quran-satuan-input-wrap"
->
-  <label class="fw-semibold">
-    Satuan Input Ziyadah
-  </label>
-
-  <select
-    id="satuanInput"
-    class="form-select"
-    onchange="simToggleZiyadahLineModeClient_()"
-  >
-    <option value="Halaman">
-      Halaman
-    </option>
-
-    <option value="Baris">
-      Baris
-    </option>
-  </select>
-
-  <small class="text-muted">
-    Pilih Baris apabila setoran belum mencapai setengah halaman.
-  </small>
-</div>
-
-
-<!-- INPUT BERDASARKAN HALAMAN -->
-<div
-  class="col-md-6 mb-3"
-  id="quran-halaman-detail-wrap"
->
-  <label>
-    Halaman
-  </label>
-
-  <input
-    type="text"
-    id="halDetail"
-    class="form-control"
-    placeholder="Contoh: 582-583"
-    required
-  >
-</div>
-
-<div
-  class="col-md-6 mb-3"
-  id="quran-jumlah-halaman-wrap"
->
-  <label>
-    Jumlah Halaman
-  </label>
-
-  <input
-    type="number"
-    id="jmlHalaman"
-    class="form-control"
-    min="1"
-    step="1"
-    inputmode="decimal"
-    required
-  >
-</div>
-
-
-<!-- INPUT BERDASARKAN BARIS -->
-<div
-  class="col-12 mb-3 d-none"
-  id="quran-baris-input-wrap"
->
-  <div class="card border shadow-none">
-    <div class="card-body">
-      <div class="d-flex align-items-center gap-2 mb-3">
-        <i class="fas fa-align-left text-success"></i>
-
-        <div>
-          <div class="fw-bold">
-            Posisi Baris Ziyadah
-          </div>
-        </div>
-      </div>
-
-      <input
-        type="hidden"
-        id="mushafId"
-        value="MUSHAF_MADINAH"
-      >
-
-      <input
-        type="hidden"
-        id="jmlHalamanBarisCalculated"
-        value=""
-      >
-
-      <input
-        type="hidden"
-        id="jumlahBarisCalculated"
-        value=""
-      >
-
-   <div class="row g-3">
-
-  <!-- =========================================
-       TITIK MULAI
-       ========================================= -->
-  <div class="col-12">
-    <div class="row g-2 align-items-start">
-
-      <!-- Halaman mulai -->
-      <div class="col-md-4 col-6 order-1">
-        <label class="form-label">
-          Halaman Mulai
-        </label>
-
-        <input
-          type="number"
-          id="halamanMulai"
-          class="form-control"
-          min="1"
-          max="604"
-          step="1"
-          inputmode="numeric"
-          placeholder="120"
-        >
-      </div>
-
-      <!-- Baris mulai -->
-      <div class="col-md-4 col-6 order-1">
-        <label class="form-label">
-          Baris Mulai
-        </label>
-
-        <select
-          id="barisMulai"
-          class="form-select"
-          disabled
-        >
-          <option value="">
-            Pilih halaman mulai
-          </option>
-        </select>
-      </div>
-
-      <!--
-        Informasi batas baris.
-
-        Mobile:
-        tampil tepat di bawah Halaman Mulai dan Baris Mulai.
-
-        Desktop:
-        tampil setelah tiga kolom titik mulai.
-      -->
-      <div
-        class="col-12 order-2 quran-line-limit-info-wrap"
-      >
-        <small
-          id="barisMulaiLimitInfo"
-          class="text-muted d-block quran-line-limit-info"
-        >
-          Batas baris akan dibaca otomatis.
-        </small>
-      </div>
-
-      <!-- Posisi mulai -->
-      <div
-        class="col-md-4 col-12 order-3 order-md-1"
-      >
-        <label class="form-label">
-          Posisi Mulai
-        </label>
-
-        <select
-          id="posisiMulaiDalamBaris"
-          class="form-select"
-        >
-          <option value="0">
-            Awal baris
-          </option>
-
-          <option value="0.25">
-            ¼ baris
-          </option>
-
-          <option value="0.5">
-            ½ baris
-          </option>
-
-          <option value="0.75">
-            ¾ baris
-          </option>
-        </select>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- =========================================
-       TITIK SELESAI
-       ========================================= -->
-  <div class="col-12">
-    <div class="row g-2 align-items-start">
-
-      <!-- Halaman selesai -->
-      <div class="col-md-4 col-6 order-1">
-        <label class="form-label">
-          Halaman Selesai
-        </label>
-
-        <input
-          type="number"
-          id="halamanSelesai"
-          class="form-control"
-          min="1"
-          max="604"
-          step="1"
-          inputmode="numeric"
-          placeholder="120"
-        >
-      </div>
-
-      <!-- Baris selesai -->
-      <div class="col-md-4 col-6 order-1">
-        <label class="form-label">
-          Baris Selesai
-        </label>
-
-        <select
-          id="barisSelesai"
-          class="form-select"
-          disabled
-        >
-          <option value="">
-            Pilih halaman selesai
-          </option>
-        </select>
-      </div>
-
-      <!-- Informasi batas baris selesai -->
-      <div
-        class="col-12 order-2 quran-line-limit-info-wrap"
-      >
-        <small
-          id="barisSelesaiLimitInfo"
-          class="text-muted d-block quran-line-limit-info"
-        >
-          Batas baris akan dibaca otomatis.
-        </small>
-      </div>
-
-      <!-- Posisi selesai -->
-      <div
-        class="col-md-4 col-12 order-3 order-md-1"
-      >
-        <label class="form-label">
-          Posisi Selesai
-        </label>
-
-        <select
-          id="posisiSelesaiDalamBaris"
-          class="form-select"
-        >
-          <option value="0.25">
-            ¼ baris
-          </option>
-
-          <option value="0.5">
-            ½ baris
-          </option>
-
-          <option value="0.75">
-            ¾ baris
-          </option>
-
-          <option value="1" selected>
-            Akhir baris
-          </option>
-        </select>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- PENANDA TERAKHIR tetap berada di bawah bagian ini -->
-
-  <!-- PENANDA TERAKHIR -->
-  <div class="col-12">
-    <label class="form-label">
-      Kata/Ayat Terakhir
-      <span class="text-muted fw-normal">
-        (opsional)
-      </span>
-    </label>
-
-    <textarea
-      id="kataTerakhirZiyadah"
-      class="form-control"
-      rows="2"
-      maxlength="300"
-      placeholder="Contoh: berhenti pada kata ... / ayat ke-25"
-    ></textarea>
-
-    <small class="text-muted">
-      Digunakan sebagai penanda titik melanjutkan hafalan,
-      bukan untuk perhitungan.
-    </small>
-  </div>
-</div>
-
-      <div
-        id="quran-line-preview"
-        class="alert alert-light border mt-3 mb-0 small"
-      >
-        Isi halaman dan posisi baris untuk melihat hasil konversi.
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="col-md-6 mb-3"><label>Halaman</label><input type="text" id="halDetail" class="form-control"
+                    placeholder="Contoh: 582-583" required></div>
+                <div class="col-md-6 mb-3"><label>Jumlah Halaman</label><input type="number" id="jmlHalaman"
+    class="form-control" min="1" step="1" inputmode="decimal" required></div>
                 <div class="col-md-6 mb-3">
                   <label class="fw-semibold">Nilai Setoran</label>
 
@@ -12971,8 +12929,8 @@
 
         <div id="app-settings-pane-criteria" class="management-pane active">
           <div class="row g-4">
-           <div class="col-xl-5 d-flex flex-column gap-4">
-            <div class="app-shell-card overflow-hidden">
+            <div class="col-xl-5">
+              <div class="app-shell-card overflow-hidden h-100">
                 <div class="d-flex align-items-center gap-3 p-4 border-bottom bg-light-subtle">
                   <div class="app-settings-icon app-settings-icon-dashboard">
                     <i class="fas fa-chart-column"></i>
@@ -13019,76 +12977,6 @@
                     </button>
                     <span class="mini-badge"><i class="fas fa-circle-info"></i>Perubahan langsung memengaruhi kartu
                       dashboard</span>
-                  </div>
-                               </div>
-              </div>
-
-              <!-- TARGET KHUSUS ZIYADAH UNTUK LAPORAN PDF -->
-              <div class="app-shell-card overflow-hidden">
-                <div class="d-flex align-items-center gap-3 p-4 border-bottom bg-light-subtle">
-                  <div class="app-settings-icon app-settings-icon-dashboard">
-                    <i class="fas fa-book-open"></i>
-                  </div>
-
-                  <div class="flex-grow-1">
-                    <h5 class="mb-1 fw-bold">
-                      Target Ketuntasan Ziyadah
-                    </h5>
-
-                    <p class="text-muted small mb-0">
-                      Target halaman harian khusus untuk laporan PDF
-                      ketika tipe setoran Ziyadah dipilih.
-                    </p>
-                  </div>
-                </div>
-
-                <div class="p-4">
-                  <div class="row g-3">
-                    <div class="col-md-12">
-                      <label
-                        for="app-dashboard-ziyadah-threshold-input"
-                        class="form-label small text-muted"
-                      >
-                        Target Ziyadah per Hari
-                      </label>
-
-                      <div class="input-group">
-                        <input
-                          type="number"
-                          id="app-dashboard-ziyadah-threshold-input"
-                          class="form-control"
-                          min="0.5"
-                          step="0.5"
-                          inputmode="decimal"
-                          placeholder="0.5"
-                        >
-
-                        <span class="input-group-text">
-                          hal/hari
-                        </span>
-                      </div>
-
-                      <small class="text-muted">
-                        Nilai minimal 0,5 halaman dan harus kelipatan
-                        0,5 halaman, misalnya 0,5; 1; 1,5; atau 2 halaman.
-                      </small>
-                    </div>
-                  </div>
-
-                  <div class="mt-4 d-flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      onclick="saveZiyadahTargetAppSettings()"
-                    >
-                      <i class="fas fa-floppy-disk me-2"></i>
-                      Simpan Target Ziyadah
-                    </button>
-
-                    <span class="mini-badge">
-                      <i class="fas fa-file-pdf"></i>
-                      Khusus laporan PDF Ziyadah
-                    </span>
                   </div>
                 </div>
               </div>
@@ -13168,19 +13056,9 @@
                 <div class="app-settings-preview-card app-settings-preview-dashboard">
                   <div class="small text-white-50 mb-1">Contoh ringkasan</div>
                   <div class="display-6 fw-bold mb-2">12</div>
-<div
-  class="dashboard-stat-label"
-  id="dash-tuntas-label-preview"
->
-  Tuntas ≥ 3 Halaman
-</div>
-
-<small
-  class="dashboard-stat-subtitle"
-  id="dash-tuntas-subtitle-preview"
->
-  Santri yang tuntas 7 hari terakhir
-</small>
+                  <div class="dashboard-stat-label" id="dash-tuntas-label">Tuntas ≥ 3 Halaman</div>
+                  <small class="dashboard-stat-subtitle" id="dash-tuntas-subtitle">Santri yang tuntas 7 hari
+                    terakhir</small>
                 </div>
               </div>
             </div>
@@ -14871,17 +14749,239 @@
     </div>
   </div>
 
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const WEB_APP_URL = String(window.SIM_GAS_API_URL || "");
-    const SIM_INITIAL_PARAMS = new URLSearchParams(window.location.search);
-    const INITIAL_PAGE = SIM_INITIAL_PARAMS.get("page") || "";
-    const INITIAL_NAMA = SIM_INITIAL_PARAMS.get("nama") || "";
-    const INITIAL_TGL_AWAL = SIM_INITIAL_PARAMS.get("tglAwal") || "";
-    const INITIAL_TGL_AKHIR = SIM_INITIAL_PARAMS.get("tglAkhir") || "";
-    const INITIAL_GOOGLE_SSO_RESULT = null;
+    /*
+ * KONFIGURASI GITHUB PAGES
+ * Tempel URL deployment Google Apps Script yang berakhiran /exec.
+ * Contoh: https://script.google.com/macros/s/AKfycb.../exec
+ */
+const WEB_APP_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_EXEC_URL_HERE";
+
+/*
+ * Parameter deep-link dibaca dari URL GitHub Pages, bukan dari HtmlService.
+ * Contoh: ?page=detail-santri&nama=Nama%20Santri
+ */
+const SIM_PAGE_PARAMS = new URLSearchParams(window.location.search);
+const INITIAL_PAGE = SIM_PAGE_PARAMS.get("page") || "";
+const INITIAL_NAMA = SIM_PAGE_PARAMS.get("nama") || "";
+const INITIAL_TGL_AWAL = SIM_PAGE_PARAMS.get("tglAwal") || "";
+const INITIAL_TGL_AKHIR = SIM_PAGE_PARAMS.get("tglAkhir") || "";
+const INITIAL_GOOGLE_SSO_RESULT = null;
+
+/*
+ * Kompatibilitas google.script.run untuk halaman GitHub Pages.
+ * UI tetap dimuat langsung dari index.html GitHub Pages.
+ * Iframe dibuat tersembunyi hanya sebagai transport postMessage ke Apps Script,
+ * karena endpoint ContentService Apps Script tidak menyediakan CORS untuk fetch.
+ */
+(function installGoogleScriptRunBridge() {
+  var googleGlobal = window.google || {};
+  window.google = googleGlobal;
+  googleGlobal.script = googleGlobal.script || {};
+
+  function makeRequestId() {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") {
+        return window.crypto.randomUUID();
+      }
+    } catch (err) {}
+    return "simrpc_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+  }
+
+  function isAppsScriptOrigin(origin) {
+    return origin === "https://script.google.com" ||
+      origin === "https://script.googleusercontent.com" ||
+      origin === "https://googleusercontent.com" ||
+      /^https:\/\/[^/]+\.googleusercontent\.com$/i.test(String(origin || ""));
+  }
+
+  function callAppsScript(methodName, args, handlers) {
+    handlers = handlers || {};
+
+    if (
+      !WEB_APP_URL ||
+      WEB_APP_URL.indexOf("PASTE_YOUR_APPS_SCRIPT_WEB_APP_EXEC_URL_HERE") !== -1
+    ) {
+      var configError = new Error(
+        "URL Web App Google Apps Script belum diisi pada variabel WEB_APP_URL di index.html."
+      );
+      if (typeof handlers.failure === "function") {
+        handlers.failure(configError, handlers.userObject);
+      } else {
+        console.error(configError);
+      }
+      return;
+    }
+
+    var requestId = makeRequestId();
+    var frameName = "sim_gas_rpc_" + requestId.replace(/[^A-Za-z0-9_]/g, "");
+    var iframe = document.createElement("iframe");
+    iframe.name = frameName;
+    iframe.title = "Koneksi API";
+    iframe.setAttribute("aria-hidden", "true");
+    iframe.tabIndex = -1;
+    iframe.style.cssText = "position:absolute;width:0;height:0;border:0;visibility:hidden;";
+
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = WEB_APP_URL;
+    form.target = frameName;
+    form.acceptCharset = "UTF-8";
+    form.style.display = "none";
+
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "rpcPayload";
+    input.value = JSON.stringify({
+      type: "SIM_GAS_RPC",
+      requestId: requestId,
+      method: String(methodName || ""),
+      args: Array.isArray(args) ? args : []
+    });
+    form.appendChild(input);
+
+    var finished = false;
+    var timeoutId = null;
+
+    function cleanup() {
+      window.removeEventListener("message", onMessage);
+      if (timeoutId) window.clearTimeout(timeoutId);
+      if (form.parentNode) form.parentNode.removeChild(form);
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    }
+
+    function fail(message) {
+      if (finished) return;
+      finished = true;
+      cleanup();
+      var error = message instanceof Error ? message : new Error(String(message || "Permintaan Apps Script gagal."));
+      if (typeof handlers.failure === "function") {
+        handlers.failure(error, handlers.userObject);
+      } else {
+        console.error(error);
+      }
+    }
+
+    function onMessage(event) {
+      var response = event && event.data;
+      if (!response || response.type !== "SIM_GAS_RPC_RESPONSE") return;
+      if (response.requestId !== requestId) return;
+
+      /*
+       * Apps Script dapat memakai origin script.google.com atau
+       * script.googleusercontent.com setelah redirect.
+       */
+      if (!isAppsScriptOrigin(event.origin) && event.origin !== "null") return;
+
+      finished = true;
+      cleanup();
+
+      if (response.ok) {
+        if (typeof handlers.success === "function") {
+          try {
+            handlers.success(response.result, handlers.userObject);
+          } catch (callbackError) {
+            console.error("Callback sukses Apps Script gagal:", callbackError);
+          }
+        }
+      } else if (typeof handlers.failure === "function") {
+        var error = new Error(response.error || "Apps Script mengembalikan kesalahan.");
+        handlers.failure(error, handlers.userObject);
+      } else {
+        console.error("Apps Script RPC error:", response.error);
+      }
+    }
+
+    window.addEventListener("message", onMessage);
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+
+    timeoutId = window.setTimeout(function () {
+      fail(new Error(
+        "Koneksi ke Google Apps Script timeout. Periksa URL /exec, deployment Web App, dan izin akses Anyone."
+      ));
+    }, 60000);
+
+    try {
+      form.submit();
+    } catch (submitError) {
+      fail(submitError);
+    }
+  }
+
+  function createRunner(handlers) {
+    handlers = Object.assign({}, handlers || {});
+    var runnerTarget = function () {};
+
+    return new Proxy(runnerTarget, {
+      get: function (_target, property) {
+        if (property === "withSuccessHandler") {
+          return function (callback) {
+            return createRunner(Object.assign({}, handlers, {
+              success: typeof callback === "function" ? callback : null
+            }));
+          };
+        }
+
+        if (property === "withFailureHandler") {
+          return function (callback) {
+            return createRunner(Object.assign({}, handlers, {
+              failure: typeof callback === "function" ? callback : null
+            }));
+          };
+        }
+
+        if (property === "withUserObject") {
+          return function (userObject) {
+            return createRunner(Object.assign({}, handlers, {
+              userObject: userObject
+            }));
+          };
+        }
+
+        if (property === "then") return undefined;
+        if (property === "toString") return function () { return "[Google Apps Script RPC bridge]"; };
+        if (property === Symbol.toStringTag) return "GoogleScriptRunner";
+
+        return function () {
+          callAppsScript(String(property), Array.prototype.slice.call(arguments), handlers);
+        };
+      }
+    });
+  }
+
+  googleGlobal.script.run = createRunner();
+
+  /*
+   * Pengganti google.script.url.getLocation() untuk URL GitHub Pages.
+   */
+  googleGlobal.script.url = googleGlobal.script.url || {};
+  googleGlobal.script.url.getLocation = function (callback) {
+    if (typeof callback !== "function") return;
+
+    var parameter = {};
+    var parameters = {};
+    var searchParams = new URLSearchParams(window.location.search || "");
+
+    searchParams.forEach(function (value, key) {
+      parameter[key] = value;
+      if (!parameters[key]) parameters[key] = [];
+      parameters[key].push(value);
+    });
+
+    window.setTimeout(function () {
+      callback({
+        parameter: parameter,
+        parameters: parameters,
+        hash: window.location.hash || ""
+      });
+    }, 0);
+  };
+})();
 
    let heartbeatInterval = null;
 const HEARTBEAT_INTERVAL_MS = 5 * 60 * 1000; // 5 menit
@@ -15632,44 +15732,62 @@ function simWaitDeviceInfoReady(timeoutMs) {
   });
 }
 
-window.addEventListener("message", function (event) {
-  var msg = event.data || {};
-  if (!msg || msg.type !== "SIM_NETWORK_INFO") return;
-
-  var data = msg.data || {};
-  var ctx = window.__SIM_CLIENT_NETWORK_CONTEXT || {};
-
-  if (data.ip) ctx.ip = simMetaSafe(data.ip);
-  if (data.ipLocation) ctx.ipLocation = simMetaSafe(data.ipLocation);
-  if (data.isp) ctx.isp = simMetaSafe(data.isp);
-  if (data.timezone) ctx.timezone = simMetaSafe(data.timezone);
-
-  window.__SIM_CLIENT_NETWORK_CONTEXT = ctx;
-});
-
+/*
+ * Pengambilan metadata jaringan dilakukan langsung dari browser.
+ * Tidak lagi memuat halaman bridge Apps Script di iframe.
+ */
 function bootNetworkBridge() {
   if (window.__SIM_NETWORK_BRIDGE_BOOTED) return;
   window.__SIM_NETWORK_BRIDGE_BOOTED = true;
 
+  var ctx = window.__SIM_CLIENT_NETWORK_CONTEXT || {};
+
   try {
-    var baseUrl = "";
-
-    if (typeof WEB_APP_URL !== "undefined" && WEB_APP_URL) {
-      baseUrl = WEB_APP_URL;
-    } else {
-      baseUrl = location.href.split("?")[0];
-    }
-
-    var src = baseUrl + (baseUrl.indexOf("?") >= 0 ? "&" : "?") + "networkBridge=1&t=" + Date.now();
-
-    var iframe = document.createElement("iframe");
-    iframe.src = src;
-    iframe.style.display = "none";
-    iframe.setAttribute("aria-hidden", "true");
-    iframe.tabIndex = -1;
-
-    document.body.appendChild(iframe);
+    ctx.timezone = ctx.timezone ||
+      (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
   } catch (err) {}
+
+  window.__SIM_CLIENT_NETWORK_CONTEXT = ctx;
+
+  function applyIpApi(data) {
+    data = data || {};
+    if (data.ip) ctx.ip = simMetaSafe(data.ip);
+
+    var locationParts = [];
+    if (data.city) locationParts.push(simMetaSafe(data.city));
+    if (data.region) locationParts.push(simMetaSafe(data.region));
+    if (data.country_name) locationParts.push(simMetaSafe(data.country_name));
+    if (locationParts.length) ctx.ipLocation = locationParts.join(", ");
+
+    if (data.org) ctx.isp = simMetaSafe(data.org);
+    else if (data.asn) ctx.isp = simMetaSafe(data.asn);
+
+    if (data.timezone) ctx.timezone = simMetaSafe(data.timezone);
+    window.__SIM_CLIENT_NETWORK_CONTEXT = ctx;
+  }
+
+  function fallbackIpOnly() {
+    fetch("https://api.ipify.org?format=json", { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("IP lookup gagal.");
+        return response.json();
+      })
+      .then(function (data) {
+        if (data && data.ip) ctx.ip = simMetaSafe(data.ip);
+        window.__SIM_CLIENT_NETWORK_CONTEXT = ctx;
+      })
+      .catch(function () {
+        window.__SIM_CLIENT_NETWORK_CONTEXT = ctx;
+      });
+  }
+
+  fetch("https://ipapi.co/json/", { cache: "no-store" })
+    .then(function (response) {
+      if (!response.ok) throw new Error("IP metadata tidak tersedia.");
+      return response.json();
+    })
+    .then(applyIpApi)
+    .catch(fallbackIpOnly);
 }
 
 if (document.readyState === "loading") {
@@ -15980,7 +16098,7 @@ function sendHeartbeat(forceSend) {
   heartbeatInFlight =
     true;
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (res) {
         heartbeatInFlight =
@@ -16491,7 +16609,7 @@ if (!res?.postLoginPending) {
   container.innerHTML = `
     <button type="button" class="google-sso-login-btn" onclick="startGoogleSsoLogin()">
       <span class="google-logo-icon" aria-hidden="true"></span>
-      <span class="google-sso-login-label">Login dengan SSO Google</span>
+      <span class="google-sso-login-label">Google</span>
     </button>
   `;
 }
@@ -16807,7 +16925,7 @@ function requestGoogleSsoUrl(
     return;
   }
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       /*
        * Abaikan callback apabila popup sudah ditutup,
@@ -17054,7 +17172,7 @@ window.addEventListener("message", function (event) {
       if (!res) return;
 
       try {
-        if (window.history && WEB_APP_URL) window.history.replaceState(null, document.title, WEB_APP_URL);
+        if (window.history) window.history.replaceState(null, document.title, window.location.pathname);
       } catch (err) {
         console.warn("Tidak bisa membersihkan URL callback SSO:", err);
       }
@@ -17238,7 +17356,7 @@ function showForcedPasswordChangeModal(loginResult) {
       }
 
       return new Promise((resolve) => {
-        simApi.run
+        google.script.run
           .withSuccessHandler(resolve)
           .withFailureHandler(err => {
             resolve({
@@ -17360,11 +17478,11 @@ function simResolveAuthBridgeToken() {
       if (
         typeof google !== "undefined" &&
         google.script &&
-        simApi.url &&
-        typeof simApi.url.getLocation ===
+        google.script.url &&
+        typeof google.script.url.getLocation ===
           "function"
       ) {
-        simApi.url.getLocation(
+        google.script.url.getLocation(
           function (locationData) {
             let token = "";
 
@@ -17399,7 +17517,7 @@ function simResolveAuthBridgeToken() {
       }
     } catch (err) {
       console.warn(
-        "simApi.url.getLocation gagal:",
+        "google.script.url.getLocation gagal:",
         err
       );
     }
@@ -18365,7 +18483,7 @@ function completePostLoginFromClient(
     );
 }
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (setupRes) {
         if (
@@ -18506,7 +18624,7 @@ function completePostLoginFromClient(
           return;
         }
 
-        simApi.run
+        google.script.run
           .withSuccessHandler(
             function (telegramRes) {
               if (
@@ -18860,160 +18978,13 @@ function simPostToWrapper(message) {
   });
 }
 
-function simDirectBufferToBase64Url(buffer) {
-  var bytes = new Uint8Array(buffer || new ArrayBuffer(0));
-  var binary = "";
-
-  for (var i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-
-  return btoa(binary)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
-}
-
-function simDirectBase64UrlToBuffer(base64url) {
-  var value = String(base64url || "");
-  var base64 = value
-    .replace(/-/g, "+")
-    .replace(/_/g, "/")
-    .padEnd(Math.ceil(value.length / 4) * 4, "=");
-
-  var binary = atob(base64);
-  var bytes = new Uint8Array(binary.length);
-
-  for (var i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-
-  return bytes.buffer;
-}
-
-function simDirectSerializeCredential(credential) {
-  var response = credential.response || {};
-
-  return {
-    id: credential.id,
-    rawId: credential.rawId
-      ? simDirectBufferToBase64Url(credential.rawId)
-      : "",
-    type: credential.type,
-    authenticatorAttachment:
-      credential.authenticatorAttachment || "",
-    response: {
-      clientDataJSON: response.clientDataJSON
-        ? simDirectBufferToBase64Url(response.clientDataJSON)
-        : "",
-      attestationObject: response.attestationObject
-        ? simDirectBufferToBase64Url(response.attestationObject)
-        : "",
-      authenticatorData: response.authenticatorData
-        ? simDirectBufferToBase64Url(response.authenticatorData)
-        : "",
-      signature: response.signature
-        ? simDirectBufferToBase64Url(response.signature)
-        : "",
-      userHandle: response.userHandle
-        ? simDirectBufferToBase64Url(response.userHandle)
-        : ""
-    }
-  };
-}
-
-function simDirectPrepareCreateOptions(options) {
-  var publicKey = Object.assign({}, options || {});
-  publicKey.challenge =
-    simDirectBase64UrlToBuffer(publicKey.challenge);
-
-  if (publicKey.user && publicKey.user.id) {
-    publicKey.user = Object.assign({}, publicKey.user, {
-      id: simDirectBase64UrlToBuffer(publicKey.user.id)
-    });
-  }
-
-  if (Array.isArray(publicKey.excludeCredentials)) {
-    publicKey.excludeCredentials =
-      publicKey.excludeCredentials.map(function (item) {
-        return Object.assign({}, item, {
-          id: simDirectBase64UrlToBuffer(item.id)
-        });
-      });
-  }
-
-  return { publicKey: publicKey };
-}
-
-function simDirectPrepareGetOptions(options) {
-  var publicKey = Object.assign({}, options || {});
-  publicKey.challenge =
-    simDirectBase64UrlToBuffer(publicKey.challenge);
-
-  if (Array.isArray(publicKey.allowCredentials)) {
-    publicKey.allowCredentials =
-      publicKey.allowCredentials.map(function (item) {
-        return Object.assign({}, item, {
-          id: simDirectBase64UrlToBuffer(item.id)
-        });
-      });
-  }
-
-  return { publicKey: publicKey };
-}
-
-async function simRequestPasskeyDirect(type, payload) {
-  if (!window.PublicKeyCredential || !navigator.credentials) {
-    throw new Error("Browser belum mendukung WebAuthn/passkey.");
-  }
-
-  if (
-    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
-    !(await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())
-  ) {
-    throw new Error(
-      "Biometrik internal perangkat tidak tersedia. " +
-      "Aktifkan fingerprint/face unlock dan kunci layar."
-    );
-  }
-
-  var credential;
-
-  if (type === "SIM_PASSKEY_CREATE_REQUEST") {
-    credential = await navigator.credentials.create(
-      simDirectPrepareCreateOptions(payload || {})
-    );
-  } else if (type === "SIM_PASSKEY_GET_REQUEST") {
-    credential = await navigator.credentials.get(
-      simDirectPrepareGetOptions(payload || {})
-    );
-  } else {
-    throw new Error("Jenis permintaan biometrik tidak dikenal.");
-  }
-
-  return simDirectSerializeCredential(credential);
-}
-
 function simRequestPasskeyFromWrapper(type, payload) {
-  /*
-   * Setelah index.html dipindahkan ke GitHub, halaman berjalan
-   * sebagai top-level document. WebAuthn dipanggil langsung.
-   *
-   * Fallback postMessage tetap dipertahankan apabila halaman
-   * suatu saat kembali dibungkus iframe.
-   */
-  if (!window.parent || window.parent === window) {
-    return simRequestPasskeyDirect(type, payload);
-  }
-
   return new Promise(function (resolve, reject) {
     const requestId = simCreateRequestId();
 
     const timer = setTimeout(function () {
       delete simPasskeyBridgeRequests[requestId];
-      reject(new Error(
-        "Permintaan biometrik timeout. Pastikan wrapper PWA dan cache sudah diperbarui."
-      ));
+      reject(new Error('Permintaan biometrik timeout. Pastikan wrapper PWA sudah dipatch dan cache PWA sudah dibersihkan.'));
     }, SIM_PASSKEY_BRIDGE_TIMEOUT_MS);
 
     simPasskeyBridgeRequests[requestId] = {
@@ -19114,7 +19085,7 @@ async function startBiometricLogin() {
     const deviceInfo = navigator.userAgent + ' [CLIENT_ID:' + getLoginBrowserFingerprint() + '] [BIOMETRIC_PWA]';
     setLoginLoading(true, 'Masuk ke aplikasi...');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           setLoginLoading(false);
@@ -19235,7 +19206,7 @@ async function registerBiometricFromProfile() {
       'Mohon tunggu sebentar.'
     );
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         hideSwalLoading?.();
 
@@ -19311,7 +19282,7 @@ function disableBiometricFromProfile() {
 
     showSwalLoading?.('Menonaktifkan biometrik...', 'Mohon tunggu sebentar');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         hideSwalLoading?.();
         if (!res || !res.success) {
@@ -19351,7 +19322,7 @@ function refreshBiometricSettings() {
     return;
   }
 
-  simApi.run
+  google.script.run
   .withSuccessHandler(function (res) {
     if (!res || !res.success) {
       statusEl.innerHTML =
@@ -19549,7 +19520,7 @@ async function handleLogin() {
       "Memproses Login..."
     );
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           setLoginLoading(false);
@@ -20469,7 +20440,7 @@ function loadMasterData(
 
   /*
    * Jika ada permintaan yang sedang berlangsung,
-   * jangan membuat simApi.run kedua.
+   * jangan membuat google.script.run kedua.
    */
   if (masterDataLoadPromise) {
     return masterDataLoadPromise;
@@ -21207,7 +21178,7 @@ function simIsDeviceSessionReadyForInput_() {
 
       showSwalProgressLoading('Menyimpan Setoran', 'Sedang menyimpan setoran Alquran');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(res => {
           window.__savingQuranSetoran = false;
           btn.disabled = false;
@@ -21286,55 +21257,52 @@ if (
   const historyHtml =
     historyMatches.length
       ? `
-        <div class="table-responsive mt-3">
-          <table class="table table-sm table-bordered align-middle mb-0">
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Halaman Lama</th>
-                <th>Tumpang Tindih</th>
-                <th>Muhafizh</th>
-              </tr>
-            </thead>
+        <div class="setoran-overlap-history mt-3">
+          ${historyMatches
+            .map(item => `
+              <div class="setoran-overlap-history-item">
+                <div class="setoran-overlap-history-field">
+                  <span>Tanggal</span>
+                  <strong>
+                    ${escapeHtml(
+                      item.tanggal ||
+                      "-"
+                    )}
+                  </strong>
+                </div>
 
-            <tbody>
-              ${historyMatches
-                .map(item => `
-                  <tr>
-                    <td>
-                      ${escapeHtml(
-                        item.tanggal ||
-                        "-"
-                      )}
-                    </td>
+                <div class="setoran-overlap-history-field">
+                  <span>Halaman Lama</span>
+                  <strong>
+                    ${escapeHtml(
+                      item.halamanLama ||
+                      "-"
+                    )}
+                  </strong>
+                </div>
 
-                    <td>
-                      ${escapeHtml(
-                        item.halamanLama ||
-                        "-"
-                      )}
-                    </td>
+                <div class="setoran-overlap-history-field">
+                  <span>Tumpang Tindih</span>
+                  <strong class="setoran-overlap-page-badge">
+                    ${escapeHtml(
+                      item.halamanTumpangTindih ||
+                      "-"
+                    )}
+                  </strong>
+                </div>
 
-                    <td>
-                      <span class="badge bg-warning text-dark">
-                        ${escapeHtml(
-                          item.halamanTumpangTindih ||
-                          "-"
-                        )}
-                      </span>
-                    </td>
-
-                    <td>
-                      ${escapeHtml(
-                        item.muhafizh ||
-                        "-"
-                      )}
-                    </td>
-                  </tr>
-                `)
-                .join("")}
-            </tbody>
-          </table>
+                <div class="setoran-overlap-history-field">
+                  <span>Muhafizh</span>
+                  <strong>
+                    ${escapeHtml(
+                      item.muhafizh ||
+                      "-"
+                    )}
+                  </strong>
+                </div>
+              </div>
+            `)
+            .join("")}
         </div>
       `
       : "";
@@ -21343,36 +21311,27 @@ if (
     icon: "warning",
 
     title:
-  res.lineOverlap === true
-    ? "Baris Pernah Diinput"
-    : "Halaman Pernah Diinput",
+      "Halaman Pernah Diinput",
 
     html: `
-      <div class="text-start"
-           style="line-height:1.6">
-
+      <div class="text-start setoran-overlap-content">
         <p class="mb-2">
-         Sebagian atau seluruh
-${res.lineOverlap === true
-  ? "rentang baris"
-  : "halaman"}
-berikut sudah pernah diinput untuk
+          Sebagian atau seluruh halaman berikut
+          sudah pernah diinput untuk
           <b>${escapeHtml(
             payload.namaSantri ||
             "-"
           )}</b>:
         </p>
 
-        <div class="alert alert-warning py-2 mb-2">
-     <b>
-  ${res.lineOverlap === true
-    ? "Posisi baris tumpang tindih:"
-    : "Halaman tumpang tindih:"}
-</b>
-          ${escapeHtml(
-            overlapPages.join(", ") ||
-            "-"
-          )}
+        <div class="setoran-overlap-warning">
+          <span>Halaman tumpang tindih:</span>
+          <strong>
+            ${escapeHtml(
+              overlapPages.join(", ") ||
+              "-"
+            )}
+          </strong>
         </div>
 
         <p class="mb-2">
@@ -21384,6 +21343,27 @@ berikut sudah pernah diinput untuk
       </div>
     `,
 
+    customClass: {
+      container:
+        "swal-setoran-overlap-container",
+      popup:
+        "swal-setoran-overlap-popup",
+      title:
+        "swal-setoran-overlap-title",
+      htmlContainer:
+        "swal-setoran-overlap-html",
+      actions:
+        "swal-setoran-overlap-actions",
+      confirmButton:
+        "swal-setoran-overlap-confirm",
+      cancelButton:
+        "swal-setoran-overlap-cancel"
+    },
+
+    buttonsStyling: false,
+    heightAuto: false,
+    scrollbarPadding: false,
+
     showCancelButton: true,
 
     confirmButtonText:
@@ -21392,30 +21372,20 @@ berikut sudah pernah diinput untuk
     cancelButtonText:
       "Periksa Kembali",
 
-    confirmButtonColor:
-      "#d97706",
-
-    cancelButtonColor:
-      "#6b7280",
-
     reverseButtons: true,
     allowOutsideClick: false
   }).then(result => {
     if (
       !result.isConfirmed
     ) {
-     const halamanInput =
-  res.lineOverlap === true
-    ? document.getElementById(
-        "halamanMulai"
-      )
-    : document.getElementById(
-        "halDetail"
-      );
+      const halamanInput =
+        document.getElementById(
+          "halDetail"
+        );
 
-if (halamanInput) {
-  halamanInput.focus();
-}
+      if (halamanInput) {
+        halamanInput.focus();
+      }
 
       return;
     }
@@ -21465,7 +21435,7 @@ if (halamanInput) {
             closeSurahSuggestions();
             applySetoranFormPrefs(savedPrefs);
 
-            simApi.run.withSuccessHandler(serverDate => {
+            google.script.run.withSuccessHandler(serverDate => {
               const tanggalEl = document.getElementById('tanggal');
               if (tanggalEl) tanggalEl.value = serverDate;
             }).getTodayString();
@@ -22189,7 +22159,7 @@ grade: document.getElementById('grade-hadits').value
 
       showSwalProgressLoading('Menyimpan Setoran Hadits', 'Sedang menyimpan setoran hadits');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(res => {
           window.__savingHaditsSetoran = false;
           btn.disabled = false;
@@ -22219,7 +22189,7 @@ grade: document.getElementById('grade-hadits').value
             document.getElementById('form-setoran-hadits').reset();
             applySetoranHaditsFormPrefs(savedPrefs);
 
-            simApi.run.withSuccessHandler(serverDate => {
+            google.script.run.withSuccessHandler(serverDate => {
               const tanggalEl = document.getElementById('tanggal-hadits');
               if (tanggalEl) tanggalEl.value = serverDate;
             }).getTodayString();
@@ -22349,7 +22319,7 @@ let serverClockTimer = null;
       const filter = dashboardFilter;
       const requestId = ++dashboardRequestSeq;
 
-     simApi.run
+     google.script.run
   .withSuccessHandler(function (data) {
     if (requestId !== dashboardRequestSeq) return;
 
@@ -23523,7 +23493,7 @@ function loadOnlineUsersPanel() {
   listEl.innerHTML = `<div class="online-users-loading">Memuat pengguna online...</div>`;
   if (countEl) countEl.innerText = 'Memuat...';
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       if (requestId !== onlineUsersPanelRequestId) return;
 
@@ -23658,7 +23628,7 @@ function loadOnlineUsersPanel() {
  * dan untuk refresh manual.
  */
 function loadDashboardMeta() {
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (data) {
         applyDashboardMeta(
@@ -23823,7 +23793,7 @@ function loadDashboardMeta() {
       if (detailTitle) detailTitle.textContent = 'Memuat detail';
       if (detailSubtitle) detailSubtitle.textContent = 'Mohon tunggu sebentar.';
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(function (res) {
           if (!res || res.success === false) {
             const message = res && res.message ? res.message : 'Gagal memuat kalender setoran.';
@@ -24008,7 +23978,7 @@ function loadDashboardMeta() {
     }
 
     function syncServerClock() {
-      simApi.run.withSuccessHandler(function (serverIso) {
+      google.script.run.withSuccessHandler(function (serverIso) {
         startServerClock(serverIso);
       }).getServerTimeISO();
     }
@@ -24277,7 +24247,7 @@ const sessionText =
       showRiwayatInputSkeleton();
       showSwalLoading('Memuat riwayat input...', 'Mohon tunggu sebentar');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(data => {
           hideSwalLoading();
 
@@ -24316,7 +24286,7 @@ const sessionText =
       showRiwayatLoginSkeleton();
       showSwalLoading('Memuat riwayat login...', 'Mohon tunggu sebentar');
 
-      simApi.run.withSuccessHandler(data => {
+      google.script.run.withSuccessHandler(data => {
         hideSwalLoading();
 
         let html = "";
@@ -24350,7 +24320,7 @@ const sessionText =
       }).getRiwayatLogin();
     }
 
-    // Masukkan di dalam simApi.run.withSuccessHandler
+    // Masukkan di dalam google.script.run.withSuccessHandler
     let rekapKelasFilterOptions = [];
 let rekapKelasFilterSelected = [];
 
@@ -24560,7 +24530,7 @@ if (!validateRequiredRekapTipe()) return;
       showRekapSkeleton();
       showSwalLoading('Memuat rekap...', 'Sedang mengambil data rekapitulasi');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(data => {
           hideSwalLoading();
           rekapDataCache = Array.isArray(data) ? data : [];
@@ -24795,7 +24765,7 @@ if (!validateRequiredRekapTipe()) return;
    function loadSantriFilter() {
  const kelas = getSelectedRekapKelasFilterForBackend();
 
-  simApi.run.withSuccessHandler(function (list) {
+  google.script.run.withSuccessHandler(function (list) {
     const select = document.getElementById("filter-santri");
     if (!select) return;
 
@@ -25063,7 +25033,7 @@ const sessionDurationLabel =
       showManageUsersSkeleton();
       showSwalLoading('Memuat data pengguna...', 'Mohon tunggu sebentar');
 
-      simApi.run.withSuccessHandler(data => {
+      google.script.run.withSuccessHandler(data => {
   hideSwalLoading();
 
   manageUsersCache = Array.isArray(data) ? data : [];
@@ -25122,13 +25092,13 @@ setTimeout(function () {
       });
       if (emailGoogle === undefined) return;
       showSwalLoading('Menyimpan SSO Google...', 'Mohon tunggu sebentar');
-      simApi.run.withSuccessHandler(res => {
+      google.script.run.withSuccessHandler(res => {
         hideSwalLoading(); Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error'); if (res.success) loadUsers();
       }).withFailureHandler(err => { hideSwalLoading(); Swal.fire('Error', err?.message || String(err), 'error'); }).updateUserGoogleEmail(username, emailGoogle, userData?.username || 'Sistem');
     }
 
    function loadClassList() {
-  simApi.run.withSuccessHandler(data => {
+  google.script.run.withSuccessHandler(data => {
     const list = document.getElementById('list-kelas-admin');
     if (!list) return;
 
@@ -25214,7 +25184,7 @@ setTimeout(function () {
     function callGoogleScript(functionName, ...args) {
       return new Promise((resolve, reject) => {
         try {
-          simApi.run
+          google.script.run
             .withSuccessHandler(resolve)
             .withFailureHandler(err => reject(err))
           [functionName](...args);
@@ -25758,17 +25728,11 @@ function getAssignableRoleKeysForCurrentUser() {
     function getDefaultAppSettingsClient() {
       return {
         dashboard: {
-  tuntasLabel: 'Tuntas',
-
-  // Target umum tetap seperti sebelumnya.
-  tuntasHalamanMin: 3,
-
-  // Target khusus laporan PDF Ziyadah.
-  ziyadahHalamanMin: 0.5,
-
-  tuntasHariWindow: 7,
-  tuntasSubtitle: 'Santri yang mencapai target dalam rentang waktu'
-},
+          tuntasLabel: 'Tuntas',
+          tuntasHalamanMin: 3,
+          tuntasHariWindow: 7,
+          tuntasSubtitle: 'Santri yang mencapai target dalam rentang waktu'
+        },
         progress: {
           emptyLabel: 'Belum ada setoran',
           statuses: [
@@ -25848,62 +25812,12 @@ let appSettingsLoadedFromServer =
       });
 
       return {
-       dashboard: {
-  tuntasLabel:
-    String(
-      dashboardSource.tuntasLabel ||
-      fallback.dashboard.tuntasLabel
-    ).trim() ||
-    fallback.dashboard.tuntasLabel,
-
-  /*
-   * Target umum tetap minimal 1 halaman
-   * agar fungsi Dashboard lama tidak berubah.
-   */
-  tuntasHalamanMin:
-    Math.max(
-      1,
-      Number(
-        dashboardSource.tuntasHalamanMin ||
-        fallback.dashboard.tuntasHalamanMin
-      )
-    ),
-
-  /*
-   * Target Ziyadah minimal 0,5 halaman
-   * dan otomatis dibulatkan ke kelipatan 0,5.
-   */
-  ziyadahHalamanMin:
-    Math.max(
-      0.5,
-      Math.round(
-        (
-          Number(
-            dashboardSource.ziyadahHalamanMin != null
-              ? dashboardSource.ziyadahHalamanMin
-              : fallback.dashboard.ziyadahHalamanMin
-          ) ||
-          fallback.dashboard.ziyadahHalamanMin
-        ) * 2
-      ) / 2
-    ),
-
-  tuntasHariWindow:
-    Math.max(
-      1,
-      Number(
-        dashboardSource.tuntasHariWindow ||
-        fallback.dashboard.tuntasHariWindow
-      )
-    ),
-
-  tuntasSubtitle:
-    String(
-      dashboardSource.tuntasSubtitle ||
-      fallback.dashboard.tuntasSubtitle
-    ).trim() ||
-    fallback.dashboard.tuntasSubtitle
-},
+        dashboard: {
+          tuntasLabel: String(dashboardSource.tuntasLabel || fallback.dashboard.tuntasLabel).trim() || fallback.dashboard.tuntasLabel,
+          tuntasHalamanMin: Math.max(1, Number(dashboardSource.tuntasHalamanMin || fallback.dashboard.tuntasHalamanMin)),
+          tuntasHariWindow: Math.max(1, Number(dashboardSource.tuntasHariWindow || fallback.dashboard.tuntasHariWindow)),
+          tuntasSubtitle: String(dashboardSource.tuntasSubtitle || fallback.dashboard.tuntasSubtitle).trim() || fallback.dashboard.tuntasSubtitle
+        },
         progress: {
           emptyLabel: String(progressSource.emptyLabel || fallback.progress.emptyLabel).trim() || fallback.progress.emptyLabel,
           statuses: normalizedStatuses
@@ -26034,49 +25948,12 @@ let appSettingsLoadedFromServer =
       const label = String(data?.tuntasLabel || settings.dashboard.tuntasLabel || 'Tuntas');
       const rawSubtitle = String(data?.tuntasSubtitle || settings.dashboard.tuntasSubtitle || '').trim();
 
-     const resolvedSubtitle =
-  resolveTuntasSubtitle(
-    rawSubtitle,
-    windowDays
-  );
+      const labelEl = document.getElementById('dash-tuntas-label');
+      const subtitleEl = document.getElementById('dash-tuntas-subtitle');
 
-const labelElements = [
-  document.getElementById(
-    "dash-tuntas-label"
-  ),
-  document.getElementById(
-    "dash-tuntas-label-preview"
-  )
-];
-
-const subtitleElements = [
-  document.getElementById(
-    "dash-tuntas-subtitle"
-  ),
-  document.getElementById(
-    "dash-tuntas-subtitle-preview"
-  )
-];
-
-labelElements.forEach(
-  function (element) {
-    if (element) {
-      element.innerText =
-        `${label} ≥ ${threshold} Halaman`;
+      if (labelEl) labelEl.innerText = `${label} ≥ ${threshold} Halaman`;
+      if (subtitleEl) subtitleEl.innerText = resolveTuntasSubtitle(rawSubtitle, windowDays);
     }
-  }
-);
-
-subtitleElements.forEach(
-  function (element) {
-    if (element) {
-      element.innerText =
-        resolvedSubtitle;
-    }
-  }
-);
-
-}
 
     async function loadAppSettings(
   forceRefresh = false
@@ -26165,72 +26042,17 @@ subtitleElements.forEach(
       const settings = getAppSettingsSafe();
       updateDashboardTuntasCard();
 
-    const dashboardLabel =
-  document.getElementById(
-    'app-dashboard-label-input'
-  );
+      const dashboardLabel = document.getElementById('app-dashboard-label-input');
+      const dashboardThreshold = document.getElementById('app-dashboard-threshold-input');
+      const dashboardWindowDays = document.getElementById('app-dashboard-window-days-input');
+      const dashboardSubtitle = document.getElementById('app-dashboard-subtitle-input');
+      const progressEmptyLabel = document.getElementById('app-progress-empty-label-input');
 
-const dashboardThreshold =
-  document.getElementById(
-    'app-dashboard-threshold-input'
-  );
-
-const dashboardZiyadahThreshold =
-  document.getElementById(
-    'app-dashboard-ziyadah-threshold-input'
-  );
-
-const dashboardWindowDays =
-  document.getElementById(
-    'app-dashboard-window-days-input'
-  );
-
-const dashboardSubtitle =
-  document.getElementById(
-    'app-dashboard-subtitle-input'
-  );
-
-const progressEmptyLabel =
-  document.getElementById(
-    'app-progress-empty-label-input'
-  );
-
-if (dashboardLabel) {
-  dashboardLabel.value =
-    settings.dashboard.tuntasLabel ||
-    '';
-}
-
-if (dashboardThreshold) {
-  dashboardThreshold.value =
-    settings.dashboard.tuntasHalamanMin ||
-    1;
-}
-
-if (dashboardZiyadahThreshold) {
-  dashboardZiyadahThreshold.value =
-    settings.dashboard.ziyadahHalamanMin != null
-      ? settings.dashboard.ziyadahHalamanMin
-      : 0.5;
-}
-
-if (dashboardWindowDays) {
-  dashboardWindowDays.value =
-    settings.dashboard.tuntasHariWindow ||
-    7;
-}
-
-if (dashboardSubtitle) {
-  dashboardSubtitle.value =
-    settings.dashboard.tuntasSubtitle ||
-    '';
-}
-
-if (progressEmptyLabel) {
-  progressEmptyLabel.value =
-    settings.progress.emptyLabel ||
-    '';
-}
+      if (dashboardLabel) dashboardLabel.value = settings.dashboard.tuntasLabel || '';
+      if (dashboardThreshold) dashboardThreshold.value = settings.dashboard.tuntasHalamanMin || 1;
+      if (dashboardWindowDays) dashboardWindowDays.value = settings.dashboard.tuntasHariWindow || 7;
+      if (dashboardSubtitle) dashboardSubtitle.value = settings.dashboard.tuntasSubtitle || '';
+      if (progressEmptyLabel) progressEmptyLabel.value = settings.progress.emptyLabel || '';
 
       renderRoleAccessSettingsTable();
       renderAppRoleList();
@@ -26622,81 +26444,6 @@ if (progressEmptyLabel) {
       persistAppSettings(nextSettings, 'Kriteria ketuntasan dashboard berhasil diperbarui.');
     }
 
-    function saveZiyadahTargetAppSettings() {
-  const input =
-    document.getElementById(
-      'app-dashboard-ziyadah-threshold-input'
-    );
-
-  const rawValue =
-    String(
-      input?.value ||
-      ''
-    )
-      .trim()
-      .replace(',', '.');
-
-  const targetValue =
-    Number(rawValue);
-
-  if (
-    !Number.isFinite(targetValue) ||
-    targetValue < 0.5
-  ) {
-    Swal.fire(
-      'Peringatan',
-      'Target Ziyadah minimal 0,5 halaman.',
-      'warning'
-    );
-
-    input?.focus();
-    return;
-  }
-
-  /*
-   * Target hanya boleh:
-   * 0,5; 1; 1,5; 2; 2,5; dan seterusnya.
-   */
-  const normalizedTarget =
-    Math.round(
-      targetValue * 2
-    ) / 2;
-
-  if (
-    Math.abs(
-      targetValue -
-      normalizedTarget
-    ) > 0.000001
-  ) {
-    Swal.fire(
-      'Peringatan',
-      'Target Ziyadah harus menggunakan kelipatan 0,5 halaman.',
-      'warning'
-    );
-
-    input?.focus();
-    return;
-  }
-
-  const nextSettings =
-    buildUpdatedAppSettings(
-      function (settings) {
-        settings.dashboard =
-          settings.dashboard ||
-          {};
-
-        settings.dashboard
-          .ziyadahHalamanMin =
-          normalizedTarget;
-      }
-    );
-
-  persistAppSettings(
-    nextSettings,
-    'Target ketuntasan Ziyadah berhasil diperbarui.'
-  );
-}
-
     function saveProgressEmptyLabel() {
       const value = document.getElementById('app-progress-empty-label-input')?.value.trim();
       if (!value) {
@@ -26998,7 +26745,7 @@ if (progressEmptyLabel) {
       return '';
     }
 
-/*
+   /*
  * =========================================================
  * URUTAN PROGRES BERDASARKAN WAKTU MENCAPAI CAPAIAN
  * =========================================================
@@ -27835,7 +27582,7 @@ if (accountInnerTab === 'classes') {
         if (!result.isConfirmed) return;
 
         showSwalLoading('Menghapus kelas...', 'Mohon tunggu sebentar');
-        simApi.run.withSuccessHandler(res => {
+        google.script.run.withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
           if (res.success) {
@@ -27892,7 +27639,7 @@ function loadClassList() {
 
   tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Memuat daftar kelas...</td></tr>`;
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(res => {
       if (!res?.success) {
         tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">${escapeHtml(res?.message || 'Gagal memuat kelas')}</td></tr>`;
@@ -28032,7 +27779,7 @@ async function tambahKelasBaru() {
 
   showSwalLoading('Menyimpan kelas...', 'Mohon tunggu sebentar');
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(res => {
       hideSwalLoading();
       Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28067,7 +27814,7 @@ async function tambahRombelBaru() {
 
   showSwalLoading('Menyimpan rombel...', 'Mohon tunggu sebentar');
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(res => {
       hideSwalLoading();
       Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28133,7 +27880,7 @@ async function editKelas(namaKelas, rombelAktif) {
 
   showSwalLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar');
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(res => {
       hideSwalLoading();
       Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28164,7 +27911,7 @@ function arsipkanKelasAdmin(namaKelas) {
 
     showSwalLoading('Mengarsipkan kelas...', 'Mohon tunggu sebentar');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(res => {
         hideSwalLoading();
         Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28196,7 +27943,7 @@ function hapusKelas(namaKelas) {
 
     showSwalLoading('Menghapus kelas...', 'Mohon tunggu sebentar');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(res => {
         hideSwalLoading();
         Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -28276,11 +28023,11 @@ if (
   }
 }
 
-      simApi.run.withSuccessHandler(users => {
+      google.script.run.withSuccessHandler(users => {
         document.getElementById('account-total-users').innerText = Array.isArray(users) ? users.length : 0;
       }).getUsersData();
 
-      simApi.run.withSuccessHandler(data => {
+      google.script.run.withSuccessHandler(data => {
         document.getElementById('account-total-classes').innerText = (data?.kelas || []).length;
       }).getMasterData();
     }
@@ -28370,7 +28117,7 @@ if (
 
       showSwalLoading('Menyimpan password...', 'Mohon tunggu sebentar');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(
@@ -28550,7 +28297,7 @@ function loadMyLoginDevices() {
 
   if (summaryEl) summaryEl.textContent = 'Memuat data perangkat...';
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         if (res && res.forceLogout) {
@@ -28689,7 +28436,7 @@ function forceLogoutLoginDevice(targetSessionId) {
 
     showSwalLoading?.('Mengeluarkan perangkat...', 'Mohon tunggu sebentar.');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         hideSwalLoading?.();
 
@@ -28763,7 +28510,7 @@ function loadMyProfileSettings() {
     return;
   }
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         Swal.fire("Gagal", (res && res.message) || "Gagal memuat profil.", "error");
@@ -28795,7 +28542,7 @@ function handleAccountProfileSubmit(event) {
   emailGoogle: document.getElementById("account-profile-email").value
 };
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       alert((res && res.message) || "Profil berhasil disimpan.");
 
@@ -28976,7 +28723,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       if (!formValues) return;
       Swal.fire({ title: 'Menyimpan...', text: 'Sedang menambahkan akun baru', allowOutsideClick: false, allowEscapeKey: false, showConfirmButton: false, didOpen: () => { Swal.showLoading(); } });
-      simApi.run.withSuccessHandler(res => {
+      google.script.run.withSuccessHandler(res => {
         Swal.fire({ icon: res.success ? 'success' : 'error', title: res.success ? 'Berhasil' : 'Gagal', text: res.message, confirmButtonText: 'OK' });
         if (res.success) loadUsers();
       }).withFailureHandler(err => { Swal.fire({ icon: 'error', title: 'Error', text: err?.message || String(err), confirmButtonText: 'OK' }); }).addUser(formValues);
@@ -29549,7 +29296,7 @@ async function editUserAccount(
       }
   });
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (response) {
         if (
@@ -29703,7 +29450,7 @@ async function editUserAccount(
           }
         });
 
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
             Swal.fire({
               icon: res.success ? 'success' : 'error',
@@ -29760,7 +29507,7 @@ async function editUserAccount(
           }
         });
 
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
             Swal.fire({
               icon: res.success ? 'success' : 'error',
@@ -29853,7 +29600,7 @@ async function editUserAccount(
           didOpen: () => Swal.showLoading()
         });
 
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
 
             Swal.fire(
@@ -30057,7 +29804,7 @@ const filterTipeLabel = getSelectedRekapTipeLabel();
         didOpen: () => Swal.showLoading()
       });
 
-      simApi.run.withSuccessHandler(function (data) {
+      google.script.run.withSuccessHandler(function (data) {
         Swal.close();
 
         if (!data || data.length <= 1) {
@@ -30704,7 +30451,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
 
   showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(res => {
       hideSwalLoading();
 
@@ -30765,7 +30512,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
       if (!formValues) return;
 
       showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-      simApi.run
+      google.script.run
         .withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30808,7 +30555,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
       if (!kelasBaru) return;
 
       showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-      simApi.run
+      google.script.run
         .withSuccessHandler(res => {
           hideSwalLoading();
           Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30838,7 +30585,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30872,7 +30619,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30908,7 +30655,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses...', 'Mohon tunggu sebentar');
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -30956,7 +30703,7 @@ const maxSetoranChart = Math.max(0, ...Object.values(setoranPerTanggal));
         if (!result.isConfirmed) return;
 
         showSwalLoading('Memproses.', 'Mohon tunggu sebentar');
-        simApi.run
+        google.script.run
           .withSuccessHandler(res => {
             hideSwalLoading();
             Swal.fire(res.success ? 'Berhasil' : 'Gagal', res.message, res.success ? 'success' : 'error');
@@ -31449,7 +31196,7 @@ if (loginPage) {
       };
 
       if (session?.sessionId && session?.username) {
-        simApi.run
+        google.script.run
           .withSuccessHandler(finish)
           .withFailureHandler(finish)
           .logLogout(
@@ -31504,7 +31251,7 @@ if (loginPage) {
         };
 
         if (session?.sessionId && session?.username) {
-          simApi.run
+          google.script.run
             .withSuccessHandler(() => {
               finish();
             })
@@ -31784,7 +31531,7 @@ function validateRestoredSessionSilently(
   }
 
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (res) {
         const latestSession =
@@ -32032,18 +31779,12 @@ if (
 
     function getDefaultAppSettingsClient() {
       return {
-       dashboard: {
-  tuntasLabel: 'Tuntas',
-
-  // Target umum tetap seperti sebelumnya.
-  tuntasHalamanMin: 3,
-
-  // Target khusus laporan PDF Ziyadah.
-  ziyadahHalamanMin: 0.5,
-
-  tuntasHariWindow: 7,
-  tuntasSubtitle: 'Santri yang mencapai target dalam rentang waktu'
-},
+        dashboard: {
+          tuntasLabel: 'Tuntas',
+          tuntasHalamanMin: 3,
+          tuntasHariWindow: 7,
+          tuntasSubtitle: 'Santri yang mencapai target dalam rentang waktu'
+        },
         progress: {
           emptyLabel: 'Belum ada setoran',
           statuses: [
@@ -32131,62 +31872,12 @@ if (
       });
 
       return {
-       dashboard: {
-  tuntasLabel:
-    String(
-      dashboardSource.tuntasLabel ||
-      fallback.dashboard.tuntasLabel
-    ).trim() ||
-    fallback.dashboard.tuntasLabel,
-
-  /*
-   * Target umum tetap minimal 1 halaman
-   * agar fungsi Dashboard lama tidak berubah.
-   */
-  tuntasHalamanMin:
-    Math.max(
-      1,
-      Number(
-        dashboardSource.tuntasHalamanMin ||
-        fallback.dashboard.tuntasHalamanMin
-      )
-    ),
-
-  /*
-   * Target Ziyadah minimal 0,5 halaman
-   * dan otomatis dibulatkan ke kelipatan 0,5.
-   */
-  ziyadahHalamanMin:
-    Math.max(
-      0.5,
-      Math.round(
-        (
-          Number(
-            dashboardSource.ziyadahHalamanMin != null
-              ? dashboardSource.ziyadahHalamanMin
-              : fallback.dashboard.ziyadahHalamanMin
-          ) ||
-          fallback.dashboard.ziyadahHalamanMin
-        ) * 2
-      ) / 2
-    ),
-
-  tuntasHariWindow:
-    Math.max(
-      1,
-      Number(
-        dashboardSource.tuntasHariWindow ||
-        fallback.dashboard.tuntasHariWindow
-      )
-    ),
-
-  tuntasSubtitle:
-    String(
-      dashboardSource.tuntasSubtitle ||
-      fallback.dashboard.tuntasSubtitle
-    ).trim() ||
-    fallback.dashboard.tuntasSubtitle
-},
+        dashboard: {
+          tuntasLabel: String(dashboardSource.tuntasLabel || fallback.dashboard.tuntasLabel).trim() || fallback.dashboard.tuntasLabel,
+          tuntasHalamanMin: Math.max(1, Number(dashboardSource.tuntasHalamanMin || fallback.dashboard.tuntasHalamanMin)),
+          tuntasHariWindow: Math.max(1, Number(dashboardSource.tuntasHariWindow || fallback.dashboard.tuntasHariWindow)),
+          tuntasSubtitle: String(dashboardSource.tuntasSubtitle || fallback.dashboard.tuntasSubtitle).trim() || fallback.dashboard.tuntasSubtitle
+        },
         progress: {
           emptyLabel: String(progressSource.emptyLabel || fallback.progress.emptyLabel).trim() || fallback.progress.emptyLabel,
           statuses: normalizedStatuses
@@ -32328,72 +32019,17 @@ const result = await callGoogleScript('saveAppSettings', normalizeAppSettingsCli
       const settings = getAppSettingsSafe();
       updateDashboardTuntasCard();
 
-const dashboardLabel =
-  document.getElementById(
-    'app-dashboard-label-input'
-  );
+      const dashboardLabel = document.getElementById('app-dashboard-label-input');
+      const dashboardThreshold = document.getElementById('app-dashboard-threshold-input');
+      const dashboardWindowDays = document.getElementById('app-dashboard-window-days-input');
+      const dashboardSubtitle = document.getElementById('app-dashboard-subtitle-input');
+      const progressEmptyLabel = document.getElementById('app-progress-empty-label-input');
 
-const dashboardThreshold =
-  document.getElementById(
-    'app-dashboard-threshold-input'
-  );
-
-const dashboardZiyadahThreshold =
-  document.getElementById(
-    'app-dashboard-ziyadah-threshold-input'
-  );
-
-const dashboardWindowDays =
-  document.getElementById(
-    'app-dashboard-window-days-input'
-  );
-
-const dashboardSubtitle =
-  document.getElementById(
-    'app-dashboard-subtitle-input'
-  );
-
-const progressEmptyLabel =
-  document.getElementById(
-    'app-progress-empty-label-input'
-  );
-
-if (dashboardLabel) {
-  dashboardLabel.value =
-    settings.dashboard.tuntasLabel ||
-    '';
-}
-
-if (dashboardThreshold) {
-  dashboardThreshold.value =
-    settings.dashboard.tuntasHalamanMin ||
-    1;
-}
-
-if (dashboardZiyadahThreshold) {
-  dashboardZiyadahThreshold.value =
-    settings.dashboard.ziyadahHalamanMin != null
-      ? settings.dashboard.ziyadahHalamanMin
-      : 0.5;
-}
-
-if (dashboardWindowDays) {
-  dashboardWindowDays.value =
-    settings.dashboard.tuntasHariWindow ||
-    7;
-}
-
-if (dashboardSubtitle) {
-  dashboardSubtitle.value =
-    settings.dashboard.tuntasSubtitle ||
-    '';
-}
-
-if (progressEmptyLabel) {
-  progressEmptyLabel.value =
-    settings.progress.emptyLabel ||
-    '';
-}
+      if (dashboardLabel) dashboardLabel.value = settings.dashboard.tuntasLabel || '';
+      if (dashboardThreshold) dashboardThreshold.value = settings.dashboard.tuntasHalamanMin || 1;
+      if (dashboardWindowDays) dashboardWindowDays.value = settings.dashboard.tuntasHariWindow || 7;
+      if (dashboardSubtitle) dashboardSubtitle.value = settings.dashboard.tuntasSubtitle || '';
+      if (progressEmptyLabel) progressEmptyLabel.value = settings.progress.emptyLabel || '';
 
       renderRoleAccessSettingsTable();
       renderPermissionAccessSettingsTable();
@@ -32505,336 +32141,18 @@ if (progressEmptyLabel) {
       box.innerHTML = '<div class="last-title"><i class="fas fa-spinner fa-spin me-2"></i>Memuat setoran terakhir...</div>';
       try {
         const res = await callGoogleScript('getLastSetoranBySantri', nama, kelas, isHadits ? 'hadits' : 'quran');
-        /*
- * Abaikan respons lama apabila pengguna
- * sudah memilih santri atau kelas lain.
- */
-const currentNama =
-  santriEl?.value || "";
-
-const currentKelas =
-  kelasEl?.value || "";
-
-if (
-  currentNama !== nama ||
-  currentKelas !== kelas
-) {
-  return;
-}
-      if (!res?.found) {
-  box.innerHTML = `
-    <div class="last-title">
-      <i class="fas fa-circle-info me-2"></i>
-      Belum ada setoran ${isHadits ? "hadits" : "Alquran"}.
-    </div>
-
-    <div class="last-meta">
-      Santri ini tetap bisa langsung dibuatkan setoran baru.
-    </div>
-  `;
-
-  /*
-   * Jangan memakai titik lanjutan santri sebelumnya.
-   */
-  if (!isHadits) {
-
-    window.SIM_LAST_QURAN_IS_ZIYADAH_ =
-  false;
-
-    window.SIM_LAST_ZIYADAH_CONTINUATION_ =
-      null;
-
-    if (
-      typeof simAutoClearLineFields_ ===
-      "function"
-    ) {
-      simAutoClearLineFields_();
-    }
-  }
-
-  return;
-}
-
-      const d =
-  res.data ||
-  {};
-
-/*
- * Format angka halaman menggunakan format Indonesia.
- * Contoh:
- * 0.2 menjadi 0,2
- * 0.5333 menjadi 0,5333
- */
-const formatLastSetoranNumber =
-  function (value) {
-    const numberValue =
-      Number(
-        String(
-          value == null
-            ? ""
-            : value
-        )
-          .trim()
-          .replace(",", ".")
-      );
-
-    if (
-      !Number.isFinite(
-        numberValue
-      )
-    ) {
-      return "0";
-    }
-
-    return numberValue
-      .toLocaleString(
-        "id-ID",
-        {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 4
+        if (!res?.found) {
+          box.innerHTML = `<div class="last-title"><i class="fas fa-circle-info me-2"></i>Belum ada setoran ${isHadits ? 'hadits' : 'Alquran'}.</div><div class="last-meta">Santri ini tetap bisa langsung dibuatkan setoran baru.</div>`;
+          return;
         }
-      );
-  };
-
-/*
- * Detail tambahan hanya untuk:
- * - mode Al-Qur'an;
- * - tipe terakhir Ziyadah;
- * - setoran mempunyai data baris.
- */
-let ziyadahLineHtml = "";
-
-if (
-  !isHadits &&
-  d.isZiyadah === true &&
-  d.hasLineData === true
-) {
-  const halamanMulai =
-    String(
-      d.halamanMulai ||
-      ""
-    ).trim();
-
-  const halamanSelesai =
-    String(
-      d.halamanSelesai ||
-      halamanMulai
-    ).trim();
-
-  const barisMulai =
-    String(
-      d.barisMulai ||
-      ""
-    ).trim();
-
-  const barisSelesai =
-    String(
-      d.barisSelesai ||
-      ""
-    ).trim();
-
-  let posisiBaris = "";
-
-  /*
-   * Posisi masih dalam halaman yang sama.
-   */
-  if (
-    halamanMulai &&
-    halamanSelesai &&
-    halamanMulai === halamanSelesai
-  ) {
-    posisiBaris =
-      `Halaman ${halamanMulai}, ` +
-      `baris ${barisMulai || "-"}–${barisSelesai || "-"}`;
-  }
-
-  /*
-   * Posisi melewati pergantian halaman.
-   */
-  if (
-    halamanMulai &&
-    halamanSelesai &&
-    halamanMulai !== halamanSelesai
-  ) {
-    posisiBaris =
-      `Halaman ${halamanMulai} baris ${barisMulai || "-"} ` +
-      `sampai halaman ${halamanSelesai} baris ${barisSelesai || "-"}`;
-  }
-
- /*
- * Detail_Baris dari server lebih lengkap karena
- * mencakup posisi awal, ¼, ½, ¾, dan akhir baris.
- */
-if (d.detailBaris) {
-  posisiBaris =
-    String(
-      d.detailBaris
-    );
-}
-
-  ziyadahLineHtml = `
-    <div
-      class="mt-2 p-2 rounded border bg-light"
-      style="line-height:1.6"
-    >
-      <div class="fw-semibold text-success mb-1">
-        <i class="fas fa-align-left me-1"></i>
-        Detail Baris Ziyadah
-      </div>
-
-      <div>
-        ${escapeHtml(
-          posisiBaris ||
-          "Posisi baris tidak tersedia"
-        )}
-      </div>
-
-      <div>
-        Jumlah:
-        <strong>
-          ${escapeHtml(
-            formatLastSetoranNumber(
-              d.jumlahBaris
-            )
-          )}
-          baris
-        </strong>
-
-        • Ekuivalen:
-        <strong>
-          ${escapeHtml(
-            formatLastSetoranNumber(
-              d.ekuivalenHalaman ||
-              d.jumlah
-            )
-          )}
-          halaman
-        </strong>
-      </div>
-    </div>
-  `;
-}
-
-const jumlahLabel =
-  isHadits
-    ? (
-      formatLastSetoranNumber(
-        d.jumlah
-      ) +
-      " hadits"
-    )
-    : (
-      formatLastSetoranNumber(
-        d.jumlah
-      ) +
-      " halaman"
-    );
-
-box.innerHTML = `
-  <div class="last-title">
-    <i class="fas fa-clock-rotate-left me-2"></i>
-    Setoran terakhir
-  </div>
-
-  <div class="last-meta">
-    ${escapeHtml(
-      d.tanggal ||
-      "-"
-    )}
-
-    •
-
-    ${escapeHtml(
-      d.detail ||
-      "-"
-    )}
-
-    •
-
-    Jumlah:
-    <strong>
-      ${escapeHtml(
-        jumlahLabel
-      )}
-    </strong>
-
-    <br>
-
-    Grade:
-    <strong>
-      ${escapeHtml(
-        d.grade ||
-        "-"
-      )}
-    </strong>
-
-    •
-
-    Muhafizh:
-    ${escapeHtml(
-      d.muhafizh ||
-      "-"
-    )}
-
-    ${ziyadahLineHtml}
-  </div>
-`;
-
-/*
- * Titik lanjutan hanya boleh ditampilkan apabila
- * setoran Al-Qur'an PALING BARU bertipe Ziyadah.
- */
-const lastSetoranIsZiyadah =
-  !isHadits &&
-  (
-    d.isZiyadah === true ||
-    String(
-      d.tipe || ""
-    )
-      .trim()
-      .toLowerCase()
-      .includes(
-        "ziyad"
-      )
-  );
-
-window.SIM_LAST_QURAN_IS_ZIYADAH_ =
-  lastSetoranIsZiyadah;
-
-if (
-  lastSetoranIsZiyadah &&
-  typeof window
-    .simLoadZiyadahContinuationClient_ ===
-    "function"
-) {
-  await window
-    .simLoadZiyadahContinuationClient_(
-      box,
-      nama,
-      kelas
-    );
-} else if (!isHadits) {
-  /*
-   * Hapus titik milik Ziyadah lama agar tidak
-   * terpakai ketika setoran terbaru adalah Murojaah.
-   */
-  window.SIM_LAST_ZIYADAH_CONTINUATION_ =
-    null;
-
-  /*
-   * Bersihkan posisi otomatis milik santri sebelumnya.
-   */
-  if (
-    typeof simAutoClearLineFields_ ===
-      "function" &&
-    typeof simAutoIsZiyadahLineMode_ ===
-      "function" &&
-    simAutoIsZiyadahLineMode_()
-  ) {
-    simAutoClearLineFields_();
-  }
-}
-
+        const d = res.data || {};
+        box.innerHTML = `
+          <div class="last-title"><i class="fas fa-clock-rotate-left me-2"></i>Setoran terakhir</div>
+          <div class="last-meta">
+            ${escapeHtml(d.tanggal || '-')} • ${escapeHtml(d.detail || '-')} • Jumlah: <strong>${escapeHtml(String(d.jumlah || 0))}</strong><br>
+            Grade: <strong>${escapeHtml(d.grade || '-')}</strong> • Muhafizh: ${escapeHtml(d.muhafizh || '-')}
+          </div>
+        `;
       } catch (err) {
         box.innerHTML = `<div class="last-title text-danger">Gagal memuat setoran terakhir.</div><div class="last-meta">${escapeHtml(err?.message || String(err))}</div>`;
       }
@@ -32934,7 +32252,7 @@ if (
       showRiwayatInputSkeleton();
       if (!silent) showSwalLoading('Memuat riwayat input...', 'Mohon tunggu sebentar');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(res => {
           if (!silent) hideSwalLoading();
 
@@ -33155,7 +32473,7 @@ actor: userData?.name || userData?.username || 'Sistem',
     }
   }
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(res => {
       if (!res?.success) {
         document.getElementById('list-manage-santri').innerHTML =
@@ -35221,7 +34539,7 @@ if (!nama) {
 
       showSwalLoading('Memuat detail santri...', 'Mohon tunggu sebentar');
 
-      const detailRunner = simApi.run
+      const detailRunner = google.script.run
         .withSuccessHandler(function (res) {
           hideSwalLoading();
 
@@ -37611,7 +36929,7 @@ const isMoreActive = useAdminLikeMobileNav && !adminPrimaryPages.includes(curren
     forcePasswordSubmitting = true;
     setForcePasswordLoading(true);
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         forcePasswordSubmitting = false;
         setForcePasswordLoading(false);
@@ -39936,7 +39254,7 @@ function getActorForMuhafizhClass() {
 
 function gsRunMuhafizhClass(functionName, ...args) {
   return new Promise(function (resolve, reject) {
-    simApi.run
+    google.script.run
       .withSuccessHandler(resolve)
       .withFailureHandler(reject)[functionName](...args);
   });
@@ -40518,9 +39836,9 @@ function refreshKelasSantriActivePane_() {
   function gsCall(functionName) {
     const args = Array.prototype.slice.call(arguments, 1);
     return new Promise((resolve, reject) => {
-      simApi.run
+      google.script.run
         .withSuccessHandler(resolve)
-        .withFailureHandler(reject)[functionName].apply(simApi.run, args);
+        .withFailureHandler(reject)[functionName].apply(google.script.run, args);
     });
   }
 
@@ -40966,7 +40284,7 @@ function refreshKelasSantriActivePane_() {
     }
 
     return new Promise((resolve, reject) => {
-      simApi.run
+      google.script.run
         .withSuccessHandler(resolve)
         .withFailureHandler(reject)[fnName](...args);
     });
@@ -41425,7 +40743,7 @@ function refreshKelasSantriActivePane_() {
 
     showSwalLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(res => {
         hideSwalLoading();
 
@@ -41625,7 +40943,7 @@ function prosesArsipDataSetoranTerpilih() {
 
     showSwalLoading('Mengarsipkan data setoran.', 'Mohon tunggu, data sedang dipindahkan ke sheet arsip.');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         hideSwalLoading();
 
@@ -41984,7 +41302,7 @@ function prosesArsipDataSetoranTerpilih() {
 
     adminDevSetLoadingRow('Memuat data perangkat login.');
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           if (res && res.forceLogout && typeof handleForcedLogoutFromServer === 'function') {
@@ -42032,7 +41350,7 @@ function prosesArsipDataSetoranTerpilih() {
 
       showSwalLoading?.('Mengeluarkan perangkat...', 'Mohon tunggu sebentar.');
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(function (res) {
           hideSwalLoading?.();
 
@@ -42082,7 +41400,7 @@ function prosesArsipDataSetoranTerpilih() {
         'Mohon tunggu sebentar.'
       );
 
-      simApi.run
+      google.script.run
         .withSuccessHandler(function (res) {
           hideSwalLoading?.();
 
@@ -42239,38 +41557,9 @@ function prosesArsipDataSetoranTerpilih() {
   const requestId = "fcm_" + Date.now();
 
   if (!window.parent || window.parent === window) {
-    /*
-     * Pada hosting GitHub langsung, helper notifikasi milik wrapper
-     * dapat diekspos sebagai window.simEnableFcmNotifications().
-     * sw.js dan konfigurasi Firebase lama tetap dapat dipertahankan.
-     */
-    if (typeof window.simEnableFcmNotifications === "function") {
-      Promise.resolve(
-        window.simEnableFcmNotifications({
-          requestId: requestId,
-          userId: userData?.username || userData?.name || "",
-          name: userData?.name || userData?.nama || userData?.username || "",
-          role: userData?.role || ""
-        })
-      ).then(function (result) {
-        window.postMessage({
-          type: "SIM_FCM_ENABLE_RESULT",
-          success: !!(result && result.success),
-          message: result && result.message ? result.message : ""
-        }, window.location.origin);
-      }).catch(function (error) {
-        window.postMessage({
-          type: "SIM_FCM_ENABLE_RESULT",
-          success: false,
-          message: error?.message || String(error)
-        }, window.location.origin);
-      });
-      return;
-    }
-
     Swal.fire(
-      "Konfigurasi notifikasi belum dimuat",
-      "Pertahankan sw.js dan helper Firebase wrapper lama, lalu ekspor fungsi simEnableFcmNotifications.",
+      "Mode tidak didukung",
+      "Aktivasi notifikasi harus dipanggil dari halaman PWA/GitHub Pages yang memiliki sw.js.",
       "warning"
     );
     return;
@@ -42322,7 +41611,7 @@ function loadFcmTokenListPage() {
     </tr>
   `;
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         tbody.innerHTML = `
@@ -42403,7 +41692,7 @@ function sendFcmBroadcastFromPage() {
 
     if (status) status.textContent = "Mengirim notifikasi...";
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           if (status) status.textContent = res?.message || "Gagal mengirim notifikasi.";
@@ -42540,7 +41829,7 @@ function loadFcmScheduleListPage() {
     </tr>
   `;
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         tbody.innerHTML = `
@@ -42654,7 +41943,7 @@ function createFcmScheduleFromPage() {
 
     if (status) status.textContent = "Menyimpan schedule...";
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           if (status) status.textContent = res?.message || "Gagal menyimpan schedule.";
@@ -42692,7 +41981,7 @@ function cancelFcmScheduleFromPage(scheduleId) {
   }).then(function (result) {
     if (!result.isConfirmed) return;
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         if (!res || !res.success) {
           Swal.fire("Gagal", res?.message || "Schedule gagal dibatalkan.", "error");
@@ -42713,7 +42002,7 @@ function runFcmDueScheduleFromPage() {
   const status = document.getElementById("fcm-schedule-status");
   if (status) status.textContent = "Mengecek schedule jatuh tempo...";
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(function (res) {
       if (!res || !res.success) {
         if (status) status.textContent = res?.message || "Gagal mengecek schedule.";
@@ -43635,7 +42924,7 @@ function runFcmDueScheduleFromPage() {
     }
 
     return new Promise(function (resolve, reject) {
-      var runner = simApi.run
+      var runner = google.script.run
         .withSuccessHandler(resolve)
         .withFailureHandler(reject);
 
@@ -46960,7 +46249,7 @@ function exportGeminiAnswerPdf(
       }
   });
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (res) {
         Swal.close();
@@ -47465,7 +46754,7 @@ function createMessageNode(
     setBusy(true);
     showTyping();
 
-    simApi.run
+    google.script.run
       .withSuccessHandler(function (res) {
         hideTyping();
         setBusy(false);
@@ -48504,7 +47793,7 @@ function simTvSchedulePoll_(delayMs) {
     "checking"
   );
 
-  simApi.run
+  google.script.run
     .withSuccessHandler(
       function (result) {
         simTvPollInFlight_ =
@@ -49184,2632 +48473,8 @@ async function editSetoranEntry(entry) {
     );
   }
 }
-
-var SIM_ZIYADAH_PREVIEW_TIMER_ =
-  null;
-
-
-/* =========================================================
-   CEK MODE BARIS
-   ========================================================= */
-
-function simIsZiyadahLineModeClient_() {
-  const tipe =
-    String(
-      document
-        .getElementById(
-          'tipeSetoran'
-        )
-        ?.value || ''
-    )
-      .trim()
-      .toLowerCase();
-
-  const satuan =
-    String(
-      document
-        .getElementById(
-          'satuanInput'
-        )
-        ?.value || ''
-    )
-      .trim()
-      .toLowerCase();
-
-  return (
-    tipe === 'ziyadah' &&
-    satuan === 'baris'
-  );
-}
-
-
-/* =========================================================
-   RESET PREVIEW
-   ========================================================= */
-
-function simResetZiyadahLinePreviewClient_() {
-  const preview =
-    document.getElementById(
-      'quran-line-preview'
-    );
-
-  const equivalentInput =
-    document.getElementById(
-      'jmlHalamanBarisCalculated'
-    );
-
-  const totalLineInput =
-    document.getElementById(
-      'jumlahBarisCalculated'
-    );
-
-  if (equivalentInput) {
-    equivalentInput.value = '';
-  }
-
-  if (totalLineInput) {
-    totalLineInput.value = '';
-  }
-
-  if (preview) {
-    preview.className =
-      'alert alert-light border mt-3 mb-0 small';
-
-    preview.innerHTML =
-      'Isi halaman dan posisi baris untuk melihat hasil konversi.';
-  }
-}
-
-
-/* =========================================================
-   TAMPILKAN / SEMBUNYIKAN INPUT BARIS
-   ========================================================= */
-
-window.simToggleZiyadahLineModeClient_ =
-  function () {
-    const lineMode =
-      simIsZiyadahLineModeClient_();
-
-    const pageDetailWrap =
-      document.getElementById(
-        'quran-halaman-detail-wrap'
-      );
-
-    const pageAmountWrap =
-      document.getElementById(
-        'quran-jumlah-halaman-wrap'
-      );
-
-    const lineWrap =
-      document.getElementById(
-        'quran-baris-input-wrap'
-      );
-
-    const halDetailInput =
-      document.getElementById(
-        'halDetail'
-      );
-
-    const pageAmountInput =
-      document.getElementById(
-        'jmlHalaman'
-      );
-
-    pageDetailWrap
-      ?.classList
-      .toggle(
-        'd-none',
-        lineMode
-      );
-
-    pageAmountWrap
-      ?.classList
-      .toggle(
-        'd-none',
-        lineMode
-      );
-
-    lineWrap
-      ?.classList
-      .toggle(
-        'd-none',
-        !lineMode
-      );
-
-    if (halDetailInput) {
-      halDetailInput.disabled =
-        lineMode;
-
-      halDetailInput.required =
-        !lineMode;
-    }
-
-    if (pageAmountInput) {
-      pageAmountInput.disabled =
-        lineMode;
-
-      pageAmountInput.required =
-        !lineMode;
-    }
-
-    if (lineMode) {
-      simRequestZiyadahLinePreviewClient_();
-    } else {
-      simResetZiyadahLinePreviewClient_();
-    }
-  };
-
-
-/* =========================================================
-   PERLUAS FUNGSI CONSTRAINT LAMA
-   ========================================================= */
-
-var SIM_ZIYADAH_ORIGINAL_APPLY_CONSTRAINTS_CLIENT_ =
-  typeof window
-    .applyQuranJmlHalamanConstraints ===
-    'function'
-    ? window
-      .applyQuranJmlHalamanConstraints
-    : null;
-
-window.applyQuranJmlHalamanConstraints =
-  function () {
-    if (
-      SIM_ZIYADAH_ORIGINAL_APPLY_CONSTRAINTS_CLIENT_
-    ) {
-      SIM_ZIYADAH_ORIGINAL_APPLY_CONSTRAINTS_CLIENT_();
-    }
-
-    const tipe =
-      String(
-        document
-          .getElementById(
-            'tipeSetoran'
-          )
-          ?.value || ''
-      )
-        .trim()
-        .toLowerCase();
-
-    const unitWrap =
-      document.getElementById(
-        'quran-satuan-input-wrap'
-      );
-
-    const unitSelect =
-      document.getElementById(
-        'satuanInput'
-      );
-
-    const isZiyadah =
-      tipe === 'ziyadah';
-
-    unitWrap
-      ?.classList
-      .toggle(
-        'd-none',
-        !isZiyadah
-      );
-
-    if (
-      !isZiyadah &&
-      unitSelect
-    ) {
-      unitSelect.value =
-        'Halaman';
-    }
-
-    window
-      .simToggleZiyadahLineModeClient_();
-  };
-
-
-/* =========================================================
-   PAYLOAD INPUT BARIS
-   ========================================================= */
-
-var SIM_ZIYADAH_ORIGINAL_GET_PAYLOAD_CLIENT_ =
-  typeof window
-    .getQuranSetoranPayloadFromForm ===
-    'function'
-    ? window
-      .getQuranSetoranPayloadFromForm
-    : null;
-
-if (
-  SIM_ZIYADAH_ORIGINAL_GET_PAYLOAD_CLIENT_
-) {
-  window.getQuranSetoranPayloadFromForm =
-    function () {
-      const payload =
-        SIM_ZIYADAH_ORIGINAL_GET_PAYLOAD_CLIENT_();
-
-      const lineMode =
-        simIsZiyadahLineModeClient_();
-
-      payload.satuanInput =
-        lineMode
-          ? 'Baris'
-          : 'Halaman';
-
-      payload.mushafId =
-        document
-          .getElementById(
-            'mushafId'
-          )
-          ?.value ||
-        'MUSHAF_MADINAH';
-
-      if (lineMode) {
-        payload.halamanMulai =
-          document
-            .getElementById(
-              'halamanMulai'
-            )
-            ?.value || '';
-
-        payload.barisMulai =
-          document
-            .getElementById(
-              'barisMulai'
-            )
-            ?.value || '';
-
-        payload.halamanSelesai =
-          document
-            .getElementById(
-              'halamanSelesai'
-            )
-            ?.value ||
-          payload.halamanMulai;
-
-        payload.barisSelesai =
-          document
-            .getElementById(
-              'barisSelesai'
-            )
-            ?.value || '';
-
-        payload.jumlahBaris =
-          document
-            .getElementById(
-              'jumlahBarisCalculated'
-            )
-            ?.value || '';
-
-        payload.jmlHalaman =
-          document
-            .getElementById(
-              'jmlHalamanBarisCalculated'
-            )
-            ?.value || '0';
-
-            payload.posisiMulaiDalamBaris =
-  document
-    .getElementById(
-      "posisiMulaiDalamBaris"
-    )
-    ?.value || "0";
-
-payload.posisiSelesaiDalamBaris =
-  document
-    .getElementById(
-      "posisiSelesaiDalamBaris"
-    )
-    ?.value || "1";
-
-payload.kataTerakhir =
-  document
-    .getElementById(
-      "kataTerakhirZiyadah"
-    )
-    ?.value || "";
-
-        const startPage =
-          String(
-            payload.halamanMulai ||
-            ''
-          ).trim();
-
-        const endPage =
-          String(
-            payload.halamanSelesai ||
-            startPage
-          ).trim();
-
-        payload.halDetail =
-          startPage &&
-          endPage &&
-          startPage !== endPage
-            ? (
-              startPage +
-              '-' +
-              endPage
-            )
-            : startPage;
-      }
-
-      return payload;
-    };
-}
-
-
-/* =========================================================
-   VALIDASI FRONTEND MODE BARIS
-   ========================================================= */
-
-var SIM_ZIYADAH_ORIGINAL_VALIDATE_CLIENT_ =
-  typeof window
-    .validateQuranSetoranPayload ===
-    'function'
-    ? window
-      .validateQuranSetoranPayload
-    : null;
-
-if (
-  SIM_ZIYADAH_ORIGINAL_VALIDATE_CLIENT_
-) {
-  window.validateQuranSetoranPayload =
-    function (payload) {
-      if (
-        !payload ||
-        String(
-          payload.tipeSetoran ||
-          ''
-        )
-          .trim()
-          .toLowerCase() !==
-          'ziyadah' ||
-        String(
-          payload.satuanInput ||
-          ''
-        )
-          .trim()
-          .toLowerCase() !==
-          'baris'
-      ) {
-        return (
-          SIM_ZIYADAH_ORIGINAL_VALIDATE_CLIENT_(
-            payload
-          )
-        );
-      }
-
-      /*
-       * Nilai bayangan hanya agar validator lama
-       * tidak menolak karena jumlah halaman di bawah 0,5.
-       */
-      const shadowPayload = {
-        ...payload,
-        jmlHalaman: '0.5'
-      };
-
-      const validation =
-        SIM_ZIYADAH_ORIGINAL_VALIDATE_CLIENT_(
-          shadowPayload
-        );
-
-      const errors =
-        Array.isArray(
-          validation.errors
-        )
-          ? [...validation.errors]
-          : [];
-
-      const startPage =
-        Number(
-          payload.halamanMulai ||
-          0
-        );
-
-      const startLine =
-        Number(
-          payload.barisMulai ||
-          0
-        );
-
-      const endPage =
-        Number(
-          payload.halamanSelesai ||
-          payload.halamanMulai ||
-          0
-        );
-
-      const endLine =
-        Number(
-          payload.barisSelesai ||
-          0
-        );
-
-      if (
-        !Number.isInteger(
-          startPage
-        ) ||
-        startPage < 1 ||
-        startPage > 604
-      ) {
-        errors.push(
-          'Halaman mulai harus berupa angka 1 sampai 604.'
-        );
-      }
-
-      if (
-        !Number.isInteger(
-          endPage
-        ) ||
-        endPage < 1 ||
-        endPage > 604
-      ) {
-        errors.push(
-          'Halaman selesai harus berupa angka 1 sampai 604.'
-        );
-      }
-
-      if (
-        startPage &&
-        endPage &&
-        endPage < startPage
-      ) {
-        errors.push(
-          'Halaman selesai tidak boleh lebih kecil dari halaman mulai.'
-        );
-      }
-
-      if (
-        !Number.isInteger(
-          startLine
-        ) ||
-        startLine < 1
-      ) {
-        errors.push(
-          'Baris mulai wajib berupa bilangan bulat minimal 1.'
-        );
-      }
-
-      if (
-        !Number.isInteger(
-          endLine
-        ) ||
-        endLine < 1
-      ) {
-        errors.push(
-          'Baris selesai wajib berupa bilangan bulat minimal 1.'
-        );
-      }
-
-      if (
-        startPage === endPage &&
-        startLine &&
-        endLine &&
-        endLine < startLine
-      ) {
-        errors.push(
-          'Baris selesai tidak boleh lebih kecil dari baris mulai.'
-        );
-      }
-
-      return {
-        valid:
-          errors.length === 0,
-        errors:
-          [...new Set(errors)]
-      };
-    };
-}
-
-
-/* =========================================================
-   MINTA PREVIEW KE SERVER
-   ========================================================= */
-
-window.simRequestZiyadahLinePreviewClient_ =
-  function () {
-    if (
-      !simIsZiyadahLineModeClient_()
-    ) {
-      return;
-    }
-
-    clearTimeout(
-      SIM_ZIYADAH_PREVIEW_TIMER_
-    );
-
-    SIM_ZIYADAH_PREVIEW_TIMER_ =
-      setTimeout(
-        function () {
-          const payload =
-            window
-              .getQuranSetoranPayloadFromForm();
-
-          const requiredValues = [
-            payload.halamanMulai,
-            payload.barisMulai,
-            payload.halamanSelesai,
-            payload.barisSelesai
-          ];
-
-          if (
-            requiredValues.some(
-              value =>
-                !String(
-                  value || ''
-                ).trim()
-            )
-          ) {
-            simResetZiyadahLinePreviewClient_();
-            return;
-          }
-
-          const preview =
-            document.getElementById(
-              'quran-line-preview'
-            );
-
-          if (preview) {
-            preview.className =
-              'alert alert-info border mt-3 mb-0 small';
-
-            preview.innerHTML =
-              '<i class="fas fa-spinner fa-spin me-2"></i>' +
-              'Menghitung jumlah baris dan ekuivalen halaman...';
-          }
-
-          simApi.run
-            .withSuccessHandler(
-              function (result) {
-                const equivalentInput =
-                  document.getElementById(
-                    'jmlHalamanBarisCalculated'
-                  );
-
-                const totalLineInput =
-                  document.getElementById(
-                    'jumlahBarisCalculated'
-                  );
-
-                if (
-                  !result ||
-                  !result.success
-                ) {
-                  if (equivalentInput) {
-                    equivalentInput.value =
-                      '';
-                  }
-
-                  if (totalLineInput) {
-                    totalLineInput.value =
-                      '';
-                  }
-
-                  if (preview) {
-                    preview.className =
-                      'alert alert-danger border mt-3 mb-0 small';
-
-                    preview.textContent =
-                      result?.message ||
-                      'Gagal menghitung setoran baris.';
-                  }
-
-                  return;
-                }
-
-                if (equivalentInput) {
-                  equivalentInput.value =
-                    result
-                      .ekuivalenHalaman;
-                }
-
-                if (totalLineInput) {
-                  totalLineInput.value =
-                    result
-                      .jumlahBaris;
-                }
-
-                const equivalentText =
-                  Number(
-                    result
-                      .ekuivalenHalaman ||
-                    0
-                  )
-                    .toLocaleString(
-                      'id-ID',
-                      {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 4
-                      }
-                    );
-
-                if (preview) {
-                  preview.className =
-                    'alert alert-success border mt-3 mb-0 small';
-
-                 const jumlahBarisText =
-  Number(
-    result.jumlahBarisEkuivalen ||
-    result.jumlahBaris ||
-    0
-  ).toLocaleString(
-    "id-ID",
-    {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 4
-    }
-  );
-
-const equivalentText =
-  Number(
-    result.ekuivalenHalaman ||
-    0
-  ).toLocaleString(
-    "id-ID",
-    {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 6
-    }
-  );
-
-const nextPointText =
-  result.titikLanjutHalaman
-    ? (
-      `Halaman ${result.titikLanjutHalaman}, ` +
-      `baris ${result.titikLanjutBaris}, ` +
-      `posisi ${result.titikLanjutPosisiLabel || "awal"}`
-    )
-    : "Mushaf telah selesai";
-
-preview.innerHTML = `
-  <div class="fw-bold mb-2">
-    Setoran valid
-  </div>
-
-  <div>
-    Posisi:
-    <strong>
-      ${escapeHtml(
-        result.detailBaris || "-"
-      )}
-    </strong>
-  </div>
-
-  <div>
-    Jumlah:
-    <strong>
-      ${escapeHtml(
-        jumlahBarisText
-      )}
-      baris ekuivalen
-    </strong>
-  </div>
-
-  <div>
-    Ekuivalen:
-    <strong>
-      ${escapeHtml(
-        equivalentText
-      )}
-      halaman
-    </strong>
-  </div>
-
-  <hr class="my-2">
-
-  <div>
-    Titik lanjutan:
-    <strong>
-      ${escapeHtml(
-        nextPointText
-      )}
-    </strong>
-  </div>
-`;
-                }
-              }
-            )
-            .withFailureHandler(
-              function (error) {
-                if (preview) {
-                  preview.className =
-                    'alert alert-danger border mt-3 mb-0 small';
-
-                  preview.textContent =
-                    error?.message ||
-                    String(error);
-                }
-              }
-            )
-            .getZiyadahLinePreview(
-              payload
-            );
-        },
-        450
-      );
-  };
-
-
-/* =========================================================
-   EVENT INPUT
-   ========================================================= */
-
-function simInitZiyadahLineInputClient_() {
- const lineInputIds = [
-  "halamanMulai",
-  "barisMulai",
-  "posisiMulaiDalamBaris",
-
-  "halamanSelesai",
-  "barisSelesai",
-  "posisiSelesaiDalamBaris"
-];
-
-  lineInputIds.forEach(
-    function (id) {
-      const input =
-        document.getElementById(
-          id
-        );
-
-      if (!input) {
-        return;
-      }
-
-      input.addEventListener(
-        'input',
-        window
-          .simRequestZiyadahLinePreviewClient_
-      );
-
-      input.addEventListener(
-        'change',
-        window
-          .simRequestZiyadahLinePreviewClient_
-      );
-    }
-  );
-
-  const typeInput =
-    document.getElementById(
-      'tipeSetoran'
-    );
-
-  const unitInput =
-    document.getElementById(
-      'satuanInput'
-    );
-
-  typeInput?.addEventListener(
-    'change',
-    window
-      .applyQuranJmlHalamanConstraints
-  );
-
-  unitInput?.addEventListener(
-    'change',
-    window
-      .simToggleZiyadahLineModeClient_
-  );
-
-  const form =
-    document.getElementById(
-      'form-setoran'
-    );
-
-  form?.addEventListener(
-    'reset',
-    function () {
-      setTimeout(
-        function () {
-          const unitSelect =
-            document.getElementById(
-              'satuanInput'
-            );
-
-          if (unitSelect) {
-            unitSelect.value =
-              'Halaman';
-          }
-
-          simResetZiyadahLinePreviewClient_();
-
-          window
-            .applyQuranJmlHalamanConstraints();
-        },
-        0
-      );
-    }
-  );
-
-  window
-    .applyQuranJmlHalamanConstraints();
-}
-
-
-if (
-  document.readyState ===
-  'loading'
-) {
-  document.addEventListener(
-    'DOMContentLoaded',
-    simInitZiyadahLineInputClient_
-  );
-} else {
-  simInitZiyadahLineInputClient_();
-}
-
-/* =========================================================
-   TITIK LANJUTAN ZIYADAH
-   ========================================================= */
-
-window.SIM_LAST_ZIYADAH_CONTINUATION_ =
-  null;
-
-/*
- * Menandai apakah setoran Al-Qur'an paling baru
- * benar-benar bertipe Ziyadah.
- */
-window.SIM_LAST_QURAN_IS_ZIYADAH_ =
-  false;
-
-function simFormatLineNumberClient_(
-  value
-) {
-  const numberValue =
-    Number(
-      String(
-        value == null
-          ? ""
-          : value
-      ).replace(",", ".")
-    );
-
-  return Number.isFinite(
-    numberValue
-  )
-    ? numberValue.toLocaleString(
-      "id-ID",
-      {
-        maximumFractionDigits: 4
-      }
-    )
-    : "0";
-}
-
-
-window.simLoadZiyadahContinuationClient_ =
-  async function (
-    box,
-    nama,
-    kelas
-  ) {
-    try {
-      /*
-       * Pengaman tambahan:
-       * fungsi ini tidak boleh mengambil Ziyadah lama
-       * apabila setoran paling baru adalah Murojaah.
-       */
-      if (
-        window
-          .SIM_LAST_QURAN_IS_ZIYADAH_ !==
-        true
-      ) {
-        window
-          .SIM_LAST_ZIYADAH_CONTINUATION_ =
-          null;
-
-        return;
-      }
-
-      const result =
-        await callGoogleScript(
-          "getLastZiyadahContinuationBySantri",
-          nama,
-          kelas
-        );
-
-      /*
-       * Abaikan respons lama apabila santri
-       * atau kelas sudah diganti.
-       */
-      const currentNama =
-        document
-          .getElementById(
-            "namaSantri"
-          )
-          ?.value || "";
-
-      const currentKelas =
-        document
-          .getElementById(
-            "kelas"
-          )
-          ?.value || "";
-
-      if (
-        currentNama !== nama ||
-        currentKelas !== kelas
-      ) {
-        return;
-      }
-
-      if (
-        !result?.success ||
-        !result?.found
-      ) {
-        window
-          .SIM_LAST_ZIYADAH_CONTINUATION_ =
-          null;
-
-        return;
-      }
-
-      const data =
-        result.data || {};
-
-      window
-        .SIM_LAST_ZIYADAH_CONTINUATION_ =
-        data;
-
-      const isLineMode =
-        String(
-          data.satuanInput || ""
-        )
-          .trim()
-          .toLowerCase() ===
-        "baris";
-
-      const requiresManual =
-        data
-          .requiresManualContinuation ===
-        true;
-
-      const nextAvailable =
-        !requiresManual &&
-        Number(
-          data.titikLanjutHalaman || 0
-        ) > 0;
-
-      const detailText =
-        data.detailSetoran ||
-        data.detailBaris ||
-        data.halDetail ||
-        "-";
-
-      const amountText =
-        isLineMode
-          ? (
-            simFormatLineNumberClient_(
-              data.jumlahBaris
-            ) +
-            " baris"
-          )
-          : (
-            simFormatLineNumberClient_(
-              data.jumlahHalaman
-            ) +
-            " halaman"
-          );
-
-      const nextText =
-        nextAvailable
-          ? (
-            `Halaman ${data.titikLanjutHalaman}, ` +
-            `baris ${data.titikLanjutBaris}, ` +
-            `posisi ${data.titikLanjutPosisiLabel || "awal"}`
-          )
-          : (
-            data.statusTitikLanjut ===
-              "SELESAI_MUSHAF"
-              ? "Mushaf telah selesai"
-              : "Belum dapat ditentukan otomatis"
-          );
-
-      const manualHtml =
-        requiresManual
-          ? `
-            <div
-              class="alert alert-warning mt-2 mb-0 py-2"
-            >
-              <div class="fw-semibold">
-                <i
-                  class="fas fa-triangle-exclamation me-1"
-                ></i>
-                Titik lanjut perlu ditentukan manual
-              </div>
-
-              <div class="small mt-1">
-                ${escapeHtml(
-                  data.manualReason ||
-                  "Posisi baris terakhir belum tersedia."
-                )}
-              </div>
-
-              <div class="small mt-1">
-                Sistem tidak memakai titik Ziyadah-Baris
-                yang lebih lama agar hafalan tidak mundur.
-              </div>
-            </div>
-          `
-          : "";
-
-      box.insertAdjacentHTML(
-        "beforeend",
-        `
-          <div
-            class="mt-3 p-3 rounded border bg-light"
-          >
-            <div
-              class="fw-bold text-success mb-1"
-            >
-              <i
-                class="fas fa-forward me-1"
-              ></i>
-              Titik Lanjutan Ziyadah
-            </div>
-
-            <div class="small">
-              Setoran terbaru:
-              <strong>
-                ${escapeHtml(
-                  detailText
-                )}
-              </strong>
-            </div>
-
-            <div class="small">
-              Satuan:
-              <strong>
-                ${escapeHtml(
-                  data.satuanInput ||
-                  "-"
-                )}
-              </strong>
-            </div>
-
-            <div class="small">
-              Jumlah:
-              <strong>
-                ${escapeHtml(
-                  amountText
-                )}
-              </strong>
-            </div>
-
-            ${
-              data.kataTerakhir
-                ? `
-                  <div class="small">
-                    Penanda terakhir:
-                    <strong>
-                      ${escapeHtml(
-                        data.kataTerakhir
-                      )}
-                    </strong>
-                  </div>
-                `
-                : ""
-            }
-
-            ${
-              !requiresManual
-                ? `
-                  <div class="small mt-1">
-                    Lanjut dari:
-                    <strong>
-                      ${escapeHtml(
-                        nextText
-                      )}
-                    </strong>
-                  </div>
-                `
-                : ""
-            }
-
-            ${manualHtml}
-
-            ${
-              nextAvailable
-                ? `
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-success mt-2"
-                    onclick="simUseZiyadahContinuationClient_()"
-                  >
-                    <i
-                      class="fas fa-arrow-right me-1"
-                    ></i>
-                    Gunakan Titik Ini
-                  </button>
-                `
-                : ""
-            }
-          </div>
-        `
-      );
-
-    } catch (error) {
-      console.error(
-        "Gagal memuat titik lanjutan:",
-        error
-      );
-
-      window
-        .SIM_LAST_ZIYADAH_CONTINUATION_ =
-        null;
-    }
-  };
-
-
-window.simUseZiyadahContinuationClient_ =
-  function () {
-    const data =
-      window
-        .SIM_LAST_ZIYADAH_CONTINUATION_;
-
-    if (!data) {
-      return;
-    }
-
-    const tipeInput =
-      document.getElementById(
-        "tipeSetoran"
-      );
-
-    const satuanInput =
-      document.getElementById(
-        "satuanInput"
-      );
-
-    if (tipeInput) {
-      tipeInput.value =
-        "Ziyadah";
-    }
-
-    window
-      .applyQuranJmlHalamanConstraints?.();
-
-    if (satuanInput) {
-      satuanInput.value =
-        "Baris";
-    }
-
-    window
-      .simToggleZiyadahLineModeClient_?.();
-
-    const setValue =
-      function (
-        id,
-        value
-      ) {
-        const element =
-          document.getElementById(
-            id
-          );
-
-        if (element) {
-          element.value =
-            value == null
-              ? ""
-              : value;
-        }
-      };
-
-    setValue(
-      "halamanMulai",
-      data.titikLanjutHalaman
-    );
-
-    setValue(
-      "barisMulai",
-      data.titikLanjutBaris
-    );
-
-    setValue(
-      "posisiMulaiDalamBaris",
-      data.titikLanjutPosisi
-    );
-
-    /*
-     * Halaman selesai diawali pada halaman yang sama.
-     * Muhafizh tetap menentukan titik akhir setoran.
-     */
-    setValue(
-      "halamanSelesai",
-      data.titikLanjutHalaman
-    );
-
-    setValue(
-      "barisSelesai",
-      ""
-    );
-
-    setValue(
-      "posisiSelesaiDalamBaris",
-      "1"
-    );
-
-    setValue(
-      "kataTerakhirZiyadah",
-      ""
-    );
-
-    document
-      .getElementById(
-        "barisSelesai"
-      )
-      ?.focus();
-
-    Swal.fire({
-      icon: "success",
-      title:
-        "Titik lanjutan digunakan",
-      text:
-        "Silakan isi baris dan posisi akhir setoran hari ini.",
-      timer: 1800,
-      showConfirmButton: false
-    });
-  };
-
-  /* =========================================================
-   PATCH OTOMATIS BATAS BARIS MUSHAF MADINAH
-
-   Alur:
-   - membaca batas baris halaman;
-   - membuat dropdown baris;
-   - memakai titik lanjutan otomatis;
-   - menghitung preview otomatis.
-   ========================================================= */
-
-window.SIM_ZIYADAH_LINE_LIMIT_CACHE_ =
-  window.SIM_ZIYADAH_LINE_LIMIT_CACHE_ ||
-  {};
-
-window.SIM_ZIYADAH_AUTO_PREVIEW_TIMER_ =
-  null;
-
-
-/* =========================================================
-   CEK MODE ZIYADAH BARIS
-   ========================================================= */
-
-function simAutoIsZiyadahLineMode_() {
-  const tipe =
-    String(
-      document
-        .getElementById(
-          "tipeSetoran"
-        )
-        ?.value || ""
-    )
-      .trim()
-      .toLowerCase();
-
-  const satuan =
-    String(
-      document
-        .getElementById(
-          "satuanInput"
-        )
-        ?.value || ""
-    )
-      .trim()
-      .toLowerCase();
-
-  return (
-    tipe === "ziyadah" &&
-    satuan === "baris"
-  );
-}
-
-
-/* =========================================================
-   BACA ID MUSHAF
-   ========================================================= */
-
-function simAutoGetMushafId_() {
-  return (
-    String(
-      document
-        .getElementById(
-          "mushafId"
-        )
-        ?.value ||
-      "MUSHAF_MADINAH"
-    ).trim() ||
-    "MUSHAF_MADINAH"
-  );
-}
-
-
-/* =========================================================
-   TAMPILKAN STATUS BATAS BARIS
-   ========================================================= */
-
-function simAutoSetLineInfo_(
-  elementId,
-  message,
-  status
-) {
-  const element =
-    document.getElementById(
-      elementId
-    );
-
-  if (!element) {
-    return;
-  }
-
-  element.textContent =
-    message || "";
-
-  element.classList.remove(
-    "text-muted",
-    "text-success",
-    "text-danger",
-    "text-primary"
-  );
-
-  if (status === "success") {
-    element.classList.add(
-      "text-success"
-    );
-    return;
-  }
-
-  if (status === "error") {
-    element.classList.add(
-      "text-danger"
-    );
-    return;
-  }
-
-  if (status === "loading") {
-    element.classList.add(
-      "text-primary"
-    );
-    return;
-  }
-
-  element.classList.add(
-    "text-muted"
-  );
-}
-
-
-/* =========================================================
-   AMBIL JUMLAH BARIS DARI SERVER
-
-   Hasil disimpan di cache browser supaya halaman yang sama
-   tidak berkali-kali meminta data ke server.
-   ========================================================= */
-
-async function simAutoGetPageLineLimit_(
-  pageNumber
-) {
-  const page =
-    Number(pageNumber || 0);
-
-  if (
-    !Number.isInteger(page) ||
-    page < 1 ||
-    page > 604
-  ) {
-    throw new Error(
-      "Halaman harus berada antara 1 sampai 604."
-    );
-  }
-
-  const mushafId =
-    simAutoGetMushafId_();
-
-  const cacheKey =
-    mushafId +
-    "_" +
-    page;
-
-  const cached =
-    window
-      .SIM_ZIYADAH_LINE_LIMIT_CACHE_[
-        cacheKey
-      ];
-
-  if (
-    Number.isInteger(cached) &&
-    cached > 0
-  ) {
-    return cached;
-  }
-
-  const result =
-    await callGoogleScript(
-      "getMushafPageLineLimit",
-      page,
-      mushafId
-    );
-
-  if (
-    !result ||
-    !result.success
-  ) {
-    throw new Error(
-      result?.message ||
-      "Batas baris halaman tidak ditemukan."
-    );
-  }
-
-  const totalLines =
-    Number(
-      result.jumlahBaris || 0
-    );
-
-  if (
-    !Number.isInteger(totalLines) ||
-    totalLines < 1
-  ) {
-    throw new Error(
-      "Jumlah baris halaman tidak valid."
-    );
-  }
-
-  window
-    .SIM_ZIYADAH_LINE_LIMIT_CACHE_[
-      cacheKey
-    ] =
-    totalLines;
-
-  return totalLines;
-}
-
-
-/* =========================================================
-   ISI PILIHAN BARIS
-   ========================================================= */
-
-function simAutoFillLineSelect_(
-  selectElement,
-  totalLines,
-  minimumLine,
-  preferredValue,
-  placeholder
-) {
-  if (!selectElement) {
-    return "";
-  }
-
-  const total =
-    Number(totalLines || 0);
-
-  const minimum =
-    Math.max(
-      1,
-      Number(minimumLine || 1)
-    );
-
-  const preferred =
-    Number(preferredValue || 0);
-
-  selectElement.innerHTML = "";
-
-  const emptyOption =
-    document.createElement(
-      "option"
-    );
-
-  emptyOption.value = "";
-  emptyOption.textContent =
-    placeholder ||
-    "Pilih baris";
-
-  selectElement.appendChild(
-    emptyOption
-  );
-
-  if (
-    !Number.isInteger(total) ||
-    total < 1 ||
-    minimum > total
-  ) {
-    selectElement.disabled =
-      true;
-
-    return "";
-  }
-
-  for (
-    let line = minimum;
-    line <= total;
-    line++
-  ) {
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value =
-      String(line);
-
-    option.textContent =
-      "Baris " + line;
-
-    selectElement.appendChild(
-      option
-    );
-  }
-
-  selectElement.disabled =
-    false;
-
-  if (
-    Number.isInteger(preferred) &&
-    preferred >= minimum &&
-    preferred <= total
-  ) {
-    selectElement.value =
-      String(preferred);
-
-    return String(preferred);
-  }
-
-  selectElement.value = "";
-
-  return "";
-}
-
-
-/* =========================================================
-   RESET DROPDOWN BARIS
-   ========================================================= */
-
-function simAutoResetLineSelect_(
-  selectId,
-  placeholder
-) {
-  const select =
-    document.getElementById(
-      selectId
-    );
-
-  if (!select) {
-    return;
-  }
-
-  select.innerHTML = `
-    <option value="">
-      ${escapeHtml(
-        placeholder ||
-        "Pilih halaman"
-      )}
-    </option>
-  `;
-
-  select.disabled = true;
-}
-
-
-/* =========================================================
-   PREVIEW OTOMATIS
-   ========================================================= */
-
-function simAutoScheduleLinePreview_() {
-  clearTimeout(
-    window
-      .SIM_ZIYADAH_AUTO_PREVIEW_TIMER_
-  );
-
-  window
-    .SIM_ZIYADAH_AUTO_PREVIEW_TIMER_ =
-    setTimeout(
-      function () {
-        if (
-          !simAutoIsZiyadahLineMode_()
-        ) {
-          return;
-        }
-
-        const requiredIds = [
-          "halamanMulai",
-          "barisMulai",
-          "halamanSelesai",
-          "barisSelesai"
-        ];
-
-        const complete =
-          requiredIds.every(
-            function (id) {
-              const element =
-                document.getElementById(
-                  id
-                );
-
-              return (
-                element &&
-                String(
-                  element.value || ""
-                ).trim() !== ""
-              );
-            }
-          );
-
-        const startPositionValue =
-          document
-            .getElementById(
-              "posisiMulaiDalamBaris"
-            )
-            ?.value;
-
-        const endPositionValue =
-          document
-            .getElementById(
-              "posisiSelesaiDalamBaris"
-            )
-            ?.value;
-
-        /*
-         * Nilai posisi mulai "0" adalah nilai valid.
-         * Karena itu jangan diperiksa dengan Boolean biasa.
-         */
-        const positionsComplete =
-          startPositionValue !==
-            undefined &&
-          startPositionValue !==
-            null &&
-          startPositionValue !==
-            "" &&
-          endPositionValue !==
-            undefined &&
-          endPositionValue !==
-            null &&
-          endPositionValue !==
-            "";
-
-        if (
-          !complete ||
-          !positionsComplete
-        ) {
-          return;
-        }
-
-        if (
-          typeof window
-            .simRequestZiyadahLinePreviewClient_ ===
-          "function"
-        ) {
-          window
-            .simRequestZiyadahLinePreviewClient_();
-        }
-      },
-      120
-    );
-}
-
-/* =========================================================
-   SINKRONKAN HALAMAN MULAI
-   ========================================================= */
-
-async function simAutoSyncStartPage_(
-  preferredLine
-) {
-  const pageInput =
-    document.getElementById(
-      "halamanMulai"
-    );
-
-  const lineSelect =
-    document.getElementById(
-      "barisMulai"
-    );
-
-  const endPageInput =
-    document.getElementById(
-      "halamanSelesai"
-    );
-
-  const page =
-    Number(
-      pageInput?.value || 0
-    );
-
-  if (
-    !Number.isInteger(page) ||
-    page < 1 ||
-    page > 604
-  ) {
-    simAutoResetLineSelect_(
-      "barisMulai",
-      "Pilih halaman mulai"
-    );
-
-    simAutoSetLineInfo_(
-      "barisMulaiLimitInfo",
-      "Masukkan halaman 1 sampai 604.",
-      "muted"
-    );
-
-    return;
-  }
-
-  simAutoSetLineInfo_(
-    "barisMulaiLimitInfo",
-    "Membaca batas baris halaman...",
-    "loading"
-  );
-
-  const requestedPage =
-    page;
-
-  try {
-    const totalLines =
-      await simAutoGetPageLineLimit_(
-        page
-      );
-
-    /*
-     * Abaikan respons lama apabila halaman
-     * sudah berubah saat server merespons.
-     */
-    if (
-      Number(
-        pageInput?.value || 0
-      ) !== requestedPage
-    ) {
-      return;
-    }
-
-    const currentLine =
-      preferredLine != null
-        ? preferredLine
-        : lineSelect?.value;
-
-    simAutoFillLineSelect_(
-      lineSelect,
-      totalLines,
-      1,
-      currentLine,
-      "Pilih baris mulai"
-    );
-
-    simAutoSetLineInfo_(
-      "barisMulaiLimitInfo",
-      "Halaman " +
-        page +
-        " memiliki " +
-        totalLines +
-        " baris ayat.",
-      "success"
-    );
-
-    /*
-     * Halaman selesai otomatis mengikuti halaman mulai
-     * apabila belum diisi atau lebih kecil.
-     */
-    const currentEndPage =
-      Number(
-        endPageInput?.value || 0
-      );
-
-    if (
-      endPageInput &&
-      (
-        !currentEndPage ||
-        currentEndPage < page
-      )
-    ) {
-      endPageInput.value =
-        String(page);
-    }
-
-    await simAutoSyncEndPage_();
-
-  } catch (error) {
-    simAutoResetLineSelect_(
-      "barisMulai",
-      "Batas baris tidak ditemukan"
-    );
-
-    simAutoSetLineInfo_(
-      "barisMulaiLimitInfo",
-      error?.message ||
-      String(error),
-      "error"
-    );
-  }
-}
-
-
-/* =========================================================
-   SINKRONKAN HALAMAN SELESAI
-   ========================================================= */
-
-async function simAutoSyncEndPage_(
-  preferredLine
-) {
-  const startPageInput =
-    document.getElementById(
-      "halamanMulai"
-    );
-
-  const startLineSelect =
-    document.getElementById(
-      "barisMulai"
-    );
-
-  const endPageInput =
-    document.getElementById(
-      "halamanSelesai"
-    );
-
-  const endLineSelect =
-    document.getElementById(
-      "barisSelesai"
-    );
-
-  const startPage =
-    Number(
-      startPageInput?.value || 0
-    );
-
-  const startLine =
-    Number(
-      startLineSelect?.value || 0
-    );
-
-  let endPage =
-    Number(
-      endPageInput?.value || 0
-    );
-
-  if (
-    startPage &&
-    endPage &&
-    endPage < startPage
-  ) {
-    endPage =
-      startPage;
-
-    if (endPageInput) {
-      endPageInput.value =
-        String(startPage);
-    }
-  }
-
-  if (
-    !Number.isInteger(endPage) ||
-    endPage < 1 ||
-    endPage > 604
-  ) {
-    simAutoResetLineSelect_(
-      "barisSelesai",
-      "Pilih halaman selesai"
-    );
-
-    simAutoSetLineInfo_(
-      "barisSelesaiLimitInfo",
-      "Masukkan halaman selesai 1 sampai 604.",
-      "muted"
-    );
-
-    return;
-  }
-
-  simAutoSetLineInfo_(
-    "barisSelesaiLimitInfo",
-    "Membaca batas baris halaman...",
-    "loading"
-  );
-
-  const requestedPage =
-    endPage;
-
-  try {
-    const totalLines =
-      await simAutoGetPageLineLimit_(
-        endPage
-      );
-
-    if (
-      Number(
-        endPageInput?.value || 0
-      ) !== requestedPage
-    ) {
-      return;
-    }
-
-    /*
-     * Jika halaman mulai dan selesai sama,
-     * baris selesai tidak boleh sebelum baris mulai.
-     */
-    const minimumLine =
-      startPage === endPage &&
-      startLine
-        ? startLine
-        : 1;
-
-    const currentLine =
-      preferredLine != null
-        ? preferredLine
-        : endLineSelect?.value;
-
-    simAutoFillLineSelect_(
-      endLineSelect,
-      totalLines,
-      minimumLine,
-      currentLine,
-      "Pilih baris selesai"
-    );
-
-    const rangeMessage =
-      minimumLine > 1
-        ? (
-          "Halaman " +
-          endPage +
-          ": pilih baris " +
-          minimumLine +
-          " sampai " +
-          totalLines +
-          "."
-        )
-        : (
-          "Halaman " +
-          endPage +
-          " memiliki " +
-          totalLines +
-          " baris ayat."
-        );
-
-    simAutoSetLineInfo_(
-      "barisSelesaiLimitInfo",
-      rangeMessage,
-      "success"
-    );
-
-    simAutoScheduleLinePreview_();
-
-  } catch (error) {
-    simAutoResetLineSelect_(
-      "barisSelesai",
-      "Batas baris tidak ditemukan"
-    );
-
-    simAutoSetLineInfo_(
-      "barisSelesaiLimitInfo",
-      error?.message ||
-      String(error),
-      "error"
-    );
-  }
-}
-
-
-/* =========================================================
-   BERSIHKAN POSISI BARIS
-   ========================================================= */
-
-function simAutoClearLineFields_() {
-  const ids = [
-    "halamanMulai",
-    "halamanSelesai",
-    "kataTerakhirZiyadah",
-    "jmlHalamanBarisCalculated",
-    "jumlahBarisCalculated"
-  ];
-
-  ids.forEach(
-    function (id) {
-      const element =
-        document.getElementById(
-          id
-        );
-
-      if (element) {
-        element.value = "";
-      }
-    }
-  );
-
-  const startPosition =
-    document.getElementById(
-      "posisiMulaiDalamBaris"
-    );
-
-  const endPosition =
-    document.getElementById(
-      "posisiSelesaiDalamBaris"
-    );
-
-  if (startPosition) {
-    startPosition.value = "0";
-  }
-
-  if (endPosition) {
-    endPosition.value = "1";
-  }
-
-  simAutoResetLineSelect_(
-    "barisMulai",
-    "Pilih halaman mulai"
-  );
-
-  simAutoResetLineSelect_(
-    "barisSelesai",
-    "Pilih halaman selesai"
-  );
-
-  simAutoSetLineInfo_(
-    "barisMulaiLimitInfo",
-    "Batas baris akan dibaca otomatis.",
-    "muted"
-  );
-
-  simAutoSetLineInfo_(
-    "barisSelesaiLimitInfo",
-    "Batas baris akan dibaca otomatis.",
-    "muted"
-  );
-
-  if (
-    typeof window
-      .simResetZiyadahLinePreviewClient_ ===
-    "function"
-  ) {
-    window
-      .simResetZiyadahLinePreviewClient_();
-  }
-}
-
-
-/* =========================================================
-   GUNAKAN TITIK LANJUTAN OTOMATIS
-   ========================================================= */
-
-window.simAutoApplyContinuationClient_ =
-  async function (
-    showNotification
-  ) {
-    const data =
-      window
-        .SIM_LAST_ZIYADAH_CONTINUATION_;
-
-    if (
-      !data ||
-      !Number(
-        data.titikLanjutHalaman || 0
-      )
-    ) {
-      return false;
-    }
-
-    const tipeInput =
-      document.getElementById(
-        "tipeSetoran"
-      );
-
-    const unitInput =
-      document.getElementById(
-        "satuanInput"
-      );
-
-    const startPageInput =
-      document.getElementById(
-        "halamanMulai"
-      );
-
-    const endPageInput =
-      document.getElementById(
-        "halamanSelesai"
-      );
-
-    const startPosition =
-      document.getElementById(
-        "posisiMulaiDalamBaris"
-      );
-
-    const endPosition =
-      document.getElementById(
-        "posisiSelesaiDalamBaris"
-      );
-
-    if (tipeInput) {
-      tipeInput.value =
-        "Ziyadah";
-    }
-
-    if (unitInput) {
-      unitInput.value =
-        "Baris";
-    }
-
-    /*
- * Pastikan seluruh bagian form Ziyadah-Baris terlihat.
- * Tidak memanggil wrapper otomatis agar tidak membuat
- * pemanggilan titik lanjutan berulang.
- */
-document
-  .getElementById(
-    "quran-satuan-input-wrap"
-  )
-  ?.classList
-  .remove(
-    "d-none"
-  );
-
-document
-  .getElementById(
-    "quran-halaman-detail-wrap"
-  )
-  ?.classList
-  .add(
-    "d-none"
-  );
-
-document
-  .getElementById(
-    "quran-jumlah-halaman-wrap"
-  )
-  ?.classList
-  .add(
-    "d-none"
-  );
-
-document
-  .getElementById(
-    "quran-baris-input-wrap"
-  )
-  ?.classList
-  .remove(
-    "d-none"
-  );
-
-const halamanDetailInput =
-  document.getElementById(
-    "halDetail"
-  );
-
-const jumlahHalamanInput =
-  document.getElementById(
-    "jmlHalaman"
-  );
-
-if (halamanDetailInput) {
-  halamanDetailInput.disabled =
-    true;
-
-  halamanDetailInput.required =
-    false;
-}
-
-if (jumlahHalamanInput) {
-  jumlahHalamanInput.disabled =
-    true;
-
-  jumlahHalamanInput.required =
-    false;
-}
-
-    if (startPageInput) {
-      startPageInput.value =
-        String(
-          data.titikLanjutHalaman
-        );
-    }
-
-    if (endPageInput) {
-      endPageInput.value =
-        String(
-          data.titikLanjutHalaman
-        );
-    }
-
-    if (startPosition) {
-      startPosition.value =
-        String(
-          data.titikLanjutPosisi != null
-            ? data.titikLanjutPosisi
-            : 0
-        );
-    }
-
-    if (endPosition) {
-      endPosition.value =
-        "1";
-    }
-
-    /*
-     * Isi dropdown setelah batas halaman berhasil dibaca.
-     */
-    await simAutoSyncStartPage_(
-      data.titikLanjutBaris
-    );
-
-    await simAutoSyncEndPage_();
-
-    const endLine =
-      document.getElementById(
-        "barisSelesai"
-      );
-
-    if (endLine) {
-      endLine.value = "";
-    }
-
-    const lastWord =
-      document.getElementById(
-        "kataTerakhirZiyadah"
-      );
-
-    if (lastWord) {
-      lastWord.value = "";
-    }
-
-    if (showNotification !== false) {
-      Swal.fire({
-        icon: "success",
-        title:
-          "Titik lanjutan digunakan",
-        html: `
-          <div>
-            Mulai dari halaman
-            <strong>
-              ${escapeHtml(
-                String(
-                  data.titikLanjutHalaman
-                )
-              )}
-            </strong>,
-            baris
-            <strong>
-              ${escapeHtml(
-                String(
-                  data.titikLanjutBaris
-                )
-              )}
-            </strong>,
-            posisi
-            <strong>
-              ${escapeHtml(
-                String(
-                  data.titikLanjutPosisiLabel ||
-                  "awal"
-                )
-              )}
-            </strong>.
-          </div>
-        `,
-        timer: 1800,
-        showConfirmButton: false
-      });
-    }
-
-    endPageInput?.focus();
-
-    return true;
-  };
-
-
-/*
- * Tombol "Gunakan Titik Ini" menggunakan alur baru.
- */
-window.simUseZiyadahContinuationClient_ =
-  async function () {
-    await window
-      .simAutoApplyContinuationClient_(
-        true
-      );
-  };
-
-
-/* =========================================================
-   SAAT MODE BARIS DIAKTIFKAN
-   ========================================================= */
-
-async function simAutoActivateLineMode_() {
-  if (
-    !simAutoIsZiyadahLineMode_()
-  ) {
-    return;
-  }
-
-  /*
-   * Jika ada riwayat, pakai titik lanjutan otomatis.
-   */
-  if (
-    window
-      .SIM_LAST_ZIYADAH_CONTINUATION_ &&
-    Number(
-      window
-        .SIM_LAST_ZIYADAH_CONTINUATION_
-        .titikLanjutHalaman ||
-      0
-    )
-  ) {
-    await window
-      .simAutoApplyContinuationClient_(
-        false
-      );
-
-    return;
-  }
-
-  /*
-   * Jika tidak ada riwayat tetapi halaman sudah diisi,
-   * baca batas halaman tersebut.
-   */
-  if (
-    document
-      .getElementById(
-        "halamanMulai"
-      )?.value
-  ) {
-    await simAutoSyncStartPage_();
-  }
-}
-
-
-/* =========================================================
-   PERLUAS FUNGSI TOGGLE MODE BARIS
-   ========================================================= */
-
-const SIM_AUTO_ORIGINAL_TOGGLE_LINE_MODE_ =
-  typeof window
-    .simToggleZiyadahLineModeClient_ ===
-    "function"
-    ? window
-      .simToggleZiyadahLineModeClient_
-    : null;
-
-if (
-  SIM_AUTO_ORIGINAL_TOGGLE_LINE_MODE_
-) {
-  window.simToggleZiyadahLineModeClient_ =
-    function () {
-      const result =
-        SIM_AUTO_ORIGINAL_TOGGLE_LINE_MODE_
-          .apply(
-            this,
-            arguments
-          );
-
-      setTimeout(
-        function () {
-          simAutoActivateLineMode_()
-            .catch(
-              function (error) {
-                console.error(
-                  "Gagal mengaktifkan otomatisasi baris:",
-                  error
-                );
-              }
-            );
-        },
-        0
-      );
-
-      return result;
-    };
-}
-
-
-/* =========================================================
-   OTOMATIS TERAPKAN SETELAH RIWAYAT SANTRI DIBACA
-   ========================================================= */
-
-const SIM_AUTO_ORIGINAL_LOAD_CONTINUATION_ =
-  typeof window
-    .simLoadZiyadahContinuationClient_ ===
-    "function"
-    ? window
-      .simLoadZiyadahContinuationClient_
-    : null;
-
-if (
-  SIM_AUTO_ORIGINAL_LOAD_CONTINUATION_
-) {
-  window.simLoadZiyadahContinuationClient_ =
-    async function (
-      box,
-      nama,
-      kelas
-    ) {
-      const result =
-        await SIM_AUTO_ORIGINAL_LOAD_CONTINUATION_
-          .apply(
-            this,
-            arguments
-          );
-
-      /*
-       * Jika nama santri baru tidak mempunyai riwayat,
-       * jangan biarkan posisi santri sebelumnya tertinggal.
-       */
-      if (
-        !window
-          .SIM_LAST_ZIYADAH_CONTINUATION_
-      ) {
-        if (
-          simAutoIsZiyadahLineMode_()
-        ) {
-          simAutoClearLineFields_();
-        }
-
-        return result;
-      }
-
-      /*
-       * Jika form sudah berada pada mode Ziyadah-Baris,
-       * titik lanjutan langsung digunakan.
-       */
-      if (
-        simAutoIsZiyadahLineMode_()
-      ) {
-        await window
-          .simAutoApplyContinuationClient_(
-            false
-          );
-      }
-
-      return result;
-    };
-}
-
-
-/* =========================================================
-   PASANG EVENT
-   ========================================================= */
-
-function simInitAutomaticLineLimit_() {
-  const startPage =
-    document.getElementById(
-      "halamanMulai"
-    );
-
-  const startLine =
-    document.getElementById(
-      "barisMulai"
-    );
-
-  const endPage =
-    document.getElementById(
-      "halamanSelesai"
-    );
-
-  const endLine =
-    document.getElementById(
-      "barisSelesai"
-    );
-
-  const startPosition =
-    document.getElementById(
-      "posisiMulaiDalamBaris"
-    );
-
-  const endPosition =
-    document.getElementById(
-      "posisiSelesaiDalamBaris"
-    );
-
-  if (
-    !startPage ||
-    !startLine ||
-    !endPage ||
-    !endLine
-  ) {
-    console.warn(
-      "Form baris Ziyadah belum lengkap."
-    );
-
-    return;
-  }
-
-  /*
-   * Hindari event terpasang dua kali.
-   */
-  if (
-    startPage.dataset
-      .simAutoLineReady ===
-    "true"
-  ) {
-    return;
-  }
-
-  startPage.dataset
-    .simAutoLineReady =
-    "true";
-
-  startPage.addEventListener(
-    "change",
-    function () {
-      simAutoSyncStartPage_()
-        .catch(console.error);
-    }
-  );
-
-  startPage.addEventListener(
-    "blur",
-    function () {
-      simAutoSyncStartPage_()
-        .catch(console.error);
-    }
-  );
-
-  startLine.addEventListener(
-    "change",
-    function () {
-      simAutoSyncEndPage_()
-        .then(
-          simAutoScheduleLinePreview_
-        )
-        .catch(console.error);
-    }
-  );
-
-  endPage.addEventListener(
-    "change",
-    function () {
-      simAutoSyncEndPage_()
-        .catch(console.error);
-    }
-  );
-
-  endPage.addEventListener(
-    "blur",
-    function () {
-      simAutoSyncEndPage_()
-        .catch(console.error);
-    }
-  );
-
-  endLine.addEventListener(
-    "change",
-    simAutoScheduleLinePreview_
-  );
-
-  startPosition?.addEventListener(
-    "change",
-    simAutoScheduleLinePreview_
-  );
-
-  endPosition?.addEventListener(
-    "change",
-    simAutoScheduleLinePreview_
-  );
-
-  const form =
-    document.getElementById(
-      "form-setoran"
-    );
-
-  form?.addEventListener(
-    "reset",
-    function () {
-      setTimeout(
-        simAutoClearLineFields_,
-        0
-      );
-    }
-  );
-
-  /*
-   * Jika form sedang terbuka dalam mode baris,
-   * langsung aktifkan otomatisasi.
-   */
-  simAutoActivateLineMode_()
-    .catch(console.error);
-}
-
-
-if (
-  document.readyState ===
-  "loading"
-) {
-  document.addEventListener(
-    "DOMContentLoaded",
-    simInitAutomaticLineLimit_
-  );
-} else {
-  simInitAutomaticLineLimit_();
-}
   </script>
 
-  <!-- Pertahankan fitur instal otomatis dan Firebase/PWA lama -->
-  <script src="./pwa-bootstrap.js?v=20260801-v293-api"></script>
-  <script type="module" src="./app.js?v=20260801-v293-api"></script>
 
 </body>
 
